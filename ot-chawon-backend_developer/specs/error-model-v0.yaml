@@ -1,0 +1,15 @@
+components:
+  schemas:
+    ApiError:
+      type: object
+      required: [success, message, traceId]
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: invalid request payload
+        traceId:
+          type: string
+          example: 9f4a8f8a3f7b4e0f

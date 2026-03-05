@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "data": {
+    "items": [
+      {"id": 1, "name": "Basic Tee", "price": 29000},
+      {"id": 2, "name": "Denim Jacket", "price": 89000}
+    ],
+    "page": 1,
+    "size": 20,
+    "total": 2
+  },
+  "message": "ok",
+  "traceId": "sample-trace-id"
+}

@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  lint-test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Placeholder lint
+        run: echo "lint step"
+      - name: Placeholder test
+        run: echo "test step"
+      - name: Placeholder build
+        run: echo "build step"

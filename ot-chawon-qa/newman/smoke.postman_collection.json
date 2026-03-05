@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "Ot-chawon Smoke",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": {"raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"]}
+      }
+    },
+    {
+      "name": "Size Predict OK",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"height_cm\": 172,\n  \"weight_kg\": 68,\n  \"gender\": \"male\"\n}"},
+        "url": {"raw": "{{baseUrl}}/size/predict", "host": ["{{baseUrl}}"], "path": ["size", "predict"]}
+      }
+    },
+    {
+      "name": "Size Predict Invalid",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"height_cm\": \"bad\"\n}"},
+        "url": {"raw": "{{baseUrl}}/size/predict", "host": ["{{baseUrl}}"], "path": ["size", "predict"]}
+      }
+    }
+  ]
+}
