@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Providers } from './providers';
+import { SidebarProvider } from './sidebar-context';
 
 export const metadata: Metadata = {
   title: '옷차원 - AI 3D 가상 피팅',
@@ -15,7 +16,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="bg-oc-black text-white antialiased">
-        <Providers>{children}</Providers>
+        <Providers>
+          <SidebarProvider>
+            {children}
+          </SidebarProvider>
+        </Providers>
       </body>
     </html>
   );
