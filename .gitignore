@@ -1,6 +1,6 @@
 # OMC state files
-.omc/*
-.claude/*
+**/.omc/
+**/.claude/
 
 # IDE
 .idea/
