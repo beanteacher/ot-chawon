@@ -60,3 +60,26 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 - Sprint-2: SCRUM-64~72 (디자인 토큰, 공통 컴포넌트, 레이아웃, 폼, 모달, 토스트, 스켈레톤, 에러 페이지, 반응형)
 - Sprint-3: SCRUM-73~77 (상품 카드, 테이블, 검색, 상품 페이지, 마이페이지)
 - Sprint-4: SCRUM-78~80 (장바구니, 주문/결제, 주문 내역)
+
+### Sprint 2-2 (2026-03-26 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-67 | 폼 컴포넌트 (Textarea, FormField) | FE | src/components/ui/Textarea.tsx, FormField.tsx |
+| SCRUM-68 | 모달/다이얼로그 (Modal, ConfirmDialog) | FE | src/components/ui/Modal.tsx, ConfirmDialog.tsx |
+| SCRUM-69 | 로그인 페이지 실제 구현 | FE | src/app/(auth)/login/page.tsx |
+| SCRUM-69 | 회원가입 페이지 실제 구현 | FE | src/app/(auth)/signup/page.tsx |
+| — | BE 프로필 조회 API (GET /api/auth/me) | BE | AuthController.java, AuthService, AuthServiceImpl, gateway application.yml |
+
+**커밋**: `d7e54e0` (11파일, +594줄) on `develop`
+
+**구현 상세**:
+- Textarea: label, error, helperText, maxLength 카운터, resize 옵션
+- FormField: label + children + error 래퍼, required 마크(*), role="alert" 접근성
+- Modal: createPortal, ESC/overlay 닫기, body scroll lock, size(sm/md/lg/xl), aria-modal
+- ConfirmDialog: Modal 기반, primary/danger variant, loading 지원
+- 로그인: useLogin() 훅 연동, 성공 시 router.push('/'), 에러 표시, loading 상태
+- 회원가입: apiClient POST /api/auth/signup, 성공 시 /login 리다이렉트
+- BE /api/auth/me: JWT → extractUserId → UserResponse 반환, Gateway 라우트 추가
+- UI 컴포넌트 배럴 export (index.ts) 갱신 완료
+- TypeScript tsc --noEmit 에러 0건
