@@ -14,6 +14,13 @@ spring:
           filters:
             - StripPrefix=0
 
+        - id: user-service-auth-direct
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=0
+
         - id: user-service-users
           uri: http://localhost:8081
           predicates:

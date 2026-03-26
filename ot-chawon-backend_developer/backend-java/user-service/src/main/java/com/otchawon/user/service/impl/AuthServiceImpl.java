@@ -120,6 +120,14 @@ public class AuthServiceImpl implements AuthService {
         log.info("User logged out, userId: {}", userId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponse getProfile(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(AuthException::userNotFound);
+        return UserResponse.from(user);
+    }
+
     private void storeRefreshToken(Long userId, String refreshToken) {
         String redisKey = REFRESH_TOKEN_PREFIX + userId;
         long ttlSeconds = jwtTokenProvider.getRefreshTokenExpiryMs() / 1000;
