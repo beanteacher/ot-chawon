@@ -1,0 +1,325 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  # ─────────────────────────────────────────
+  # 변경 경로 감지 (path filter)
+  # ─────────────────────────────────────────
+  detect-changes:
+    name: Detect Changed Paths
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      bff: ${{ steps.filter.outputs.bff }}
+      ai: ${{ steps.filter.outputs.ai }}
+      devops: ${{ steps.filter.outputs.devops }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Path filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'ot-chawon-backend_developer/backend-java/**'
+            frontend:
+              - 'ot-chawon-frontend_developer/**'
+            bff:
+              - 'ot-chawon-backend_developer/nextjs-bff/**'
+            ai:
+              - 'ot-chawon-ai_ml/**'
+            devops:
+              - 'ot-chawon-devops/**'
+
+  # ─────────────────────────────────────────
+  # Backend CI (Java 17, Gradle)
+  # ─────────────────────────────────────────
+  backend:
+    name: Backend Build & Test
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: otc_test_db
+          MYSQL_USER: otc_test
+          MYSQL_PASSWORD: test_pw
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+          --health-start-period=30s
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('ot-chawon-backend_developer/**/*.gradle*', 'ot-chawon-backend_developer/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build and test backend services
+        working-directory: ot-chawon-backend_developer/backend-java
+        run: |
+          for service in user-service product-service order-service payment-service fitting-service brand-service; do
+            echo "=== Building $service ==="
+            cd "$service"
+            if [ -f "gradlew" ]; then
+              chmod +x gradlew
+              ./gradlew build test --no-daemon
+            else
+              echo "Skipping $service (no gradlew found)"
+            fi
+            cd ..
+          done
+        env:
+          SPRING_PROFILES_ACTIVE: test
+          DB_HOST: localhost
+          DB_PORT: 3306
+          DB_USERNAME: otc_test
+          DB_PASSWORD: test_pw
+          OTC_JWT_SECRET: test-jwt-secret-key-for-ci-minimum-256-bits-long
+          OTC_BODY_ENC_KEY: test-aes-256-key-32bytes-forcienv
+          OTC_PG_SECRET_KEY: test-pg-secret
+          OTC_PG_CLIENT_KEY: test-pg-client
+          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+          AI_ML_BASE_URL: http://localhost:8000
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-reports-${{ github.sha }}
+          path: |
+            ot-chawon-backend_developer/**/build/reports/tests/
+          retention-days: 7
+
+  # ─────────────────────────────────────────
+  # Frontend CI (Node.js 20, Next.js 14)
+  # ─────────────────────────────────────────
+  frontend:
+    name: Frontend Lint, Test & Build
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-frontend-${{ hashFiles('ot-chawon-frontend_developer/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-frontend-
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        working-directory: ot-chawon-frontend_developer
+        run: npm ci
+
+      - name: Lint
+        working-directory: ot-chawon-frontend_developer
+        run: npm run lint
+
+      - name: Type check
+        working-directory: ot-chawon-frontend_developer
+        run: npx tsc --noEmit
+
+      - name: Test
+        working-directory: ot-chawon-frontend_developer
+        run: npm test -- --passWithNoTests
+        env:
+          CI: true
+
+      - name: Build
+        working-directory: ot-chawon-frontend_developer
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080
+          SKIP_ENV_VALIDATION: true
+
+  # ─────────────────────────────────────────
+  # BFF CI (Next.js 14 SSR, Prisma)
+  # ─────────────────────────────────────────
+  bff:
+    name: BFF Lint, Test & Build
+    needs: detect-changes
+    if: needs.detect-changes.outputs.bff == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-bff-${{ hashFiles('ot-chawon-backend_developer/nextjs-bff/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-bff-
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        working-directory: ot-chawon-backend_developer/nextjs-bff
+        run: npm ci
+
+      - name: Lint
+        working-directory: ot-chawon-backend_developer/nextjs-bff
+        run: npm run lint
+
+      - name: Type check
+        working-directory: ot-chawon-backend_developer/nextjs-bff
+        run: npx tsc --noEmit
+
+      - name: Test
+        working-directory: ot-chawon-backend_developer/nextjs-bff
+        run: npm test -- --passWithNoTests
+        env:
+          CI: true
+
+      - name: Build
+        working-directory: ot-chawon-backend_developer/nextjs-bff
+        run: npm run build
+        env:
+          INTERNAL_API_BASE_URL: http://localhost:8080
+          DATABASE_URL: mysql://otc_test:test_pw@localhost:3306/otc_test_db
+          SKIP_ENV_VALIDATION: true
+
+  # ─────────────────────────────────────────
+  # AI/ML CI (Python 3.11, FastAPI)
+  # ─────────────────────────────────────────
+  ai:
+    name: AI/ML Lint & Test
+    needs: detect-changes
+    if: needs.detect-changes.outputs.ai == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: ot-chawon-ai_ml/requirements*.txt
+
+      - name: Install dependencies
+        working-directory: ot-chawon-ai_ml
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt 2>/dev/null || true
+
+      - name: Lint with flake8
+        working-directory: ot-chawon-ai_ml
+        run: |
+          pip install flake8
+          flake8 app --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 app --count --max-line-length=120 --statistics
+
+      - name: Test with pytest
+        working-directory: ot-chawon-ai_ml
+        run: pytest tests/ -v --tb=short
+        env:
+          ENVIRONMENT: test
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-test-reports-${{ github.sha }}
+          path: ot-chawon-ai_ml/.pytest_cache/
+          retention-days: 7
+
+  # ─────────────────────────────────────────
+  # Docker Compose 유효성 검사 (devops 변경 시)
+  # ─────────────────────────────────────────
+  devops-validate:
+    name: Docker Compose Validate
+    needs: detect-changes
+    if: needs.detect-changes.outputs.devops == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate docker-compose.yml
+        working-directory: ot-chawon-devops
+        run: docker compose config --quiet
+
+      - name: Validate docker-compose.override.yml
+        working-directory: ot-chawon-devops
+        run: docker compose -f docker-compose.yml -f docker-compose.override.yml config --quiet
+
+  # ─────────────────────────────────────────
+  # CI 최종 상태 집계 (PR 머지 조건용)
+  # ─────────────────────────────────────────
+  ci-status:
+    name: CI Status
+    needs:
+      - backend
+      - frontend
+      - bff
+      - ai
+      - devops-validate
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check all jobs passed
+        run: |
+          results=(
+            "${{ needs.backend.result }}"
+            "${{ needs.frontend.result }}"
+            "${{ needs.bff.result }}"
+            "${{ needs.ai.result }}"
+            "${{ needs.devops-validate.result }}"
+          )
+          for result in "${results[@]}"; do
+            if [[ "$result" == "failure" ]]; then
+              echo "One or more CI jobs failed."
+              exit 1
+            fi
+          done
+          echo "All CI jobs passed or were skipped."

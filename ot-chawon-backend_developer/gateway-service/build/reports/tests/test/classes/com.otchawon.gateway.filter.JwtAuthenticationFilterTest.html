@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - JwtAuthenticationFilterTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>JwtAuthenticationFilterTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.otchawon.gateway.filter.html">com.otchawon.gateway.filter</a> &gt; JwtAuthenticationFilterTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">8</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">1.343s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">빈 문자열 토큰 검증 실패</td>
+<td class="success">emptyToken_shouldReturnFalse()</td>
+<td class="success">1.215s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">만료된 JWT 토큰 검증 실패</td>
+<td class="success">expiredToken_shouldReturnFalse()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">잘못된 형식의 JWT 토큰 검증 실패</td>
+<td class="success">malformedToken_shouldReturnFalse()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">null 토큰 검증 실패</td>
+<td class="success">nullToken_shouldReturnFalse()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">다른 키로 서명된 토큰 검증 실패</td>
+<td class="success">tokenWithWrongKey_shouldReturnFalse()</td>
+<td class="success">0.094s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">유효한 JWT 토큰에서 role 클레임 추출 성공</td>
+<td class="success">validToken_shouldExtractRole()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">유효한 JWT 토큰에서 subject(userId) 추출 성공</td>
+<td class="success">validToken_shouldExtractSubject()</td>
+<td class="success">0.014s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">유효한 JWT 토큰 검증 성공</td>
+<td class="success">validToken_shouldReturnTrue()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>16:43:23.423 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.otchawon.gateway.filter.JwtAuthenticationFilterTest]: JwtAuthenticationFilterTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:43:23.518 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.otchawon.gateway.GatewayApplication for test class com.otchawon.gateway.filter.JwtAuthenticationFilterTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-03-26T16:43:24.209+09:00  INFO 29260 --- [gateway-service] [    Test worker] c.o.g.f.JwtAuthenticationFilterTest      : Starting JwtAuthenticationFilterTest using Java 17.0.12 with PID 29260 (started by wisecan in C:\Users\wisecan\Desktop\min\workspace\ot-chawon\ot-chawon-backend_developer\gateway-service)
+2026-03-26T16:43:24.209+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] c.o.g.f.JwtAuthenticationFilterTest      : Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-03-26T16:43:24.209+09:00  INFO 29260 --- [gateway-service] [    Test worker] c.o.g.f.JwtAuthenticationFilterTest      : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2026-03-26T16:43:25.311+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.cloud.context.scope.GenericScope     : BeanFactory id=a86fbf95-15b6-3456-a759-8180c36670e3
+2026-03-26T16:43:26.116+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.gateway.config.GatewayProperties   : Routes supplied from Gateway Properties: [RouteDefinition{id='user-service-auth', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/v1/auth/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}], uri=http://localhost:8081, order=0, metadata={}}, RouteDefinition{id='user-service-users', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/v1/users/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}], uri=http://localhost:8081, order=0, metadata={}}, RouteDefinition{id='product-service', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/v1/products/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}], uri=http://localhost:8082, order=0, metadata={}}, RouteDefinition{id='order-service', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/v1/orders/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}], uri=http://localhost:8083, order=0, metadata={}}, RouteDefinition{id='payment-service', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/v1/payments/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}], uri=http://localhost:8084, order=0, metadata={}}, RouteDefinition{id='fitting-service', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/v1/fitting/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}], uri=http://localhost:8085, order=0, metadata={}}, RouteDefinition{id='brand-service', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/v1/brands/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}], uri=http://localhost:8086, order=0, metadata={}}]
+2026-03-26T16:43:26.393+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-03-26T16:43:26.394+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-03-26T16:43:27.078+09:00  INFO 29260 --- [gateway-service] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-03-26T16:43:27.412+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition user-service-auth applying {_genkey_0=/api/v1/auth/**} to Path
+2026-03-26T16:43:27.431+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition user-service-auth applying filter {_genkey_0=0} to StripPrefix
+2026-03-26T16:43:27.442+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition matched: user-service-auth
+2026-03-26T16:43:27.442+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition user-service-users applying {_genkey_0=/api/v1/users/**} to Path
+2026-03-26T16:43:27.447+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition user-service-users applying filter {_genkey_0=0} to StripPrefix
+2026-03-26T16:43:27.447+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition matched: user-service-users
+2026-03-26T16:43:27.447+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition product-service applying {_genkey_0=/api/v1/products/**} to Path
+2026-03-26T16:43:27.447+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition product-service applying filter {_genkey_0=0} to StripPrefix
+2026-03-26T16:43:27.447+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition matched: product-service
+2026-03-26T16:43:27.447+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition order-service applying {_genkey_0=/api/v1/orders/**} to Path
+2026-03-26T16:43:27.452+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition order-service applying filter {_genkey_0=0} to StripPrefix
+2026-03-26T16:43:27.452+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition matched: order-service
+2026-03-26T16:43:27.452+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition payment-service applying {_genkey_0=/api/v1/payments/**} to Path
+2026-03-26T16:43:27.452+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition payment-service applying filter {_genkey_0=0} to StripPrefix
+2026-03-26T16:43:27.452+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition matched: payment-service
+2026-03-26T16:43:27.452+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition fitting-service applying {_genkey_0=/api/v1/fitting/**} to Path
+2026-03-26T16:43:27.452+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition fitting-service applying filter {_genkey_0=0} to StripPrefix
+2026-03-26T16:43:27.457+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition matched: fitting-service
+2026-03-26T16:43:27.457+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition brand-service applying {_genkey_0=/api/v1/brands/**} to Path
+2026-03-26T16:43:27.457+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition brand-service applying filter {_genkey_0=0} to StripPrefix
+2026-03-26T16:43:27.457+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.r.RouteDefinitionRouteLocator    : RouteDefinition matched: brand-service
+2026-03-26T16:43:27.462+09:00 DEBUG 29260 --- [gateway-service] [    Test worker] o.s.c.g.filter.GatewayMetricsFilter      : New routes count: 7
+2026-03-26T16:43:27.475+09:00  INFO 29260 --- [gateway-service] [    Test worker] c.o.g.f.JwtAuthenticationFilterTest      : Started JwtAuthenticationFilterTest in 3.806 seconds (process running for 4.909)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at 2026. 3. 26. 오후 4:43:28</p>
+</div>
+</div>
+</body>
+</html>
