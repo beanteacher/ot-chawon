@@ -83,3 +83,29 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 - BE /api/auth/me: JWT → extractUserId → UserResponse 반환, Gateway 라우트 추가
 - UI 컴포넌트 배럴 export (index.ts) 갱신 완료
 - TypeScript tsc --noEmit 에러 0건
+
+### Sprint 2-3 (2026-03-26 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-69 | 토스트/알림 컴포넌트 | FE | src/components/ui/Toast.tsx, ToastProvider.tsx, src/hooks/useToast.ts |
+| SCRUM-70 | 로딩 스피너/스켈레톤 UI | FE | src/components/ui/Spinner.tsx, Skeleton.tsx, SkeletonCard.tsx, SkeletonList.tsx |
+| SCRUM-71 | 에러 페이지 (404/500/403) | FE | src/app/not-found.tsx, error.tsx, (main)/forbidden/page.tsx, src/components/error/ErrorFallback.tsx |
+| — | BE 프로필 수정 API + 체형정보 CRUD | BE | ProfileController.java, ProfileService, ProfileServiceImpl, BodyMeasurement.java, BodyMeasurementRepository, DTOs, V2 마이그레이션 |
+
+**구현 상세**:
+- Toast: success/error/warning/info 4타입, 자동 dismiss(3초), 스택형 다중 토스트, 액션 버튼, aria-live 접근성
+- ToastProvider: createPortal 기반 앱 레벨 컨테이너, providers.tsx에 추가
+- useToast: Zustand store 기반 토스트 상태 관리 훅
+- Spinner: size(sm/md/lg), color variants, 인라인/전역 로딩
+- Skeleton: variant(text/circular/rectangular), animation(pulse/wave), aria-hidden
+- SkeletonCard/SkeletonList: 상품 카드/리스트 스켈레톤 프리셋
+- 404 페이지: Next.js 14 not-found.tsx, 홈으로 버튼
+- 500 페이지: error.tsx ('use client'), reset() 재시도 기능
+- 403 페이지: forbidden/page.tsx, 홈으로/뒤로가기 버튼
+- ErrorFallback: 재사용 가능한 에러 UI 컴포넌트
+- BE ProfileController: PUT /api/auth/profile, POST/GET/PUT /api/auth/body-measurements
+- BodyMeasurement 엔티티: height, weight, chest, waist, hip, shoulder, armLength, legLength
+- V2 Flyway 마이그레이션: body_measurements 테이블 생성
+- UI 컴포넌트 배럴 export (index.ts) 갱신 완료
+- TypeScript tsc --noEmit 에러 0건

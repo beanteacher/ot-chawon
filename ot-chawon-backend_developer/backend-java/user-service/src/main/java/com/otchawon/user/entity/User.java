@@ -49,4 +49,15 @@ public class User {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    /**
+     * 프로필 정보(닉네임, 주소)를 수정한다.
+     *
+     * @param nickname 새 닉네임
+     * @param address  새 주소
+     */
+    public void updateProfile(String nickname, String address) {
+        this.nickname = nickname;
+        this.address = address;
+    }
 }

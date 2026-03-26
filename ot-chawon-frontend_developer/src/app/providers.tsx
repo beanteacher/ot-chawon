@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState, type ReactNode } from 'react';
+import { ToastProvider } from '@/components/ui/ToastProvider';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -25,6 +26,8 @@ export function Providers({ children }: ProvidersProps) {
     <QueryClientProvider client={queryClient}>
       {children}
       <ReactQueryDevtools initialIsOpen={false} />
+      {/* 전역 토스트 컨테이너 */}
+      <ToastProvider />
     </QueryClientProvider>
   );
 }
