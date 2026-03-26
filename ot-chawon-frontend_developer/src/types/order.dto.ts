@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 export namespace OrderDto {
   export interface Item {
     productId: number;

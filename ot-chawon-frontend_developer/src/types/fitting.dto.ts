@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 export namespace FittingDto {
   export interface Request {
     productId: number;
