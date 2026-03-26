@@ -1,0 +1,105 @@
+# 로컬 개발 환경 오버라이드
+# 소스 코드 볼륨 마운트 및 개발용 환경변수 설정
+
+services:
+  mysql:
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d:ro
+
+  user-service:
+    build:
+      context: ../ot-chawon-backend_developer/user-service
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-backend_developer/user-service:/app
+      - ~/.gradle:/root/.gradle
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+
+  product-service:
+    build:
+      context: ../ot-chawon-backend_developer/product-service
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-backend_developer/product-service:/app
+      - ~/.gradle:/root/.gradle
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+
+  order-service:
+    build:
+      context: ../ot-chawon-backend_developer/order-service
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-backend_developer/order-service:/app
+      - ~/.gradle:/root/.gradle
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+
+  payment-service:
+    build:
+      context: ../ot-chawon-backend_developer/payment-service
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-backend_developer/payment-service:/app
+      - ~/.gradle:/root/.gradle
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+
+  fitting-service:
+    build:
+      context: ../ot-chawon-ai_ml
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-ai_ml:/app
+    environment:
+      ENV: development
+      RELOAD: "true"
+
+  brand-service:
+    build:
+      context: ../ot-chawon-backend_developer/brand-service
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-backend_developer/brand-service:/app
+      - ~/.gradle:/root/.gradle
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+
+  api-gateway:
+    build:
+      context: ../ot-chawon-backend_developer/api-gateway
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-backend_developer/api-gateway:/app
+      - ~/.gradle:/root/.gradle
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+
+  next-frontend:
+    build:
+      context: ../ot-chawon-frontend_developer
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-frontend_developer:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+    command: npm run dev
