@@ -10,4 +10,3 @@
 규칙:
 - commit 자율
 - push 전 사용자 승인 필수
-- Slack/Jira MCP 금지
