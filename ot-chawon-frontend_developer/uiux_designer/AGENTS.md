@@ -206,6 +206,45 @@ uiux_designer/figma-manifests/{산출물명}/
 | **AI/ML** | AI 피팅 결과 화면 포맷 협의 (3D 뷰어 영역, 사이즈 추천 UI) |
 | **Backend** | API 응답 데이터 구조 파악 후 UI 반영 |
 
+## 과거 실수 기반 주의사항 (Sprint 2-4/2-5 교훈)
+
+### 1. Design-First 절대 준수
+- FE 코드를 먼저 구현하고 manifest를 나중에 작성하면 안 됨
+- **반드시 manifest 먼저 → FE 구현 나중** 순서 준수
+- 팀 구성 시 UI/UX 시안 태스크에 FE 태스크 의존성 설정 필수
+
+### 2. Manifest 생성 시 참조 프로젝트 확인 필수
+- 자의적 형식으로 작성 금지 — `persona/uiux_designer/` 또는 기존 manifest 구조를 먼저 Read
+- 필수 4파일: `manifest.json` + `manifest.import-data.json` + `code.js` + `ui.html`
+- **code.js, ui.html 누락 시 Figma import 에러 발생**
+
+### 3. code.js ES5 호환 필수 (Figma 런타임 제약)
+- **금지 패턴 (런타임 에러 유발)**:
+  - `catch {}` (bare catch) → `catch (error) {}` 사용
+  - template literal (`` ` ``) → 문자열 연결 (`"a" + b`)
+  - arrow function (`=>`) → `function` 키워드
+  - `.forEach`, `.filter`, `.includes` → `for` 루프, `indexOf`
+  - default parameter (`= 0`) → `typeof` 체크
+  - `for...of` → `for (var i = 0; ...)`
+- **작성 후 반드시 위 패턴 grep 검증**
+
+### 4. 폰트 로딩: Regular + Bold 모두 로드
+- `loadFontSafe()`에서 한 스타일만 로드하면 다른 스타일 사용 시 에러
+- 같은 font family의 Regular + Bold를 모두 로드한 뒤 family 이름(문자열) 반환
+
+### 5. 색상 톤 변경 시 전수 교체
+- PALETTE 값만 바꾸면 안 됨 — CATEGORY_COLOR, 인라인 RGB 값, semantic 색상(error/success/warning/brandBlue) 모두 확인
+- B&W 전환 시 체크리스트: PALETTE + CATEGORY_COLOR + 모든 draw 함수 내 직접 색상 참조 + ui.html 버튼 색상
+
+### 6. 버튼 텍스트 중앙 정렬
+- 하드코딩 좌표 (`cx - 60`) 금지 → `createButtonText()` 헬퍼 사용
+- `textAlignHorizontal = "CENTER"`, `textAlignVertical = "CENTER"` + `resize(btnW, btnH)`
+- accent(밝은) 배경 버튼의 텍스트는 반드시 `PALETTE.bgBase` (검정) 사용
+
+### 7. 워커 경로 통일
+- 팀 워커 스폰 시 산출물 저장 경로를 명확히 지정
+- `ot-chawon-frontend_developer/uiux_designer/figma-manifests/` 경로 통일
+
 ## 상세 규격 (필요 시 참조)
 
 > 원본 페르소나: `C:/Users/wisecan/Desktop/min/workspace/persona/uiux_designer/AGENTS.md`

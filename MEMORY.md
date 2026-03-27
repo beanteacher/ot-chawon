@@ -109,3 +109,24 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 - V2 Flyway 마이그레이션: body_measurements 테이블 생성
 - UI 컴포넌트 배럴 export (index.ts) 갱신 완료
 - TypeScript tsc --noEmit 에러 0건
+
+### Sprint 2-4 (2026-03-27 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-59 | 메인 페이지(상품 피드) UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/main-page-hifi/, src/components/home/, src/components/product/ProductCard.tsx |
+| SCRUM-60 | 상품 목록/상세 페이지 UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/product-list-hifi/, product-detail-hifi/, src/components/product/ |
+| SCRUM-61 | AI 3D 피팅 결과 페이지 UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/fitting-input-hifi/, fitting-result-hifi/, src/components/fitting/ |
+
+### Sprint 2-5 (2026-03-27 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-63 | 장바구니/주문 플로우 UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/cart-hifi/, order-flow-hifi/, src/components/cart/, order/ |
+| SCRUM-72 | 반응형/모바일 대응 점검 | FE | 전체 페이지 320px~1440px breakpoint 대응 |
+
+**커밋**: `0d3e0c5` (75파일, +8,751줄) on `develop`
+
+**UI/UX Figma Manifest 12건 (B&W 톤)**: design-system-init, components-hifi, auth-pages-hifi, error-pages-hifi, main-page-hifi, product-list-hifi, product-detail-hifi, fitting-input-hifi, fitting-result-hifi, cart-hifi, order-flow-hifi, products-fitting
+
+**신규**: uiux_designer/AGENTS.md (UI/UX 디자이너 에이전트 가이드)

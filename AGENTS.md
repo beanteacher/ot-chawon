@@ -51,6 +51,14 @@
 - 위치: `ot-chawon/MEMORY.md` — 다른 경로 절대 금지
 - MEMORY.md 업데이트 없이 커밋/종료 금지
 
+### Design-First 워크플로우 (Sprint 2-4/2-5 교훈)
+- **UI/UX 시안(Figma manifest) 완료 후에만 FE 구현 허용** — 시안 없이 FE 코드 작성 절대 금지
+- 팀 구성 시 UI/UX 시안 태스크 → FE 구현 태스크 순서로 의존성 설정
+- UI/UX manifest 산출물: `ot-chawon-frontend_developer/uiux_designer/figma-manifests/{산출물명}/`
+- 필수 4파일: `manifest.json` + `manifest.import-data.json` + `code.js` + `ui.html`
+- manifest 형식은 참조 프로젝트(`persona/uiux_designer/`) 확인 후 작성 — 자의적 형식 금지
+- code.js는 **ES5 호환 필수** (Figma 런타임 제약): bare catch, arrow function, template literal, forEach 금지
+
 ### 팀 리더(Lead) 워커 관리 규칙
 - **Worker가 5분 이상 stuck/무한루프일 때 수동 대기 금지** — 리더가 능동적으로 원인을 조사하고 해결 가이드를 제공해야 한다.
 - 조사 방법:
