@@ -55,3 +55,9 @@ export type { SkeletonCardProps } from './SkeletonCard';
 
 export { SkeletonList, SkeletonListItem, SkeletonProfile } from './SkeletonList';
 export type { SkeletonListProps } from './SkeletonList';
+
+export { Table } from './Table';
+export type { TableProps, Column, EmptyStateProps } from './Table';
+
+export { Pagination } from './Pagination';
+export type { PaginationProps } from './Pagination';
