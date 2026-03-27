@@ -38,7 +38,7 @@ describe('ProfileSection', () => {
     render(<ProfileSection />);
     fireEvent.click(screen.getByRole('button', { name: /프로필 편집/ }));
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('프로필 편집')).toBeInTheDocument();
+    expect(screen.getAllByText('프로필 편집').length).toBeGreaterThanOrEqual(2);
   });
 
   it('모달에 이름, 이메일, 전화번호 필드가 있다', () => {
