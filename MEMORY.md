@@ -28,4 +28,105 @@
 - PR 생성 대기 (gh CLI 인증 필요)
 
 ### 미처리 사항
-- UI/UX 디자이너 Sprint 1 업무 부재 → Sprint 2에서 시안 작업 시작 예정
+- ~~UI/UX 디자이너 Sprint 1 업무 부재~~ → Sprint 2-1에서 해결됨
+
+---
+
+## Sprint 2 (2026-04-03 ~ 04-09) — 데일리 스프린트 체제
+
+Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼합 배정.
+
+### JIRA 스프린트 구조
+| 스프린트 | 날짜 | 핵심 작업 |
+|---------|------|----------|
+| Sprint 2-1 | 4/3 금 | 디자인 시스템 + 인증 API |
+| Sprint 2-2 | 4/6 월 | 폼/모달 + 로그인 UI + 인증 완성 |
+| Sprint 2-3 | 4/7 화 | 토스트/스켈레톤 + 프로필 API + 체형정보 |
+| Sprint 2-4 | 4/8 수 | 에러 페이지 + UI/UX 시안 3건 |
+| Sprint 2-5 | 4/9 목 | 장바구니 시안 + 반응형 + QA |
+
+### Sprint 2-1 Day 1 (2026-03-26 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-64 | 디자인 토큰/테마 설정 | UI | tailwind.config.ts, globals.css (CSS 변수, 다크모드) |
+| SCRUM-65 | 공통 컴포넌트 (Button, Input, Select, Checkbox, Label) | UI | src/components/ui/ (6파일) |
+| SCRUM-66 | 공통 레이아웃 (Header, Footer, MobileNav, Sidebar) | UI | src/components/layout/ (5파일), layout.tsx 수정 |
+| SCRUM-31 | BE 회원가입/로그인 API (JWT+BCrypt+Redis) | BE | user-service/src/main/java/com/otchawon/user/ (15파일) |
+
+**커밋**: `8c7d1db` (33파일, +1810줄) on `develop`
+
+### 신규 생성 UI/UX 티켓 (17건)
+- Sprint-2: SCRUM-64~72 (디자인 토큰, 공통 컴포넌트, 레이아웃, 폼, 모달, 토스트, 스켈레톤, 에러 페이지, 반응형)
+- Sprint-3: SCRUM-73~77 (상품 카드, 테이블, 검색, 상품 페이지, 마이페이지)
+- Sprint-4: SCRUM-78~80 (장바구니, 주문/결제, 주문 내역)
+
+### Sprint 2-2 (2026-03-26 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-67 | 폼 컴포넌트 (Textarea, FormField) | FE | src/components/ui/Textarea.tsx, FormField.tsx |
+| SCRUM-68 | 모달/다이얼로그 (Modal, ConfirmDialog) | FE | src/components/ui/Modal.tsx, ConfirmDialog.tsx |
+| SCRUM-69 | 로그인 페이지 실제 구현 | FE | src/app/(auth)/login/page.tsx |
+| SCRUM-69 | 회원가입 페이지 실제 구현 | FE | src/app/(auth)/signup/page.tsx |
+| — | BE 프로필 조회 API (GET /api/auth/me) | BE | AuthController.java, AuthService, AuthServiceImpl, gateway application.yml |
+
+**커밋**: `d7e54e0` (11파일, +594줄) on `develop`
+
+**구현 상세**:
+- Textarea: label, error, helperText, maxLength 카운터, resize 옵션
+- FormField: label + children + error 래퍼, required 마크(*), role="alert" 접근성
+- Modal: createPortal, ESC/overlay 닫기, body scroll lock, size(sm/md/lg/xl), aria-modal
+- ConfirmDialog: Modal 기반, primary/danger variant, loading 지원
+- 로그인: useLogin() 훅 연동, 성공 시 router.push('/'), 에러 표시, loading 상태
+- 회원가입: apiClient POST /api/auth/signup, 성공 시 /login 리다이렉트
+- BE /api/auth/me: JWT → extractUserId → UserResponse 반환, Gateway 라우트 추가
+- UI 컴포넌트 배럴 export (index.ts) 갱신 완료
+- TypeScript tsc --noEmit 에러 0건
+
+### Sprint 2-3 (2026-03-26 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-69 | 토스트/알림 컴포넌트 | FE | src/components/ui/Toast.tsx, ToastProvider.tsx, src/hooks/useToast.ts |
+| SCRUM-70 | 로딩 스피너/스켈레톤 UI | FE | src/components/ui/Spinner.tsx, Skeleton.tsx, SkeletonCard.tsx, SkeletonList.tsx |
+| SCRUM-71 | 에러 페이지 (404/500/403) | FE | src/app/not-found.tsx, error.tsx, (main)/forbidden/page.tsx, src/components/error/ErrorFallback.tsx |
+| — | BE 프로필 수정 API + 체형정보 CRUD | BE | ProfileController.java, ProfileService, ProfileServiceImpl, BodyMeasurement.java, BodyMeasurementRepository, DTOs, V2 마이그레이션 |
+
+**구현 상세**:
+- Toast: success/error/warning/info 4타입, 자동 dismiss(3초), 스택형 다중 토스트, 액션 버튼, aria-live 접근성
+- ToastProvider: createPortal 기반 앱 레벨 컨테이너, providers.tsx에 추가
+- useToast: Zustand store 기반 토스트 상태 관리 훅
+- Spinner: size(sm/md/lg), color variants, 인라인/전역 로딩
+- Skeleton: variant(text/circular/rectangular), animation(pulse/wave), aria-hidden
+- SkeletonCard/SkeletonList: 상품 카드/리스트 스켈레톤 프리셋
+- 404 페이지: Next.js 14 not-found.tsx, 홈으로 버튼
+- 500 페이지: error.tsx ('use client'), reset() 재시도 기능
+- 403 페이지: forbidden/page.tsx, 홈으로/뒤로가기 버튼
+- ErrorFallback: 재사용 가능한 에러 UI 컴포넌트
+- BE ProfileController: PUT /api/auth/profile, POST/GET/PUT /api/auth/body-measurements
+- BodyMeasurement 엔티티: height, weight, chest, waist, hip, shoulder, armLength, legLength
+- V2 Flyway 마이그레이션: body_measurements 테이블 생성
+- UI 컴포넌트 배럴 export (index.ts) 갱신 완료
+- TypeScript tsc --noEmit 에러 0건
+
+### Sprint 2-4 (2026-03-27 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-59 | 메인 페이지(상품 피드) UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/main-page-hifi/, src/components/home/, src/components/product/ProductCard.tsx |
+| SCRUM-60 | 상품 목록/상세 페이지 UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/product-list-hifi/, product-detail-hifi/, src/components/product/ |
+| SCRUM-61 | AI 3D 피팅 결과 페이지 UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/fitting-input-hifi/, fitting-result-hifi/, src/components/fitting/ |
+
+### Sprint 2-5 (2026-03-27 구현) — 완료
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-63 | 장바구니/주문 플로우 UI/UX 시안 | UI/UX+FE | uiux_designer/figma-manifests/cart-hifi/, order-flow-hifi/, src/components/cart/, order/ |
+| SCRUM-72 | 반응형/모바일 대응 점검 | FE | 전체 페이지 320px~1440px breakpoint 대응 |
+
+**커밋**: `0d3e0c5` (75파일, +8,751줄) on `develop`
+
+**UI/UX Figma Manifest 12건 (B&W 톤)**: design-system-init, components-hifi, auth-pages-hifi, error-pages-hifi, main-page-hifi, product-list-hifi, product-detail-hifi, fitting-input-hifi, fitting-result-hifi, cart-hifi, order-flow-hifi, products-fitting
+
+**신규**: uiux_designer/AGENTS.md (UI/UX 디자이너 에이전트 가이드)

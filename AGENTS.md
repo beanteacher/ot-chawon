@@ -30,6 +30,10 @@
 - push 전 반드시 사용자에게 대상 브랜치·커밋 수·변경 파일·실행 명령어를 보고하고 허가를 받는다.
 - `main` 브랜치 직접 push 절대 금지 — PR을 통해 병합.
 
+### JIRA 운영 규칙
+- JIRA 관련 작업 시 `ot-chawon-project_manager/commands/jira-ops.md` 규칙 참조 필수
+- 핵심: description에 `\n` 리터럴 금지 → `## 섹션` 마크다운 구조, comment 파라미터 사용 금지
+
 ### 커밋 메시지 컨벤션
 - `<type>: <한글 또는 영어 설명>` (scope 표기 금지)
 - type: feat / fix / docs / style / refactor / test / chore / perf
@@ -42,14 +46,34 @@
 4. 작업 전 항상 최신 코드 `git pull` 동기화
 5. UI/UX 시안 미완료 섹션의 FE 선행 구현 금지 (Design-First)
 
-### 운영 플로우
-- PM이 매 일차 시작 전 사용자에게 선보고 → Sub Agent 작업 시작
-- 보고에는 반드시: 가장 중요한 작업 1개 + 실제 작업물 경로 (placeholder 금지)
+### 스프린트 운영 프로세스
+
+#### 작업 시작 시 (PM 역할)
+1. **JIRA 스크럼 발행** — 해당 스프린트의 JIRA 티켓 생성/배정
+2. **JIRA 스프린트 시작** — 스프린트 활성화
+3. **사용자에게 선보고** — 가장 중요한 작업 1개 + 실제 작업물 경로 (placeholder 금지)
+4. Sub Agent 작업 시작
+
+#### 작업 종료 시
+1. **각 Worker JIRA 완료 처리** — 작업 완료된 티켓을 "완료" 상태로 전환 (jira_transition_issue)
+2. **각 Worker 커밋 내역 정리** — 역할별 git commit (커밋 컨벤션 준수)
+3. **PM 커밋 내역 확인 후 보고** — 산출물 경로, DoD 충족 여부, 변경 파일 수 사용자에게 보고
+4. **PM PR 생성** — develop 브랜치로 PR 생성 (main 직접 push 금지)
+5. **사용자 merge 대기** — 사용자가 PR 승인/merge할 때까지 대기
+6. **merge 후 JIRA 스프린트 종료** — 스프린트 완료 처리
 
 ### MEMORY.md 업데이트 (필수)
 - **작업 종료 시 반드시 `MEMORY.md`를 업데이트**한 뒤 커밋/종료
 - 위치: `ot-chawon/MEMORY.md` — 다른 경로 절대 금지
 - MEMORY.md 업데이트 없이 커밋/종료 금지
+
+### Design-First 워크플로우 (Sprint 2-4/2-5 교훈)
+- **UI/UX 시안(Figma manifest) 완료 후에만 FE 구현 허용** — 시안 없이 FE 코드 작성 절대 금지
+- 팀 구성 시 UI/UX 시안 태스크 → FE 구현 태스크 순서로 의존성 설정
+- UI/UX manifest 산출물: `ot-chawon-frontend_developer/uiux_designer/figma-manifests/{산출물명}/`
+- 필수 4파일: `manifest.json` + `manifest.import-data.json` + `code.js` + `ui.html`
+- manifest 형식은 참조 프로젝트(`persona/uiux_designer/`) 확인 후 작성 — 자의적 형식 금지
+- code.js는 **ES5 호환 필수** (Figma 런타임 제약): bare catch, arrow function, template literal, forEach 금지
 
 ### 팀 리더(Lead) 워커 관리 규칙
 - **Worker가 5분 이상 stuck/무한루프일 때 수동 대기 금지** — 리더가 능동적으로 원인을 조사하고 해결 가이드를 제공해야 한다.

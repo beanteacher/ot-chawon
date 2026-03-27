@@ -1,0 +1,10 @@
+{
+  "name": "옷차원 에러 페이지 Hi-Fi",
+  "api": "1.0.0",
+  "id": "otc-error-pages-hifi",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": [
+    "figma"
+  ]
+}

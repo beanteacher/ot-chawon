@@ -1,0 +1,10 @@
+{
+  "name": "옷차원 상품/피팅 페이지",
+  "api": "1.0.0",
+  "id": "otc-products-fitting",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": [
+    "figma"
+  ]
+}
