@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { ProductGallery } from '@/components/product/ProductGallery';
 import { ProductInfo } from '@/components/product/ProductInfo';
+import { SizeGuide } from '@/components/product/SizeGuide';
 import { ProductDto } from '@/types/product.dto';
 
 interface ProductDetailPageProps {
@@ -98,6 +99,7 @@ function RelatedCard({ product }: { product: ProductDto.Item }) {
 
 export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const [threeDOpen, setThreeDOpen] = useState(false);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   const product = DUMMY_PRODUCTS[params.id] ?? {
     id: Number(params.id),
@@ -146,6 +148,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <div>
             <ProductInfo
               product={product}
+              onSizeGuide={() => setSizeGuideOpen(true)}
               onAddToCart={(size, color, qty) => {
                 console.log('장바구니 추가:', { size, color, qty });
                 alert(`장바구니에 담았습니다!\n사이즈: ${size}, 수량: ${qty}`);
@@ -168,6 +171,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           </div>
         </section>
       </div>
+
+      {/* 사이즈 가이드 모달 */}
+      <SizeGuide
+        open={sizeGuideOpen}
+        onClose={() => setSizeGuideOpen(false)}
+        category={product.category}
+      />
 
       {/* 3D 뷰어 모달 */}
       {threeDOpen && (

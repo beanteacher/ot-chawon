@@ -1,118 +1,41 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { ProductFilter, FilterState } from '@/components/product/ProductFilter';
 import { ProductSort, SortOption } from '@/components/product/ProductSort';
+import { ProductCard } from '@/components/product/ProductCard';
+import { Spinner } from '@/components/ui/Spinner';
 import { ProductDto } from '@/types/product.dto';
 
+interface ProductItemWithCategory extends ProductDto.Item {
+  category: string;
+}
+
 // 더미 데이터
-const DUMMY_PRODUCTS: ProductDto.Item[] = [
-  { id: 1, name: '오버사이즈 코튼 티셔츠', price: 39000, brandName: '무신사 스탠다드', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item1.glb' },
-  { id: 2, name: '슬림 테이퍼드 데님 팬츠', price: 79000, brandName: '무신사 스탠다드', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null },
-  { id: 3, name: '울 블렌드 오버핏 코트', price: 189000, brandName: 'ADIDAS', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item3.glb' },
-  { id: 4, name: '클래식 로고 후드티', price: 69000, brandName: 'NIKE', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null },
-  { id: 5, name: '리사이클 나일론 백팩', price: 129000, brandName: 'New Balance', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item5.glb' },
-  { id: 6, name: '캔버스 로우 스니커즈', price: 59000, brandName: 'Converse', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null },
-  { id: 7, name: '와이드 슬랙스', price: 89000, brandName: 'Vans', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null },
-  { id: 8, name: '기모 집업 후리스', price: 99000, brandName: '무신사 스탠다드', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item8.glb' },
-  { id: 9, name: '체크 패턴 셔츠', price: 55000, brandName: 'ADIDAS', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null },
-  { id: 10, name: '카고 숏 팬츠', price: 65000, brandName: 'NIKE', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null },
-  { id: 11, name: '린넨 블렌드 반팔 셔츠', price: 45000, brandName: 'New Balance', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item11.glb' },
-  { id: 12, name: '스트링 트레이닝 팬츠', price: 49000, brandName: 'Converse', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null },
+const DUMMY_PRODUCTS: ProductItemWithCategory[] = [
+  { id: 1, name: '오버사이즈 코튼 티셔츠', price: 39000, brandName: '무신사 스탠다드', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item1.glb', category: '상의' },
+  { id: 2, name: '슬림 테이퍼드 데님 팬츠', price: 79000, brandName: '무신사 스탠다드', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null, category: '하의' },
+  { id: 3, name: '울 블렌드 오버핏 코트', price: 189000, brandName: 'ADIDAS', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item3.glb', category: '아우터' },
+  { id: 4, name: '클래식 로고 후드티', price: 69000, brandName: 'NIKE', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null, category: '상의' },
+  { id: 5, name: '리사이클 나일론 백팩', price: 129000, brandName: 'New Balance', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item5.glb', category: '가방' },
+  { id: 6, name: '캔버스 로우 스니커즈', price: 59000, brandName: 'Converse', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null, category: '신발' },
+  { id: 7, name: '와이드 슬랙스', price: 89000, brandName: 'Vans', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null, category: '하의' },
+  { id: 8, name: '기모 집업 후리스', price: 99000, brandName: '무신사 스탠다드', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item8.glb', category: '아우터' },
+  { id: 9, name: '체크 패턴 셔츠', price: 55000, brandName: 'ADIDAS', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null, category: '상의' },
+  { id: 10, name: '카고 숏 팬츠', price: 65000, brandName: 'NIKE', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null, category: '하의' },
+  { id: 11, name: '린넨 블렌드 반팔 셔츠', price: 45000, brandName: 'New Balance', thumbnailUrl: '', hasThreeD: true, glbAssetKey: 'item11.glb', category: '상의' },
+  { id: 12, name: '스트링 트레이닝 팬츠', price: 49000, brandName: 'Converse', thumbnailUrl: '', hasThreeD: false, glbAssetKey: null, category: '하의' },
 ];
 
+const CATEGORIES = ['전체', '상의', '하의', '아우터', '신발', '가방'] as const;
+type Category = typeof CATEGORIES[number];
+
+const PAGE_SIZE = 12;
+
 const DISCOUNT_MAP: Record<number, number> = { 1: 20, 2: 15, 3: 30, 4: 10, 5: 25, 6: 5, 7: 18, 8: 22, 9: 12, 10: 8, 11: 35, 12: 16 };
-
-function ProductListCard({ product }: { product: ProductDto.Item }) {
-  const discount = DISCOUNT_MAP[product.id] ?? 0;
-  const discountedPrice = Math.round(product.price * (1 - discount / 100));
-
-  return (
-    <Link href={`/products/${product.id}`} className="group block">
-      <div className="relative aspect-[3/4] bg-oc-gray-800 rounded-xl overflow-hidden mb-3">
-        {product.thumbnailUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={product.thumbnailUrl}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-oc-gray-800 to-oc-gray-700">
-            <svg className="w-12 h-12 text-oc-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </div>
-        )}
-
-        {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-oc-primary-500 text-white text-xs font-bold px-2 py-1 rounded">
-            {discount}%
-          </div>
-        )}
-        {product.hasThreeD && (
-          <div className="absolute top-2 right-2 bg-oc-gray-900/80 text-oc-primary-400 text-2xs font-medium px-2 py-1 rounded border border-oc-primary-500/40">
-            3D
-          </div>
-        )}
-
-        {/* 호버 오버레이 */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <span className="text-white text-sm font-medium bg-black/60 px-4 py-2 rounded-full">
-            상세 보기
-          </span>
-        </div>
-      </div>
-
-      <div>
-        <p className="text-xs text-oc-gray-500 mb-0.5">{product.brandName}</p>
-        <p className="text-sm text-white font-medium line-clamp-2 mb-1">{product.name}</p>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-bold text-white">{discountedPrice.toLocaleString()}원</span>
-          {discount > 0 && (
-            <span className="text-xs text-oc-gray-600 line-through">{product.price.toLocaleString()}원</span>
-          )}
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-function ProductListCardHorizontal({ product }: { product: ProductDto.Item }) {
-  const discount = DISCOUNT_MAP[product.id] ?? 0;
-  const discountedPrice = Math.round(product.price * (1 - discount / 100));
-
-  return (
-    <Link href={`/products/${product.id}`} className="group flex gap-4 p-3 rounded-xl bg-oc-gray-900 hover:bg-oc-gray-800 transition-colors border border-oc-gray-800">
-      <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-oc-gray-800">
-        {product.thumbnailUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={product.thumbnailUrl} alt={product.name} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-oc-gray-800 to-oc-gray-700">
-            <svg className="w-8 h-8 text-oc-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
-            </svg>
-          </div>
-        )}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs text-oc-gray-500 mb-0.5">{product.brandName}</p>
-        <p className="text-sm text-white font-medium line-clamp-2 mb-1">{product.name}</p>
-        <div className="flex items-center gap-2">
-          {discount > 0 && <span className="text-xs text-oc-primary-500 font-bold">{discount}%</span>}
-          <span className="text-sm font-bold text-white">{discountedPrice.toLocaleString()}원</span>
-          {discount > 0 && <span className="text-xs text-oc-gray-600 line-through">{product.price.toLocaleString()}원</span>}
-        </div>
-        {product.hasThreeD && (
-          <span className="inline-block mt-1 text-2xs text-oc-primary-400 border border-oc-primary-500/40 px-1.5 py-0.5 rounded">3D</span>
-        )}
-      </div>
-    </Link>
-  );
-}
+const SOLD_OUT_IDS: Set<number> = new Set([6, 10]);
 
 const INITIAL_FILTERS: FilterState = {
   categories: [],
@@ -128,6 +51,10 @@ export default function ProductsPage() {
   const [sort, setSort] = useState<SortOption>('popular');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<Category>('전체');
+  const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   const activeFilterCount =
     filters.categories.length +
@@ -147,14 +74,14 @@ export default function ProductsPage() {
     }
   };
 
-  // 필터 적용 (가격 필터만 적용)
   const filtered = DUMMY_PRODUCTS.filter((p) => {
     const discount = DISCOUNT_MAP[p.id] ?? 0;
     const discountedPrice = Math.round(p.price * (1 - discount / 100));
-    return discountedPrice <= filters.priceMax;
+    const priceOk = discountedPrice <= filters.priceMax;
+    const categoryOk = activeCategory === '전체' || p.category === activeCategory;
+    return priceOk && categoryOk;
   });
 
-  // 정렬
   const sorted = [...filtered].sort((a, b) => {
     const da = DISCOUNT_MAP[a.id] ?? 0;
     const db = DISCOUNT_MAP[b.id] ?? 0;
@@ -165,13 +92,64 @@ export default function ProductsPage() {
     return a.id - b.id;
   });
 
+  const allProducts = Array.from(
+    { length: Math.max(1, Math.ceil(displayCount / (sorted.length || 1))) },
+    (_, i) => sorted.map((p) => ({ ...p, _key: `${p.id}-${i}` }))
+  ).flat().slice(0, displayCount);
+
+  const hasMore = displayCount < sorted.length * 3;
+
+  const loadMore = useCallback(() => {
+    if (isLoadingMore || !hasMore) return;
+    setIsLoadingMore(true);
+    setTimeout(() => {
+      setDisplayCount((c) => c + PAGE_SIZE);
+      setIsLoadingMore(false);
+    }, 800);
+  }, [isLoadingMore, hasMore]);
+
+  useEffect(() => {
+    setDisplayCount(PAGE_SIZE);
+  }, [activeCategory, sort, filters]);
+
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => { if (entries[0]?.isIntersecting) loadMore(); },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [loadMore]);
+
   return (
     <main className="min-h-screen bg-oc-black">
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         {/* 헤더 */}
-        <div className="mb-6">
+        <div className="mb-4">
           <h1 className="text-2xl font-bold text-white mb-1">상품 목록</h1>
           <p className="text-sm text-oc-gray-500">총 {sorted.length}개의 상품</p>
+        </div>
+
+        {/* 카테고리 탭 */}
+        <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-none">
+          <div className="flex gap-2 min-w-max">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  'px-4 py-2 text-sm font-medium rounded-full transition-colors whitespace-nowrap',
+                  activeCategory === cat
+                    ? 'bg-oc-primary-500 text-white'
+                    : 'bg-oc-gray-900 text-oc-gray-400 border border-oc-gray-700 hover:border-oc-gray-500 hover:text-oc-gray-200'
+                )}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* 활성 필터 태그 */}
@@ -275,16 +253,67 @@ export default function ProductsPage() {
               </div>
             ) : viewMode === 'grid' ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {sorted.map((product) => (
-                  <ProductListCard key={product.id} product={product} />
-                ))}
+                {allProducts.map((product) => {
+                  const discount = DISCOUNT_MAP[product.id] ?? 0;
+                  const discountedPrice = Math.round(product.price * (1 - discount / 100));
+                  return (
+                    <Link key={product._key} href={`/products/${product.id}`}>
+                      <ProductCard
+                        variant="grid"
+                        product={{
+                          id: String(product.id),
+                          brand: product.brandName,
+                          name: product.name,
+                          price: discountedPrice,
+                          ...(discount > 0 && { originalPrice: product.price, discountRate: discount }),
+                          ...(product.thumbnailUrl && { imageUrl: product.thumbnailUrl }),
+                          isSoldOut: SOLD_OUT_IDS.has(product.id),
+                          hasThreeD: product.hasThreeD,
+                        }}
+                      />
+                    </Link>
+                  );
+                })}
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                {sorted.map((product) => (
-                  <ProductListCardHorizontal key={product.id} product={product} />
-                ))}
+                {allProducts.map((product) => {
+                  const discount = DISCOUNT_MAP[product.id] ?? 0;
+                  const discountedPrice = Math.round(product.price * (1 - discount / 100));
+                  return (
+                    <Link key={product._key} href={`/products/${product.id}`}>
+                      <ProductCard
+                        variant="list"
+                        product={{
+                          id: String(product.id),
+                          brand: product.brandName,
+                          name: product.name,
+                          price: discountedPrice,
+                          ...(discount > 0 && { originalPrice: product.price, discountRate: discount }),
+                          ...(product.thumbnailUrl && { imageUrl: product.thumbnailUrl }),
+                          isSoldOut: SOLD_OUT_IDS.has(product.id),
+                          hasThreeD: product.hasThreeD,
+                        }}
+                      />
+                    </Link>
+                  );
+                })}
               </div>
+            )}
+
+            {/* 무한스크롤 센티널 */}
+            <div ref={sentinelRef} className="h-10" />
+
+            {/* 로딩 스피너 */}
+            {isLoadingMore && (
+              <div className="flex justify-center py-6">
+                <Spinner size="md" color="primary" />
+              </div>
+            )}
+
+            {/* 더 이상 데이터 없음 */}
+            {!hasMore && sorted.length > 0 && (
+              <p className="text-center text-xs text-oc-gray-600 py-6">모든 상품을 불러왔습니다.</p>
             )}
           </div>
         </div>
