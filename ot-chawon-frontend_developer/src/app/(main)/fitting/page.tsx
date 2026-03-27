@@ -20,7 +20,7 @@ export default function FittingEntryPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (data: BodyMeasurement) => {
+  const handleSubmit = async (_data: BodyMeasurement) => {
     setIsLoading(true);
     // 더미: AI 처리 시뮬레이션 후 결과 페이지로 이동
     await new Promise((resolve) => setTimeout(resolve, 3000));

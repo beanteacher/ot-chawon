@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
-import { Button } from '@/components/ui';
 import { ProductFilter, FilterState } from '@/components/product/ProductFilter';
 import { ProductSort, SortOption } from '@/components/product/ProductSort';
 import { ProductDto } from '@/types/product.dto';

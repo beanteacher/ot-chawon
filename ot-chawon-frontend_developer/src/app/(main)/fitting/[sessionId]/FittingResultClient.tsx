@@ -10,7 +10,7 @@ interface FittingResultClientProps {
 export function FittingResultClient({ sessionId }: FittingResultClientProps) {
   const router = useRouter();
 
-  const handleAddToCart = (size: string) => {
+  const handleAddToCart = (_size: string) => {
     // TODO: 실제 장바구니 담기 연동
     router.push('/cart');
   };

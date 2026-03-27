@@ -31,7 +31,6 @@ export const OrderForm: React.FC<OrderFormProps> = ({
   onChange,
   onZipCodeSearch,
 }) => {
-  const [useMemoSelect, setUseMemoSelect] = React.useState(true);
   const [selectedMemo, setSelectedMemo] = React.useState(MEMO_OPTIONS[0]);
 
   const handleMemoSelect = (value: string) => {
