@@ -7,6 +7,7 @@ import { ProductDto } from '@/types/product.dto';
 
 interface ProductInfoProps {
   product: ProductDto.Detail;
+  onSizeGuide?: () => void;
   onAddToCart?: (sizeLabel: string, colorValue: string, quantity: number) => void;
   onBuyNow?: (sizeLabel: string, colorValue: string, quantity: number) => void;
 }
@@ -21,7 +22,7 @@ const TABS = ['상세설명', '사이즈 가이드', '리뷰'];
 
 const DUMMY_DISCOUNT = 25;
 
-export function ProductInfo({ product, onAddToCart, onBuyNow }: ProductInfoProps) {
+export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: ProductInfoProps) {
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
@@ -86,7 +87,7 @@ export function ProductInfo({ product, onAddToCart, onBuyNow }: ProductInfoProps
       <div>
         <div className="flex items-center justify-between mb-2">
           <p className="text-sm font-medium text-oc-gray-300">사이즈</p>
-          <button className="text-xs text-oc-gray-500 hover:text-oc-gray-300 transition-colors underline">
+          <button onClick={onSizeGuide} className="text-xs text-oc-gray-500 hover:text-oc-gray-300 transition-colors underline">
             사이즈 가이드
           </button>
         </div>
