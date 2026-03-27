@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
 import type { OrderDto } from '@/types/order.dto';
 
@@ -75,6 +77,7 @@ const STATUS_CONFIG: Record<
 };
 
 export function OrderHistory() {
+  const router = useRouter();
   const [orders, setOrders] = useState<(OrderDto.Response & { productName: string })[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -132,7 +135,8 @@ export function OrderHistory() {
                   return (
                     <tr
                       key={order.orderId}
-                      className="border-b border-[#333333] hover:bg-[#212121] transition-colors"
+                      className="border-b border-[#333333] hover:bg-[#212121] transition-colors cursor-pointer"
+                      onClick={() => router.push(`/order/${order.orderId}`)}
                     >
                       <td className="py-4 px-4 text-[#BDBDBD] font-mono text-xs">{order.orderId}</td>
                       <td className="py-4 px-4 text-[#F9F9F9]">{order.productName}</td>
@@ -165,7 +169,8 @@ export function OrderHistory() {
               return (
                 <div
                   key={order.orderId}
-                  className="bg-[#212121] border border-[#333333] rounded-xl p-4"
+                  className="bg-[#212121] border border-[#333333] rounded-xl p-4 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
+                  onClick={() => router.push(`/order/${order.orderId}`)}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <span className="text-xs text-[#BDBDBD] font-mono">{order.orderId}</span>
@@ -188,6 +193,15 @@ export function OrderHistory() {
                 </div>
               );
             })}
+          </div>
+          {/* 주문 내역 더보기 */}
+          <div className="mt-4 text-center">
+            <Link
+              href="/order/history"
+              className="text-sm text-[#FF6B35] hover:text-[#FF8C5A] transition-colors underline"
+            >
+              주문 내역 더보기
+            </Link>
           </div>
         </>
       )}

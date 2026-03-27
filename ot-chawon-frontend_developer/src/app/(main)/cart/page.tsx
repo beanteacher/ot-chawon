@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Checkbox, Spinner, SkeletonCard } from '@/components/ui';
+import { Button, Checkbox, SkeletonCard } from '@/components/ui';
 import { CartItem } from '@/components/cart/CartItem';
 import { CartSummary } from '@/components/cart/CartSummary';
 import { ErrorFallback } from '@/components/error/ErrorFallback';
