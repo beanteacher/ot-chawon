@@ -1,0 +1,10 @@
+{
+  "name": "옷차원 메인 페이지 Hi-Fi",
+  "api": "1.0.0",
+  "id": "otc-main-page-hifi",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": [
+    "figma"
+  ]
+}

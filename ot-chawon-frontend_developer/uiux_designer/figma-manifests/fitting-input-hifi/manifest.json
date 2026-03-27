@@ -1,0 +1,10 @@
+{
+  "name": "옷차원 피팅 입력 Hi-Fi",
+  "api": "1.0.0",
+  "id": "otc-fitting-input-hifi",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": [
+    "figma"
+  ]
+}

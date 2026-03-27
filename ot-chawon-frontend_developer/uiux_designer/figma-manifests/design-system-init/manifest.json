@@ -1,0 +1,10 @@
+{
+  "name": "옷차원 디자인 시스템 초기화",
+  "api": "1.0.0",
+  "id": "otc-design-system-init",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": [
+    "figma"
+  ]
+}
