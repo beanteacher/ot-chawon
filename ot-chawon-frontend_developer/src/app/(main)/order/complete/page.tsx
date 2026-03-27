@@ -1,17 +1,35 @@
 'use client';
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
+import React, { Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui';
+import { useOrderDetail } from '@/hooks/useOrder';
 
-const DUMMY_ORDER = {
-  orderId: 'OT-2026-03260001',
-  totalPrice: 206000,
-  estimatedDelivery: '2026년 3월 29일 (토)',
-};
-
-export default function OrderCompletePage() {
+function OrderCompleteContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get('orderId') ?? undefined;
+
+  const { data: order, isLoading, isError } = useOrderDetail(orderId);
+
+  if (isLoading) {
+    return (
+      <main className="max-w-screen-sm mx-auto px-4 py-16 flex flex-col items-center">
+        <div className="animate-pulse text-oc-gray-400">주문 정보를 불러오는 중...</div>
+      </main>
+    );
+  }
+
+  if (isError || !order) {
+    return (
+      <main className="max-w-screen-sm mx-auto px-4 py-16 flex flex-col items-center text-center">
+        <p className="text-oc-gray-400 mb-4">주문 정보를 불러올 수 없습니다.</p>
+        <Button variant="primary" size="lg" onClick={() => router.push('/my/orders')}>
+          주문 내역 보기
+        </Button>
+      </main>
+    );
+  }
 
   return (
     <main className="max-w-screen-sm mx-auto px-4 py-16 flex flex-col items-center text-center">
@@ -43,20 +61,29 @@ export default function OrderCompletePage() {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <span className="text-sm text-oc-gray-400">주문 번호</span>
-            <span className="text-sm font-mono font-medium text-white">{DUMMY_ORDER.orderId}</span>
+            <span className="text-sm font-mono font-medium text-white">{order.orderId}</span>
           </div>
           <div className="border-t border-oc-gray-700" />
           <div className="flex justify-between items-center">
             <span className="text-sm text-oc-gray-400">결제 금액</span>
             <span className="text-base font-bold text-oc-primary-500">
-              {DUMMY_ORDER.totalPrice.toLocaleString()}원
+              {order.totalPrice.toLocaleString()}원
             </span>
           </div>
           <div className="border-t border-oc-gray-700" />
           <div className="flex justify-between items-center">
-            <span className="text-sm text-oc-gray-400">배송 예정일</span>
-            <span className="text-sm font-medium text-white">{DUMMY_ORDER.estimatedDelivery}</span>
+            <span className="text-sm text-oc-gray-400">주문 상태</span>
+            <span className="text-sm font-medium text-white">{order.status}</span>
           </div>
+          {order.trackingNumber && (
+            <>
+              <div className="border-t border-oc-gray-700" />
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-oc-gray-400">운송장 번호</span>
+                <span className="text-sm font-mono font-medium text-white">{order.trackingNumber}</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -90,5 +117,17 @@ export default function OrderCompletePage() {
         </Button>
       </div>
     </main>
+  );
+}
+
+export default function OrderCompletePage() {
+  return (
+    <Suspense fallback={
+      <main className="max-w-screen-sm mx-auto px-4 py-16 flex flex-col items-center">
+        <div className="animate-pulse text-oc-gray-400">로딩 중...</div>
+      </main>
+    }>
+      <OrderCompleteContent />
+    </Suspense>
   );
 }

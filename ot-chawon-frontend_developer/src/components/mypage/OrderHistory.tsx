@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
 import type { OrderDto } from '@/types/order.dto';
 
@@ -15,14 +17,14 @@ const MOCK_ORDERS: (OrderDto.Response & { productName: string })[] = [
   },
   {
     orderId: 'ORD-2024-002',
-    status: 'SHIPPED',
+    status: 'SHIPPING',
     totalPrice: 79000,
     createdAt: '2024-03-18T14:20:00Z',
     productName: '슬림 테이퍼드 데님 팬츠',
   },
   {
     orderId: 'ORD-2024-003',
-    status: 'CONFIRMED',
+    status: 'PAID',
     totalPrice: 189000,
     createdAt: '2024-03-22T09:15:00Z',
     productName: '울 블렌드 오버핏 코트',
@@ -44,11 +46,15 @@ const STATUS_CONFIG: Record<
     label: '결제대기',
     className: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
   },
-  CONFIRMED: {
-    label: '주문완료',
+  PAYMENT_REQUESTED: {
+    label: '결제요청',
+    className: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+  },
+  PAID: {
+    label: '결제완료',
     className: 'bg-green-500/20 text-green-400 border-green-500/30',
   },
-  SHIPPED: {
+  SHIPPING: {
     label: '배송중',
     className: 'bg-[#3B82F6]/20 text-[#3B82F6] border-[#3B82F6]/30',
   },
@@ -56,13 +62,22 @@ const STATUS_CONFIG: Record<
     label: '배송완료',
     className: 'bg-[#616161]/20 text-[#BDBDBD] border-[#616161]/30',
   },
+  COMPLETED: {
+    label: '구매확정',
+    className: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  },
   CANCELLED: {
     label: '취소',
     className: 'bg-red-500/20 text-red-400 border-red-500/30',
   },
+  REFUNDED: {
+    label: '환불',
+    className: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+  },
 };
 
 export function OrderHistory() {
+  const router = useRouter();
   const [orders, setOrders] = useState<(OrderDto.Response & { productName: string })[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -120,7 +135,8 @@ export function OrderHistory() {
                   return (
                     <tr
                       key={order.orderId}
-                      className="border-b border-[#333333] hover:bg-[#212121] transition-colors"
+                      className="border-b border-[#333333] hover:bg-[#212121] transition-colors cursor-pointer"
+                      onClick={() => router.push(`/order/${order.orderId}`)}
                     >
                       <td className="py-4 px-4 text-[#BDBDBD] font-mono text-xs">{order.orderId}</td>
                       <td className="py-4 px-4 text-[#F9F9F9]">{order.productName}</td>
@@ -153,7 +169,8 @@ export function OrderHistory() {
               return (
                 <div
                   key={order.orderId}
-                  className="bg-[#212121] border border-[#333333] rounded-xl p-4"
+                  className="bg-[#212121] border border-[#333333] rounded-xl p-4 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
+                  onClick={() => router.push(`/order/${order.orderId}`)}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <span className="text-xs text-[#BDBDBD] font-mono">{order.orderId}</span>
@@ -176,6 +193,15 @@ export function OrderHistory() {
                 </div>
               );
             })}
+          </div>
+          {/* 주문 내역 더보기 */}
+          <div className="mt-4 text-center">
+            <Link
+              href="/order/history"
+              className="text-sm text-[#FF6B35] hover:text-[#FF8C5A] transition-colors underline"
+            >
+              주문 내역 더보기
+            </Link>
           </div>
         </>
       )}

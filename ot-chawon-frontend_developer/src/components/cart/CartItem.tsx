@@ -3,25 +3,14 @@
 import React from 'react';
 import { cn } from '@/lib/utils/cn';
 import { Checkbox } from '@/components/ui';
-
-export interface CartItemData {
-  cartItemId: string;
-  productId: number;
-  productName: string;
-  brandName: string;
-  size: string;
-  color: string;
-  quantity: number;
-  price: number;
-  imageUrl?: string;
-}
+import type { CartDto } from '@/types/cart.dto';
 
 interface CartItemProps {
-  item: CartItemData;
+  item: CartDto.Item;
   selected: boolean;
-  onSelect: (cartItemId: string, checked: boolean) => void;
-  onQuantityChange: (cartItemId: string, quantity: number) => void;
-  onRemove: (cartItemId: string) => void;
+  onSelect: (cartItemId: number, checked: boolean) => void;
+  onQuantityChange: (cartItemId: number, quantity: number) => void;
+  onRemove: (cartItemId: number) => void;
 }
 
 export const CartItem: React.FC<CartItemProps> = ({
@@ -82,9 +71,13 @@ export const CartItem: React.FC<CartItemProps> = ({
       <div className="flex-1 min-w-0">
         <p className="text-xs text-oc-gray-400 mb-0.5">{item.brandName}</p>
         <p className="text-sm font-medium text-white truncate">{item.productName}</p>
-        <p className="text-xs text-oc-gray-400 mt-1">
-          사이즈: {item.size} / 색상: {item.color}
-        </p>
+        {(item.size || item.color) && (
+          <p className="text-xs text-oc-gray-400 mt-1">
+            {item.size && `사이즈: ${item.size}`}
+            {item.size && item.color && ' / '}
+            {item.color && `색상: ${item.color}`}
+          </p>
+        )}
 
         <div className="flex items-center justify-between mt-3">
           {/* 수량 조절 */}

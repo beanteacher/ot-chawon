@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Checkbox } from '@/components/ui';
 import { OrderForm, ShippingInfo } from '@/components/order/OrderForm';
-import { PaymentSelect, PaymentMethod } from '@/components/order/PaymentSelect';
-
-const DUMMY_ORDER_ITEMS = [
-  { productId: 1, productName: '오버사이즈 코튼 티셔츠', size: 'M', color: '화이트', quantity: 2, price: 39000 },
-  { productId: 2, productName: '와이드 데님 팬츠', size: '32', color: '인디고 블루', quantity: 1, price: 89000 },
-];
+import { PaymentSelect } from '@/components/order/PaymentSelect';
+import type { PaymentMethod } from '@/components/order/PaymentSelect';
+import { useCartStore } from '@/store/cartStore';
+import { useCreateOrder } from '@/hooks/useOrder';
+import { paymentApi } from '@/services/paymentApi';
 
 const TERMS = [
   { id: 'terms-service', label: '[필수] 서비스 이용약관 동의' },
@@ -20,6 +19,9 @@ const TERMS = [
 
 export default function OrderPage() {
   const router = useRouter();
+  const { getSelectedItems, selectedIds } = useCartStore();
+  const selectedItems = getSelectedItems();
+
   const [isItemsExpanded, setIsItemsExpanded] = useState(false);
   const [shippingInfo, setShippingInfo] = useState<ShippingInfo>({
     recipientName: '',
@@ -33,7 +35,9 @@ export default function OrderPage() {
   const [agreedTerms, setAgreedTerms] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
 
-  const subtotal = DUMMY_ORDER_ITEMS.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const createOrderMutation = useCreateOrder();
+
+  const subtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shippingFee = subtotal >= 50000 ? 0 : 3000;
   const total = subtotal + shippingFee;
 
@@ -64,17 +68,42 @@ export default function OrderPage() {
   };
 
   const handleZipCodeSearch = () => {
-    // 우편번호 검색 로직 (추후 API 연동)
     alert('우편번호 검색 기능은 API 연동 후 활성화됩니다.');
   };
 
   const handlePayment = async () => {
     if (!requiredTermsChecked) return;
+    if (selectedItems.length === 0) {
+      alert('주문할 상품을 선택해주세요.');
+      return;
+    }
+
     setIsLoading(true);
-    // 결제 시뮬레이션
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsLoading(false);
-    router.push('/order/complete');
+    try {
+      const shippingAddressStr = `${shippingInfo.zipCode} ${shippingInfo.address} ${shippingInfo.addressDetail}`.trim();
+
+      const order = await createOrderMutation.mutateAsync({
+        cartItemIds: Array.from(selectedIds),
+        shippingAddress: shippingAddressStr,
+        paymentMethod,
+      });
+
+      const payment = await paymentApi.requestPayment({
+        orderId: order.orderId,
+        amount: order.totalPrice,
+        paymentMethod,
+      });
+
+      if (payment.status === 'PAID') {
+        router.push(`/order/complete?orderId=${order.orderId}`);
+      } else {
+        router.push('/order/fail?code=UNKNOWN');
+      }
+    } catch {
+      router.push('/order/fail?code=UNKNOWN');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -102,7 +131,7 @@ export default function OrderPage() {
               onClick={() => setIsItemsExpanded((v) => !v)}
             >
               <h2 className="text-base font-semibold text-white">
-                주문 상품 ({DUMMY_ORDER_ITEMS.length}개)
+                주문 상품 ({selectedItems.length}개)
               </h2>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -117,12 +146,12 @@ export default function OrderPage() {
 
             {isItemsExpanded && (
               <div className="mt-4 flex flex-col gap-3">
-                {DUMMY_ORDER_ITEMS.map((item, idx) => (
+                {selectedItems.map((item, idx) => (
                   <div key={idx} className="flex justify-between items-start text-sm">
                     <div>
                       <p className="text-oc-gray-200">{item.productName}</p>
                       <p className="text-xs text-oc-gray-500 mt-0.5">
-                        {item.size} / {item.color} / {item.quantity}개
+                        {item.size} / {item.quantity}개
                       </p>
                     </div>
                     <span className="text-oc-gray-200 font-medium ml-4">
@@ -133,11 +162,15 @@ export default function OrderPage() {
               </div>
             )}
 
-            {!isItemsExpanded && (
+            {!isItemsExpanded && selectedItems.length > 0 && (
               <p className="mt-2 text-sm text-oc-gray-500">
-                {DUMMY_ORDER_ITEMS[0]?.productName}
-                {DUMMY_ORDER_ITEMS.length > 1 && ` 외 ${DUMMY_ORDER_ITEMS.length - 1}개`}
+                {selectedItems[0]?.productName}
+                {selectedItems.length > 1 && ` 외 ${selectedItems.length - 1}개`}
               </p>
+            )}
+
+            {selectedItems.length === 0 && (
+              <p className="mt-2 text-sm text-oc-gray-500">선택된 상품이 없습니다.</p>
             )}
           </section>
 
@@ -205,7 +238,7 @@ export default function OrderPage() {
               fullWidth
               className="mt-5"
               onClick={handlePayment}
-              disabled={!requiredTermsChecked}
+              disabled={!requiredTermsChecked || selectedItems.length === 0}
               loading={isLoading}
             >
               {total.toLocaleString()}원 결제하기

@@ -180,7 +180,105 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 - **브랜드 API**: POST/GET/PUT /api/brands + 어드민 초대/관리(OWNER/ADMIN) + FeignClient(product-service)
 
 ### 다음 작업 (Sprint 4)
-- SCRUM-78~80 UI/UX 시안 (장바구니, 주문/결제, 주문 내역)
-- BE: 장바구니 API, 주문/결제 API
-- FE: 장바구니/주문 플로우 FE 구현 (시안 기반)
-- Gateway 라우팅: product-service(8082), brand-service(8086) 추가
+- ~~SCRUM-78~80 UI/UX 시안 (장바구니, 주문/결제, 주문 내역)~~ → Sprint 4-1에서 장바구니 완료
+- ~~BE: 장바구니 API~~ → Sprint 4-1에서 완료
+- BE: 주문/결제 API (Sprint 4-2)
+- FE: 주문/결제 플로우 FE 구현 (Sprint 4-2)
+- ~~Gateway 라우팅~~ → Sprint 4-1에서 완료
+
+---
+
+## Sprint 4-1 (2026-03-27) — 장바구니/주문 CRUD API + FE 장바구니 UI
+
+### 완료 티켓 (2/2)
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-38 | BE: 장바구니 CRUD API + 주문 생성/취소 API | BE | order-service/ (Entity 5, Repo 4, DTO 8, Service 2, Controller 2, Exception 2, Test 4) |
+| SCRUM-78 | UI: 장바구니 UI 컴포넌트 | FE | src/components/cart/, src/types/cart.dto.ts, src/services/cartApi.ts, src/store/cartStore.ts, src/hooks/useCart.ts |
+
+**커밋**: `4c22c18` (BE 31파일, +1,605줄), `8dcbdad` (FE 8파일, +504줄), `69c5aff` (Gateway 1파일, +21줄) on `develop`
+
+**BE 테스트**: CartService 7/7, OrderService 7/7, CartController 6/6, OrderController 7/7 — 총 27개 통과
+**FE 테스트**: CartItem 6/6, CartSummary 3/3, Cart빈상태 2/2 — 총 11개 통과
+
+**주요 구현 내용**:
+- **BE Cart API**: GET/POST/PUT/DELETE /api/carts/items — 장바구니 CRUD (getOrCreateCart 패턴)
+- **BE Order API**: POST/GET /api/orders, PUT /api/orders/{id}/cancel — 장바구니→주문 전환, 주문 취소
+- **BE Entity**: Cart, CartItem, Order, OrderItem, OrderStatus(8종 상태) — V1__init_order.sql 스키마 기반
+- **FE Cart**: CartDto 타입, cartApi 서비스, cartStore (Zustand), useCart 훅 (TanStack Query)
+- **FE Cart Page**: DUMMY_CART_ITEMS → API 연동, 로딩/에러 UI, 전체선택/개별선택/수량변경/삭제
+- **Gateway**: /api/carts/**, /api/orders/** → order-service(8083) 라우팅 추가
+
+### 다음 작업 (Sprint 4-2)
+- ~~SCRUM-39: BE PG사 결제 연동 API~~ → 완료
+- ~~SCRUM-79: FE 주문/결제 플로우 UI~~ → 완료
+- ~~SCRUM-80: FE 주문 내역/상세 페이지~~ → 완료
+
+---
+
+## Sprint 4-2 (2026-03-27) — BE 결제 API + FE 주문/결제 + 주문 내역
+
+### 완료 티켓 (3/3)
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-39 | BE: PG사 결제 연동 API | BE | payment-service/ (Entity 2, Enum 2, Repo 2, DTO 4, PG Mock 4, Service 2, Controller 1, Exception 2, Test 2) |
+| SCRUM-79 | UI: 주문/결제 플로우 UI | FE | src/services/orderApi.ts, paymentApi.ts, src/hooks/useOrder.ts, src/types/payment.dto.ts, order pages 수정 |
+| SCRUM-80 | UI: 주문 내역/상세 페이지 | FE | src/app/(main)/order/history/, src/app/(main)/order/[orderId]/, OrderDetailClient.tsx |
+
+**커밋**: `4b426e2` (BE 22파일, +989줄), `0ff626d` (FE 12파일, +973줄), `f43a080` (Gateway +7줄) on `develop`
+
+**BE 테스트**: PaymentService 5/5, PaymentController 6/6 — 총 11개 통과
+**FE 테스트**: OrderForm 3/3, PaymentSelect 2/2, 주문내역 2/2 — 총 7개 통과
+
+**주요 구현 내용**:
+- **BE Payment API**: POST /api/payments (결제요청), POST /{id}/confirm (확인), GET /{id}, GET /order/{orderId}, POST /{id}/refund (환불)
+- **PG Mock**: PgClient 인터페이스 + MockPgClient (UUID txId, 항상 성공)
+- **FE 주문 플로우**: cartStore → createOrder → requestPayment → complete/fail 분기
+- **FE 주문 내역**: 상태 필터(6종), Pagination, 주문 카드, 빈 상태 UI
+- **FE 주문 상세**: SSR + OrderDetailClient, 스텝 인디케이터(5단계), 주문 취소
+- **Gateway**: /api/payments/** → payment-service(8084) 라우팅 추가
+
+### 다음 작업 (Sprint 4-3)
+- ~~SCRUM-40: FE E2E 구매 흐름 검증~~ → 완료
+- ~~SCRUM-41: QA 핵심 흐름 통합 테스트~~ → 완료
+
+---
+
+## Sprint 4-3 (2026-03-27) — E2E 구매 흐름 통합 + QA 통합 테스트 (Sprint 4 마지막)
+
+### 완료 티켓 (2/2)
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-40 | FE: 장바구니/주문/결제 UI + E2E 구매 흐름 | FE | ProductDetailClient.tsx(장바구니담기 연동), OrderHistory.tsx(주문내역 링크), cart/page.tsx 보완 |
+| SCRUM-41 | QA: 핵심 흐름 통합 테스트 | QA | src/__tests__/E2E.integration.test.tsx (5 시나리오) |
+
+**커밋**: `0967380` (FE 4파일, +576줄) on `develop`
+
+**검증 결과**:
+- FE: tsc --noEmit 0 errors, 9 suites / 93 tests 전체 통과, ESLint 0 errors
+- BE: order-service BUILD SUCCESSFUL, payment-service BUILD SUCCESSFUL
+
+**주요 구현 내용**:
+- **상품→장바구니**: ProductDetailClient에 cartApi.addCartItem() + toast 피드백 연동
+- **마이페이지→주문**: OrderHistory에 주문 카드 클릭→/order/{id}, 더보기→/order/history 링크
+- **E2E 통합 테스트**: 빈장바구니→주문, 수량변경→가격계산, 주문내역확인, 주문취소, 결제실패→재시도
+
+---
+
+## Sprint 4 전체 요약 (Phase 1 주문/결제 완성)
+
+| 서브스프린트 | 티켓 | 핵심 산출물 |
+|-------------|------|------------|
+| 4-1 | SCRUM-38, 78 | BE Cart/Order API, FE 장바구니 UI, Gateway 라우팅 |
+| 4-2 | SCRUM-39, 79, 80 | BE Payment API, FE 주문/결제 연동, 주문 내역/상세 |
+| 4-3 | SCRUM-40, 41 | E2E 구매 흐름 통합, QA 통합 테스트 93개 |
+
+**Sprint 4 총 성과**: 7 JIRA 티켓 완료, BE 53파일 +2,594줄, FE 24파일 +2,053줄, 테스트 131개 통과
+
+### 다음 작업 (Sprint 5)
+- SCRUM-42: 3D Blender 의류 모델링 + Draco 압축 + S3 파이프라인
+- SCRUM-43: FE Three.js 3D 뷰어 컴포넌트
+- SCRUM-44: BE 상품 3D 에셋 메타데이터 API + CDN

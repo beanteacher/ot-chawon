@@ -1,101 +1,69 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Checkbox } from '@/components/ui';
-import { CartItem, CartItemData } from '@/components/cart/CartItem';
+import { Button, Checkbox, SkeletonCard } from '@/components/ui';
+import { CartItem } from '@/components/cart/CartItem';
 import { CartSummary } from '@/components/cart/CartSummary';
-
-const DUMMY_CART_ITEMS: CartItemData[] = [
-  {
-    cartItemId: 'cart-1',
-    productId: 1,
-    productName: '오버사이즈 코튼 티셔츠',
-    brandName: 'STUDIO OT',
-    size: 'M',
-    color: '화이트',
-    quantity: 2,
-    price: 39000,
-  },
-  {
-    cartItemId: 'cart-2',
-    productId: 2,
-    productName: '와이드 데님 팬츠',
-    brandName: 'DENIM CO.',
-    size: '32',
-    color: '인디고 블루',
-    quantity: 1,
-    price: 89000,
-  },
-  {
-    cartItemId: 'cart-3',
-    productId: 3,
-    productName: '울 블렌드 크루넥 니트',
-    brandName: 'WARM STUDIO',
-    size: 'L',
-    color: '베이지',
-    quantity: 1,
-    price: 128000,
-  },
-];
+import { ErrorFallback } from '@/components/error/ErrorFallback';
+import { useCart } from '@/hooks/useCart';
 
 export default function CartPage() {
   const router = useRouter();
-  const [items, setItems] = useState<CartItemData[]>(DUMMY_CART_ITEMS);
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(
-    new Set(DUMMY_CART_ITEMS.map((i) => i.cartItemId))
-  );
+  const {
+    items,
+    isLoading,
+    isError,
+    refetch,
+    selectedIds,
+    allSelected,
+    someSelected,
+    handleSelectAll,
+    toggleSelect,
+    subtotal,
+    selectedCount,
+    updateQuantity,
+    removeItem,
+    removeSelectedItems,
+  } = useCart();
 
-  const allSelected = items.length > 0 && selectedIds.size === items.length;
-  const someSelected = selectedIds.size > 0 && selectedIds.size < items.length;
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedIds(new Set(items.map((i) => i.cartItemId)));
-    } else {
-      setSelectedIds(new Set());
-    }
-  };
-
-  const handleSelectItem = (cartItemId: string, checked: boolean) => {
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      if (checked) next.add(cartItemId);
-      else next.delete(cartItemId);
-      return next;
-    });
-  };
-
-  const handleQuantityChange = (cartItemId: string, quantity: number) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.cartItemId === cartItemId ? { ...item, quantity } : item
-      )
-    );
-  };
-
-  const handleRemove = (cartItemId: string) => {
-    setItems((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      next.delete(cartItemId);
-      return next;
-    });
-  };
-
-  const handleRemoveSelected = () => {
-    setItems((prev) => prev.filter((item) => !selectedIds.has(item.cartItemId)));
-    setSelectedIds(new Set());
-  };
-
-  const selectedItems = items.filter((item) => selectedIds.has(item.cartItemId));
-  const subtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const selectedCount = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
   const shippingFee = subtotal >= 50000 ? 0 : 3000;
 
   const handleOrder = () => {
-    router.push('/order');
+    router.push(`/order?items=${Array.from(selectedIds).join(',')}`);
   };
+
+  if (isLoading) {
+    return (
+      <main className="max-w-screen-xl mx-auto px-4 py-12">
+        <h1 className="text-2xl font-bold text-white mb-8">장바구니</h1>
+        <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex-1 flex flex-col gap-3">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+          <div className="lg:w-80 lg:flex-shrink-0">
+            <SkeletonCard />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (isError) {
+    return (
+      <main className="max-w-screen-xl mx-auto px-4 py-12">
+        <h1 className="text-2xl font-bold text-white mb-8">장바구니</h1>
+        <ErrorFallback
+          variant="generic"
+          title="장바구니를 불러올 수 없습니다"
+          description="잠시 후 다시 시도해 주세요."
+          onReset={() => refetch()}
+        />
+      </main>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -150,7 +118,7 @@ export default function CartPage() {
             {selectedIds.size > 0 && (
               <button
                 type="button"
-                onClick={handleRemoveSelected}
+                onClick={removeSelectedItems}
                 className="text-sm text-oc-gray-400 hover:text-oc-error transition-colors"
               >
                 선택 삭제
@@ -165,9 +133,13 @@ export default function CartPage() {
                 key={item.cartItemId}
                 item={item}
                 selected={selectedIds.has(item.cartItemId)}
-                onSelect={handleSelectItem}
-                onQuantityChange={handleQuantityChange}
-                onRemove={handleRemove}
+                onSelect={(cartItemId, checked) => {
+                  if (checked !== selectedIds.has(cartItemId)) {
+                    toggleSelect(cartItemId);
+                  }
+                }}
+                onQuantityChange={updateQuantity}
+                onRemove={removeItem}
               />
             ))}
           </div>
@@ -192,7 +164,7 @@ export default function CartPage() {
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-oc-gray-400">총 결제 금액</span>
           <span className="text-base font-bold text-oc-primary-500">
-            {(subtotal - 0 + shippingFee).toLocaleString()}원
+            {(subtotal + shippingFee).toLocaleString()}원
           </span>
         </div>
         <Button
