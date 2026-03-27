@@ -180,7 +180,37 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 - **브랜드 API**: POST/GET/PUT /api/brands + 어드민 초대/관리(OWNER/ADMIN) + FeignClient(product-service)
 
 ### 다음 작업 (Sprint 4)
-- SCRUM-78~80 UI/UX 시안 (장바구니, 주문/결제, 주문 내역)
-- BE: 장바구니 API, 주문/결제 API
-- FE: 장바구니/주문 플로우 FE 구현 (시안 기반)
-- Gateway 라우팅: product-service(8082), brand-service(8086) 추가
+- ~~SCRUM-78~80 UI/UX 시안 (장바구니, 주문/결제, 주문 내역)~~ → Sprint 4-1에서 장바구니 완료
+- ~~BE: 장바구니 API~~ → Sprint 4-1에서 완료
+- BE: 주문/결제 API (Sprint 4-2)
+- FE: 주문/결제 플로우 FE 구현 (Sprint 4-2)
+- ~~Gateway 라우팅~~ → Sprint 4-1에서 완료
+
+---
+
+## Sprint 4-1 (2026-03-27) — 장바구니/주문 CRUD API + FE 장바구니 UI
+
+### 완료 티켓 (2/2)
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-38 | BE: 장바구니 CRUD API + 주문 생성/취소 API | BE | order-service/ (Entity 5, Repo 4, DTO 8, Service 2, Controller 2, Exception 2, Test 4) |
+| SCRUM-78 | UI: 장바구니 UI 컴포넌트 | FE | src/components/cart/, src/types/cart.dto.ts, src/services/cartApi.ts, src/store/cartStore.ts, src/hooks/useCart.ts |
+
+**커밋**: `4c22c18` (BE 31파일, +1,605줄), `8dcbdad` (FE 8파일, +504줄), `69c5aff` (Gateway 1파일, +21줄) on `develop`
+
+**BE 테스트**: CartService 7/7, OrderService 7/7, CartController 6/6, OrderController 7/7 — 총 27개 통과
+**FE 테스트**: CartItem 6/6, CartSummary 3/3, Cart빈상태 2/2 — 총 11개 통과
+
+**주요 구현 내용**:
+- **BE Cart API**: GET/POST/PUT/DELETE /api/carts/items — 장바구니 CRUD (getOrCreateCart 패턴)
+- **BE Order API**: POST/GET /api/orders, PUT /api/orders/{id}/cancel — 장바구니→주문 전환, 주문 취소
+- **BE Entity**: Cart, CartItem, Order, OrderItem, OrderStatus(8종 상태) — V1__init_order.sql 스키마 기반
+- **FE Cart**: CartDto 타입, cartApi 서비스, cartStore (Zustand), useCart 훅 (TanStack Query)
+- **FE Cart Page**: DUMMY_CART_ITEMS → API 연동, 로딩/에러 UI, 전체선택/개별선택/수량변경/삭제
+- **Gateway**: /api/carts/**, /api/orders/** → order-service(8083) 라우팅 추가
+
+### 다음 작업 (Sprint 4-2)
+- SCRUM-39: BE PG사 결제 연동 API
+- SCRUM-79: FE 주문/결제 플로우 UI
+- SCRUM-80: FE 주문 내역/상세 페이지
