@@ -7,3 +7,26 @@ secrets/
 node_modules/
 __pycache__/
 .DS_Store
+
+# Gradle
+.gradle/
+build/
+gradle/
+gradlew
+gradlew.bat
+!gradle/wrapper/gradle-wrapper.jar
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.log
+out/
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp

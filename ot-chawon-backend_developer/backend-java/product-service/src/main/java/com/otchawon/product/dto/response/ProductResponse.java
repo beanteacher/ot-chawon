@@ -25,6 +25,7 @@ public class ProductResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<ProductOptionResponse> options;
+    private List<ProductAssetResponse> assets;
 
     public static ProductResponse from(Product product) {
         return ProductResponse.builder()
@@ -52,6 +53,22 @@ public class ProductResponse {
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
                 .options(options)
+                .build();
+    }
+
+    public static ProductResponse from(Product product, List<ProductOptionResponse> options, List<ProductAssetResponse> assets) {
+        return ProductResponse.builder()
+                .id(product.getId())
+                .brandId(product.getBrandId())
+                .categoryId(product.getCategoryId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .status(product.getStatus())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+                .options(options)
+                .assets(assets)
                 .build();
     }
 }

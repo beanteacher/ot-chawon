@@ -3,12 +3,14 @@ package com.otchawon.product.service.impl;
 import com.otchawon.product.dto.request.CreateProductRequest;
 import com.otchawon.product.dto.request.ProductSearchRequest;
 import com.otchawon.product.dto.request.UpdateProductRequest;
+import com.otchawon.product.dto.response.ProductAssetResponse;
 import com.otchawon.product.dto.response.ProductListResponse;
 import com.otchawon.product.dto.response.ProductOptionResponse;
 import com.otchawon.product.dto.response.ProductResponse;
 import com.otchawon.product.entity.Product;
 import com.otchawon.product.entity.ProductOption;
 import com.otchawon.product.exception.ProductException;
+import com.otchawon.product.repository.ProductAssetRepository;
 import com.otchawon.product.repository.ProductOptionRepository;
 import com.otchawon.product.repository.ProductRepository;
 import com.otchawon.product.service.ProductService;
@@ -29,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductOptionRepository productOptionRepository;
+    private final ProductAssetRepository productAssetRepository;
 
     @Override
     @Transactional
@@ -78,7 +81,12 @@ public class ProductServiceImpl implements ProductService {
                 .map(ProductOptionResponse::from)
                 .collect(Collectors.toList());
 
-        return ProductResponse.from(product, options);
+        List<ProductAssetResponse> assets = productAssetRepository.findAllByProductId(id)
+                .stream()
+                .map(ProductAssetResponse::from)
+                .collect(Collectors.toList());
+
+        return ProductResponse.from(product, options, assets);
     }
 
     @Override

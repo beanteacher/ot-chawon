@@ -91,6 +91,13 @@ spring:
           filters:
             - StripPrefix=0
 
+        - id: product-asset-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/assets/**,/api/v1/products/*/assets/**
+          filters:
+            - StripPrefix=0
+
 jwt:
   secret: ${JWT_SECRET:otchawon-secret-key-must-be-at-least-256-bits-long-for-hs256}
 
