@@ -36,7 +36,7 @@ const NoSearchResult = ({ keyword, onKeywordClick, className }: NoSearchResultPr
       <h2 className="text-lg font-semibold text-[#F9F9F9] mb-2 text-center">
         {keyword ? (
           <>
-            <span className="text-[#FF6B35]">'{keyword}'</span> 검색 결과가 없습니다
+            <span className="text-[#FF6B35]">&apos;{keyword}&apos;</span> 검색 결과가 없습니다
           </>
         ) : (
           '검색 결과가 없습니다'

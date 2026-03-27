@@ -58,9 +58,9 @@
 1. **각 Worker JIRA 완료 처리** — 작업 완료된 티켓을 "완료" 상태로 전환 (jira_transition_issue)
 2. **각 Worker 커밋 내역 정리** — 역할별 git commit (커밋 컨벤션 준수)
 3. **PM 커밋 내역 확인 후 보고** — 산출물 경로, DoD 충족 여부, 변경 파일 수 사용자에게 보고
-4. **PM PR 생성** — develop 브랜치로 PR 생성 (main 직접 push 금지)
-5. **사용자 merge 대기** — 사용자가 PR 승인/merge할 때까지 대기
-6. **merge 후 JIRA 스프린트 종료** — 스프린트 완료 처리
+4. **[대단위 스프린트 마지막 서브스프린트일 때] PM PR 생성** — develop → main PR 생성 (main 직접 push 금지). 서브스프린트(N-1, N-2 등) 중간에는 PR 불필요, 대단위 스프린트의 마지막 서브스프린트 완료 시에만 PR 생성. PR URL을 사용자에게 보고해야 스프린트 종료 가능.
+5. **CI 상태 확인 및 해결** — PR 생성 후 `gh pr checks`로 CI 상태를 확인한다. fail이 발생하면 원인을 분석하고 반드시 수정하여 CI가 pass할 때까지 반복한다. CI fail 상태로 방치 금지.
+6. **Slack 알림 후 merge 대기** — CI pass 확인 후 Slack으로 사용자에게 "CI pass, PR merge 가능" 알림 전송 (PR URL 포함). 사용자가 merge할 때까지 대기. merge 완료되면 JIRA 스프린트 종료 후 다음 스프린트 작업을 즉시 시작한다.
 
 ### MEMORY.md 업데이트 (필수)
 - **작업 종료 시 반드시 `MEMORY.md`를 업데이트**한 뒤 커밋/종료
