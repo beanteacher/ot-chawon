@@ -130,3 +130,26 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 **UI/UX Figma Manifest 12건 (B&W 톤)**: design-system-init, components-hifi, auth-pages-hifi, error-pages-hifi, main-page-hifi, product-list-hifi, product-detail-hifi, fitting-input-hifi, fitting-result-hifi, cart-hifi, order-flow-hifi, products-fitting
 
 **신규**: uiux_designer/AGENTS.md (UI/UX 디자이너 에이전트 가이드)
+
+---
+
+## Sprint 3-1 (2026-03-27) — UI/UX 시안 + FE 보강
+
+### 완료 티켓 (5/5)
+
+| JIRA | 요약 | 담당 | 산출물 경로 |
+|------|------|------|------------|
+| SCRUM-73 | 상품 카드 컴포넌트 (리스트/그리드) | FE | src/components/product/ProductCard.tsx, src/app/(main)/products/page.tsx |
+| SCRUM-74 | 테이블 컴포넌트 (정렬, 페이지네이션) | UI/UX | uiux_designer/figma-manifests/table-hifi/ (4파일) |
+| SCRUM-75 | 검색 UI (검색바, 필터 패널) | UI/UX | uiux_designer/figma-manifests/search-ui-hifi/ (4파일) |
+| SCRUM-76 | 상품 목록/상세 페이지 구현 | FE | products/page.tsx, products/[id]/page.tsx, SizeGuide.tsx 신규 |
+| SCRUM-77 | 마이페이지 (프로필, 주문내역, 피팅이력) | UI/UX | uiux_designer/figma-manifests/mypage-hifi/ (4파일) |
+
+**커밋**: `f890616` (17파일, +2,858줄) on `develop`
+
+**UI/UX Figma Manifest 3건 추가 (B&W 톤)**: table-hifi, search-ui-hifi, mypage-hifi
+**FE 보강**: ProductCard variant(grid/list)/품절뱃지/3D뱃지, 무한스크롤(IntersectionObserver), SizeGuide 모달, 카테고리 탭 네비게이션
+
+### 다음 작업 (Sprint 3-2)
+- SCRUM-74, 75, 77 FE 구현 (시안 기반)
+- SCRUM-37 "FE: 상품 목록/상세/검색 페이지 (SSR)" — 부분 완료 (SSR 미구현), 상태 확인 필요
