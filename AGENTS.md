@@ -30,6 +30,10 @@
 - push 전 반드시 사용자에게 대상 브랜치·커밋 수·변경 파일·실행 명령어를 보고하고 허가를 받는다.
 - `main` 브랜치 직접 push 절대 금지 — PR을 통해 병합.
 
+### JIRA 운영 규칙
+- JIRA 관련 작업 시 `ot-chawon-project_manager/commands/jira-ops.md` 규칙 참조 필수
+- 핵심: description에 `\n` 리터럴 금지 → `## 섹션` 마크다운 구조, comment 파라미터 사용 금지
+
 ### 커밋 메시지 컨벤션
 - `<type>: <한글 또는 영어 설명>` (scope 표기 금지)
 - type: feat / fix / docs / style / refactor / test / chore / perf
