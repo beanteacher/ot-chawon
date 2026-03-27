@@ -152,9 +152,9 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 
 ---
 
-## Sprint 3-2 (2026-03-27) — 시안 기반 FE 구현 + SSR 적용
+## Sprint 3-2 (2026-03-27) — 시안 기반 FE 구현 + SSR 적용 + BE API
 
-### 완료 티켓 (5/5)
+### 완료 티켓 (7/7)
 
 | JIRA | 요약 | 담당 | 산출물 경로 |
 |------|------|------|------------|
@@ -163,16 +163,24 @@ Sprint 2를 5일 단위 데일리 스프린트로 분할 운영. BE+FE+UI/UX 혼
 | SCRUM-83 | 마이페이지 FE 구현 | FE | src/app/(main)/mypage/, src/components/mypage/ (6파일) |
 | SCRUM-84 | 상품/검색 SSR 적용 | FE | products/page.tsx, ProductListClient.tsx, [id]/page.tsx, ProductDetailClient.tsx, search/SearchClient.tsx |
 | SCRUM-37 | 상품 목록/상세/검색 SSR (잔여) | FE | products/, search/ SSR 전환 완료 |
+| SCRUM-35 | 상품 CRUD API | BE | product-service/ (Entity 4, Repo 4, DTO 7, Service 4, Controller 2, Exception 2, Test 2) |
+| SCRUM-36 | 브랜드 CRUD API | BE | brand-service/ (Entity 5, Repo 3, DTO 6, Service 4, Controller 2, Exception 2, FeignClient 2, Test 2) |
 
-**테스트**: Table 22/22, SearchBar 11/11, MyPage 9/9 통과
+**커밋**: `f465042` (FE 31파일, +3,627줄), `e7c1565` (BE 54파일, +2,167줄) on `develop`
+
+**FE 테스트**: Table 22/22, SearchBar 11/11, MyPage 9/9 통과
+**BE 테스트**: ProductService 5/5, ProductController 6/6, BrandService 5/5, BrandController 5/5 통과
 
 **주요 구현 내용**:
 - **테이블**: 제네릭 Table<T> 컴포넌트(정렬/빈 상태/hover), Pagination(말줄임/페이지크기 선택)
 - **검색**: SearchBar(자동완성/debounce), FilterPanel(카테고리/가격/브랜드/사이즈 4열), ActiveFilterChips, NoSearchResult, RecentKeywords(localStorage), PopularKeywords(순위+트렌드)
 - **마이페이지**: 탭 네비게이션(hash), ProfileSection(편집 모달), OrderHistory(상태뱃지 5종), FittingGallery(그리드), AddressManagement(CRUD)
 - **SSR**: products/page.tsx + [id]/page.tsx + search/page.tsx Server Component 전환, generateMetadata(OG), Suspense boundary, 클라이언트 분리(ProductListClient, ProductDetailClient, SearchClient)
+- **상품 API**: POST/GET/PUT/DELETE /api/products + 카테고리/브랜드 필터/키워드 검색 + 페이지네이션 + Soft Delete
+- **브랜드 API**: POST/GET/PUT /api/brands + 어드민 초대/관리(OWNER/ADMIN) + FeignClient(product-service)
 
 ### 다음 작업 (Sprint 4)
 - SCRUM-78~80 UI/UX 시안 (장바구니, 주문/결제, 주문 내역)
-- BE: 상품 CRUD API, 장바구니 API, 주문/결제 API
+- BE: 장바구니 API, 주문/결제 API
 - FE: 장바구니/주문 플로우 FE 구현 (시안 기반)
+- Gateway 라우팅: product-service(8082), brand-service(8086) 추가
