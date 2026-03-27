@@ -197,4 +197,3 @@ function Table<T extends object>({
 }
 
 export { Table };
-export type { TableProps };
