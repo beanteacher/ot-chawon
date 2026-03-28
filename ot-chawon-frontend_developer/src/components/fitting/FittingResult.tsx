@@ -56,7 +56,7 @@ export function FittingResult({
   productName = '레귤러 핏 데님 재킷',
   productImage,
   fitScore = 94,
-  onAddToCart,
+  onAddToCart: _onAddToCart,
 }: FittingResultProps) {
   const [activeView, setActiveView] = useState<ViewAngle>('front');
   const [zoom, setZoom] = useState(1);
