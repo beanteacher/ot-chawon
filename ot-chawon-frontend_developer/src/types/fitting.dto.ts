@@ -29,4 +29,38 @@ export namespace FittingDto {
     betas: number[];
     pose: number[];
   }
+
+  // Sprint 7 — AI 피팅 결과 + 사이즈 추천 UI
+  export interface CreateRequest {
+    userId: string;
+    itemId: string;
+    bodyMeasurement: Record<string, number>;
+    renderOptions?: {
+      angles?: number[];
+      resolution?: string;
+    };
+  }
+
+  export interface Response {
+    id: number;
+    userId: string;
+    itemId: string;
+    status: 'QUEUED' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+    createdAt: string;
+    completedAt?: string;
+  }
+
+  export interface FittingResult {
+    fittedGlbUrl: string;
+    renders: Record<string, string>;
+    sizeRecommendation: SizeRecommendation;
+    elapsedMs: number;
+  }
+
+  export interface SizeRecommendation {
+    recommended_size: string;
+    confidence: number;
+    alternatives: string[];
+    reason: string[];
+  }
 }

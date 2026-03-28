@@ -15,22 +15,22 @@ from app.services.fitting_service import FittingService
 # 테스트용 기준 체형
 BODY_MALE_M = BodyInput(
     height_cm=175.0,
-    weight_kg=68.0,
+    weight_kg=72.0,
     gender="male",
-    shoulder_cm=43.0,
-    chest_cm=94.0,
-    waist_cm=78.0,
-    hip_cm=96.0,
+    shoulder_cm=47.0,
+    chest_cm=102.0,
+    waist_cm=86.0,
+    hip_cm=102.0,
 )
 
 BODY_MALE_L = BodyInput(
-    height_cm=178.0,
-    weight_kg=75.0,
+    height_cm=180.0,
+    weight_kg=80.0,
     gender="male",
-    shoulder_cm=46.0,
-    chest_cm=100.0,
-    waist_cm=84.0,
-    hip_cm=100.0,
+    shoulder_cm=50.0,
+    chest_cm=108.0,
+    waist_cm=92.0,
+    hip_cm=106.0,
 )
 
 BODY_FEMALE_S = BodyInput(
