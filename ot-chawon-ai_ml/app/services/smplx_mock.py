@@ -46,7 +46,6 @@ class MockSMPLXAdapter(SMPLXAdapter):
 
         # ── 상체 (torso) ──────────────────────────────────────────────────────
         torso_h = height_m * self._TORSO_RATIO
-        torso_z = height_m * 0.53 + torso_h / 2
         torso = capsule(radius=torso_r, height=torso_h)
         torso.apply_translation([0, 0, height_m * 0.53])
         meshes.append(torso)

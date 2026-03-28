@@ -13,8 +13,8 @@ from app.schemas.body import BodyInput
 REGION_Y_BOUNDS = {
     "shoulder": (0.75, 1.0),   # 어깨 ~ 머리
     "chest": (0.55, 0.75),     # 가슴 영역
-    "waist": (0.40, 0.55),     # 허리 영역
-    "hip": (0.25, 0.40),       # 엉덩이 영역
+    "waist": (0.40, 0.55),  # 허리 영역
+    "hip": (0.25, 0.40),  # 엉덩이 영역
     "upper_arm": (0.60, 0.80), # 상완 (XZ 오프셋이 큰 경우)
     "lower_body": (0.0, 0.25), # 다리 영역
 }
