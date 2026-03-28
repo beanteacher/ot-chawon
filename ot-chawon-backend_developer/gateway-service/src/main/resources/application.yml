@@ -80,6 +80,13 @@ spring:
         - id: fitting-service
           uri: http://localhost:8085
           predicates:
+            - Path=/api/v1/fittings/**
+          filters:
+            - StripPrefix=0
+
+        - id: fitting-service-legacy
+          uri: http://localhost:8085
+          predicates:
             - Path=/api/v1/fitting/**
           filters:
             - StripPrefix=0
