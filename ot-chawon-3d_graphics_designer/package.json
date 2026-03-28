@@ -1,0 +1,15 @@
+{
+  "name": "ot-chawon-3d-pipeline",
+  "version": "1.0.0",
+  "description": "옷차원 3D GLB 에셋 생성 파이프라인",
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate_glb.mjs",
+    "validate": "bash scripts/validate_all.sh"
+  },
+  "dependencies": {
+    "@gltf-transform/core": "^4.0.0",
+    "@gltf-transform/extensions": "^4.0.0",
+    "@gltf-transform/functions": "^4.0.0"
+  }
+}

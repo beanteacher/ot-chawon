@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
@@ -10,6 +11,11 @@ import { SizeGuide } from '@/components/product/SizeGuide';
 import { ProductDto } from '@/types/product.dto';
 import { cartApi } from '@/services/cartApi';
 import { useToast } from '@/hooks/useToast';
+
+const ProductViewer3D = dynamic(
+  () => import('@/components/three/ProductViewer3D').then((m) => m.ProductViewer3D),
+  { ssr: false }
+);
 
 interface ProductDetailClientProps {
   product: ProductDto.Detail;
@@ -56,6 +62,12 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
   const { toast } = useToast();
   const [threeDOpen, setThreeDOpen] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [galleryTab, setGalleryTab] = useState<'image' | '3d'>('image');
+
+  const glbUrl =
+    product.hasThreeD && product.glbAssetKey
+      ? `${process.env.NEXT_PUBLIC_CDN_URL}/assets/clothing/${product.glbAssetKey}`
+      : null;
 
   const handleAddToCart = async (_size: string, _color: string, quantity: number) => {
     try {
@@ -97,12 +109,44 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* 갤러리 */}
           <div>
-            <ProductGallery
-              images={product.images}
-              productName={product.name}
-              hasThreeD={product.hasThreeD}
-              onThreeDView={() => setThreeDOpen(true)}
-            />
+            {/* 이미지 | 3D 탭 스위처 (hasThreeD일 때만 표시) */}
+            {product.hasThreeD && glbUrl && (
+              <div className="flex gap-1 mb-3 bg-oc-surface rounded-xl p-1 w-fit">
+                <button
+                  onClick={() => setGalleryTab('image')}
+                  className={cn(
+                    'px-4 py-1.5 text-sm font-medium rounded-lg transition-colors',
+                    galleryTab === 'image'
+                      ? 'bg-oc-black text-white'
+                      : 'text-oc-secondary hover:text-white'
+                  )}
+                >
+                  이미지
+                </button>
+                <button
+                  onClick={() => setGalleryTab('3d')}
+                  className={cn(
+                    'px-4 py-1.5 text-sm font-medium rounded-lg transition-colors',
+                    galleryTab === '3d'
+                      ? 'bg-oc-black text-oc-primary-400'
+                      : 'text-oc-secondary hover:text-white'
+                  )}
+                >
+                  3D
+                </button>
+              </div>
+            )}
+
+            {galleryTab === '3d' && glbUrl ? (
+              <ProductViewer3D glbUrl={glbUrl} className="w-full" />
+            ) : (
+              <ProductGallery
+                images={product.images}
+                productName={product.name}
+                hasThreeD={product.hasThreeD}
+                onThreeDView={() => setThreeDOpen(true)}
+              />
+            )}
           </div>
 
           {/* 상품 정보 */}
