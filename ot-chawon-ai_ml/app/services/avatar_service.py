@@ -1,6 +1,5 @@
 """AvatarService — 체형 파라미터에서 SMPL-X 아바타 GLB를 생성합니다."""
 import time
-import base64
 import numpy as np
 from app.schemas.body import BodyInput
 from app.services.smplx_adapter import SMPLXAdapter

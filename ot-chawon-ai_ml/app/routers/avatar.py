@@ -1,7 +1,6 @@
 """아바타 라우터 — 동기/비동기 아바타 생성 엔드포인트."""
 import uuid
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import Response
 from redis.asyncio import Redis
 from app.core.dependencies import get_redis
 from app.schemas.avatar import (
