@@ -13,7 +13,7 @@ jest.mock('@react-three/fiber', () => ({
 }));
 
 jest.mock('@react-three/drei', () => ({
-  OrbitControls: React.forwardRef((_props: Record<string, unknown>, _ref: React.Ref<unknown>) => null),
+  OrbitControls: React.forwardRef(function OrbitControlsMock(_props: Record<string, unknown>, _ref: React.Ref<unknown>) { return null; }),
   Environment: () => null,
   useGLTF: jest.fn(() => ({ scene: { scale: { setScalar: jest.fn() }, position: { set: jest.fn() } } })),
   useProgress: jest.fn(() => ({ progress: 100 })),

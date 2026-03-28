@@ -39,9 +39,9 @@ describe('GLBModel', () => {
   const testUrl = 'https://cdn.example.com/assets/clothing/shirt.glb';
 
   it('useGLTF가 올바른 URL로 호출된다', () => {
-    const { useGLTF } = require('@react-three/drei');
+    const drei = jest.requireMock('@react-three/drei') as { useGLTF: jest.Mock };
     render(<GLBModel url={testUrl} />);
-    expect(useGLTF).toHaveBeenCalledWith(testUrl, true);
+    expect(drei.useGLTF).toHaveBeenCalledWith(testUrl, true);
   });
 
   it('scene이 반환될 때 스케일이 조정된다', () => {
