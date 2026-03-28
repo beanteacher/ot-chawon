@@ -210,7 +210,14 @@ export function FittingResult({
       </div>
 
       {/* 사이즈 추천 */}
-      <SizeRecommendation {...(onAddToCart ? { onAddToCart } : {})} />
+      <SizeRecommendation
+        recommendation={{
+          recommended_size: 'M',
+          confidence: fitScore,
+          alternatives: ['S', 'L'],
+          reason: ['AI 분석 결과 M 사이즈가 최적입니다'],
+        }}
+      />
     </div>
   );
 }

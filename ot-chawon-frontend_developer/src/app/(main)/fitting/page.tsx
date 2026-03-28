@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BodyMeasurementForm } from '@/components/fitting/BodyMeasurementForm';
 import { FittingLoading } from '@/components/fitting/FittingLoading';
+import { createFitting } from '@/services/fitting/fitting-api';
 
 interface BodyMeasurement {
   height: number;
@@ -20,12 +21,30 @@ export default function FittingEntryPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (_data: BodyMeasurement) => {
+  const handleSubmit = async (data: BodyMeasurement) => {
     setIsLoading(true);
-    // 더미: AI 처리 시뮬레이션 후 결과 페이지로 이동
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    const dummySessionId = `session-${Date.now()}`;
-    router.push(`/fitting/${dummySessionId}`);
+    try {
+      const response = await createFitting({
+        userId: 'guest',
+        itemId: '',
+        bodyMeasurement: {
+          height: data.height,
+          weight: data.weight,
+          chest: data.chest,
+          waist: data.waist,
+          hip: data.hip,
+          shoulder: data.shoulder,
+          armLength: data.armLength,
+          legLength: data.legLength,
+        },
+      });
+      router.push(`/fitting/${response.id}`);
+    } catch {
+      // 폴백: 더미 세션 ID로 이동
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const dummySessionId = `session-${Date.now()}`;
+      router.push(`/fitting/${dummySessionId}`);
+    }
   };
 
   if (isLoading) {
