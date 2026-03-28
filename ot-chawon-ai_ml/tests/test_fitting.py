@@ -17,20 +17,20 @@ BODY_MALE_M = BodyInput(
     height_cm=175.0,
     weight_kg=72.0,
     gender="male",
-    shoulder_cm=46.0,
-    chest_cm=98.0,
-    waist_cm=82.0,
-    hip_cm=98.0,
+    shoulder_cm=47.0,
+    chest_cm=102.0,
+    waist_cm=86.0,
+    hip_cm=102.0,
 )
 
 BODY_MALE_L = BodyInput(
     height_cm=180.0,
     weight_kg=80.0,
     gender="male",
-    shoulder_cm=49.0,
-    chest_cm=104.0,
-    waist_cm=88.0,
-    hip_cm=102.0,
+    shoulder_cm=50.0,
+    chest_cm=108.0,
+    waist_cm=92.0,
+    hip_cm=106.0,
 )
 
 BODY_FEMALE_S = BodyInput(
