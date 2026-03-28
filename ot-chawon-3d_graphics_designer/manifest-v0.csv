@@ -1,4 +1,7 @@
-asset_id,filename,category,item_type,color,lod,polygon_count,file_size_bytes,texture_maps,draco_compressed,status
+asset_id,filename,category,item_type,color,lod,polygon_count,file_size_bytes,texture_maps,draco_compressed,rig_type,status
 musinsa_top_tshirt_black_lod0,MUSINSA_TOP_TSHIRT_BLACK_LOD0.glb,TOP,TSHIRT,BLACK,LOD0,24,1940,Albedo,false,ready
 musinsa_bottom_pants_navy_lod0,MUSINSA_BOTTOM_PANTS_NAVY_LOD0.glb,BOTTOM,PANTS,NAVY,LOD0,24,1908,Albedo,false,ready
 musinsa_outer_coat_beige_lod0,MUSINSA_OUTER_COAT_BEIGE_LOD0.glb,OUTER,COAT,BEIGE,LOD0,64,2368,Albedo,false,ready
+musinsa_top_tshirt_black_rigged,MUSINSA_TOP_TSHIRT_BLACK_RIGGED.glb,TOP,TSHIRT,BLACK,LOD0,12,6124,Albedo,false,SMPL-24,ready
+musinsa_bottom_pants_navy_rigged,MUSINSA_BOTTOM_PANTS_NAVY_RIGGED.glb,BOTTOM,PANTS,NAVY,LOD0,12,6096,Albedo,false,SMPL-24,ready
+musinsa_outer_coat_beige_rigged,MUSINSA_OUTER_COAT_BEIGE_RIGGED.glb,OUTER,COAT,BEIGE,LOD0,32,6756,Albedo,false,SMPL-24,ready
