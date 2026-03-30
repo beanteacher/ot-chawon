@@ -9,11 +9,11 @@ services:
 
   user-service:
     build:
-      context: ../ot-chawon-backend_developer/user-service
+      context: ../ot-chawon-backend_developer/backend-java/user-service
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ../ot-chawon-backend_developer/user-service:/app
+      - ../ot-chawon-backend_developer/backend-java/user-service:/app
       - ~/.gradle:/root/.gradle
     environment:
       SPRING_PROFILES_ACTIVE: local
@@ -21,11 +21,11 @@ services:
 
   product-service:
     build:
-      context: ../ot-chawon-backend_developer/product-service
+      context: ../ot-chawon-backend_developer/backend-java/product-service
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ../ot-chawon-backend_developer/product-service:/app
+      - ../ot-chawon-backend_developer/backend-java/product-service:/app
       - ~/.gradle:/root/.gradle
     environment:
       SPRING_PROFILES_ACTIVE: local
@@ -33,11 +33,11 @@ services:
 
   order-service:
     build:
-      context: ../ot-chawon-backend_developer/order-service
+      context: ../ot-chawon-backend_developer/backend-java/order-service
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ../ot-chawon-backend_developer/order-service:/app
+      - ../ot-chawon-backend_developer/backend-java/order-service:/app
       - ~/.gradle:/root/.gradle
     environment:
       SPRING_PROFILES_ACTIVE: local
@@ -45,17 +45,29 @@ services:
 
   payment-service:
     build:
-      context: ../ot-chawon-backend_developer/payment-service
+      context: ../ot-chawon-backend_developer/backend-java/payment-service
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ../ot-chawon-backend_developer/payment-service:/app
+      - ../ot-chawon-backend_developer/backend-java/payment-service:/app
       - ~/.gradle:/root/.gradle
     environment:
       SPRING_PROFILES_ACTIVE: local
       SPRING_DEVTOOLS_RESTART_ENABLED: "true"
 
   fitting-service:
+    build:
+      context: ../ot-chawon-backend_developer/backend-java/fitting-service
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ../ot-chawon-backend_developer/backend-java/fitting-service:/app
+      - ~/.gradle:/root/.gradle
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+
+  ai-server:
     build:
       context: ../ot-chawon-ai_ml
       dockerfile: Dockerfile
@@ -68,11 +80,11 @@ services:
 
   brand-service:
     build:
-      context: ../ot-chawon-backend_developer/brand-service
+      context: ../ot-chawon-backend_developer/backend-java/brand-service
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ../ot-chawon-backend_developer/brand-service:/app
+      - ../ot-chawon-backend_developer/backend-java/brand-service:/app
       - ~/.gradle:/root/.gradle
     environment:
       SPRING_PROFILES_ACTIVE: local
@@ -80,11 +92,11 @@ services:
 
   api-gateway:
     build:
-      context: ../ot-chawon-backend_developer/api-gateway
+      context: ../ot-chawon-backend_developer/gateway-service
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ../ot-chawon-backend_developer/api-gateway:/app
+      - ../ot-chawon-backend_developer/gateway-service:/app
       - ~/.gradle:/root/.gradle
     environment:
       SPRING_PROFILES_ACTIVE: local

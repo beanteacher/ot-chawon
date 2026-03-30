@@ -57,6 +57,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=ruok,srvr,stat"
       TZ: ${TZ:-Asia/Seoul}
     ports:
       - "2181:2181"
@@ -65,7 +66,7 @@ services:
     networks:
       - ot-network
     healthcheck:
-      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      test: ["CMD-SHELL", "echo srvr | nc localhost 2181 | grep Mode"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -106,7 +107,7 @@ services:
   user-service:
     image: ot-chawon/user-service:${GIT_SHA:-dev}
     build:
-      context: ../ot-chawon-backend_developer/user-service
+      context: ../ot-chawon-backend_developer/backend-java/user-service
       dockerfile: Dockerfile
     container_name: otc-user-service
     environment:
@@ -117,8 +118,12 @@ services:
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
       SPRING_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       JWT_SECRET: ${JWT_SECRET}
+      OTC_JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-3600000}
       TZ: ${TZ:-Asia/Seoul}
     ports:
@@ -137,12 +142,12 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 60s
+      start_period: 180s
 
   product-service:
     image: ot-chawon/product-service:${GIT_SHA:-dev}
     build:
-      context: ../ot-chawon-backend_developer/product-service
+      context: ../ot-chawon-backend_developer/backend-java/product-service
       dockerfile: Dockerfile
     container_name: otc-product-service
     environment:
@@ -172,12 +177,12 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 60s
+      start_period: 180s
 
   order-service:
     image: ot-chawon/order-service:${GIT_SHA:-dev}
     build:
-      context: ../ot-chawon-backend_developer/order-service
+      context: ../ot-chawon-backend_developer/backend-java/order-service
       dockerfile: Dockerfile
     container_name: otc-order-service
     environment:
@@ -207,12 +212,12 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 60s
+      start_period: 180s
 
   payment-service:
     image: ot-chawon/payment-service:${GIT_SHA:-dev}
     build:
-      context: ../ot-chawon-backend_developer/payment-service
+      context: ../ot-chawon-backend_developer/backend-java/payment-service
       dockerfile: Dockerfile
     container_name: otc-payment-service
     environment:
@@ -242,19 +247,25 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 60s
+      start_period: 180s
 
   fitting-service:
     image: ot-chawon/fitting-service:${GIT_SHA:-dev}
     build:
-      context: ../ot-chawon-ai_ml
+      context: ../ot-chawon-backend_developer/backend-java/fitting-service
       dockerfile: Dockerfile
     container_name: otc-fitting-service
     environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${FITTING_DB_NAME:-otc_fitting_db}
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/0
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-local}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${FITTING_DB_NAME:-otc_fitting_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       JWT_SECRET: ${JWT_SECRET}
+      AI_SERVER_URL: http://ai-server:8090
       TZ: ${TZ:-Asia/Seoul}
     ports:
       - "8085:8085"
@@ -268,16 +279,39 @@ services:
       kafka:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8085/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8085/actuator/health"]
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 60s
+      start_period: 180s
+
+  ai-server:
+    image: ot-chawon/ai-server:${GIT_SHA:-dev}
+    build:
+      context: ../ot-chawon-ai_ml
+      dockerfile: Dockerfile
+    container_name: otc-ai-server
+    environment:
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/0
+      TZ: ${TZ:-Asia/Seoul}
+    ports:
+      - "8090:8090"
+    networks:
+      - ot-network
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   brand-service:
     image: ot-chawon/brand-service:${GIT_SHA:-dev}
     build:
-      context: ../ot-chawon-backend_developer/brand-service
+      context: ../ot-chawon-backend_developer/backend-java/brand-service
       dockerfile: Dockerfile
     container_name: otc-brand-service
     environment:
@@ -307,7 +341,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 60s
+      start_period: 180s
 
   # ========================
   # API Gateway
@@ -315,7 +349,7 @@ services:
   api-gateway:
     image: ot-chawon/api-gateway:${GIT_SHA:-dev}
     build:
-      context: ../ot-chawon-backend_developer/api-gateway
+      context: ../ot-chawon-backend_developer/gateway-service
       dockerfile: Dockerfile
     container_name: otc-api-gateway
     environment:
@@ -330,6 +364,7 @@ services:
       PAYMENT_SERVICE_URL: http://payment-service:8084
       FITTING_SERVICE_URL: http://fitting-service:8085
       BRAND_SERVICE_URL: http://brand-service:8086
+      AI_SERVER_URL: http://ai-server:8090
       TZ: ${TZ:-Asia/Seoul}
     ports:
       - "8080:8080"
@@ -348,12 +383,14 @@ services:
         condition: service_healthy
       brand-service:
         condition: service_healthy
+      ai-server:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 60s
+      start_period: 180s
 
   # ========================
   # Frontend
