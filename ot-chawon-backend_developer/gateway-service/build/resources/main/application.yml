@@ -14,6 +14,13 @@ spring:
           filters:
             - StripPrefix=0
 
+        - id: user-service-auth-direct
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=0
+
         - id: user-service-users
           uri: http://localhost:8081
           predicates:
@@ -35,6 +42,27 @@ spring:
           filters:
             - StripPrefix=0
 
+        - id: order-service-direct
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - StripPrefix=0
+
+        - id: cart-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/carts/**
+          filters:
+            - StripPrefix=0
+
+        - id: cart-service-v1
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/carts/**
+          filters:
+            - StripPrefix=0
+
         - id: payment-service
           uri: http://localhost:8084
           predicates:
@@ -42,7 +70,21 @@ spring:
           filters:
             - StripPrefix=0
 
+        - id: payment-service-direct
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/payments/**
+          filters:
+            - StripPrefix=0
+
         - id: fitting-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/v1/fittings/**
+          filters:
+            - StripPrefix=0
+
+        - id: fitting-service-legacy
           uri: http://localhost:8085
           predicates:
             - Path=/api/v1/fitting/**
@@ -53,6 +95,13 @@ spring:
           uri: http://localhost:8086
           predicates:
             - Path=/api/v1/brands/**
+          filters:
+            - StripPrefix=0
+
+        - id: product-asset-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/assets/**,/api/v1/products/*/assets/**
           filters:
             - StripPrefix=0
 
