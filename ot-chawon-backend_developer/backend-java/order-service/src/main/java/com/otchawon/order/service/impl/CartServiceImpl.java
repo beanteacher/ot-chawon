@@ -1,9 +1,6 @@
 package com.otchawon.order.service.impl;
+import com.otchawon.order.dto.OrderDto;
 
-import com.otchawon.order.dto.request.AddCartItemRequest;
-import com.otchawon.order.dto.request.UpdateCartItemRequest;
-import com.otchawon.order.dto.response.CartItemResponse;
-import com.otchawon.order.dto.response.CartResponse;
 import com.otchawon.order.entity.Cart;
 import com.otchawon.order.entity.CartItem;
 import com.otchawon.order.exception.OrderException;
@@ -28,14 +25,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional(readOnly = true)
-    public CartResponse getCart(Long userId) {
+    public OrderDto.CartResponse getCart(Long userId) {
         Cart cart = getOrCreateCart(userId);
-        return toCartResponse(cart);
+        return toOrderDto.CartResponse(cart);
     }
 
     @Override
     @Transactional
-    public CartResponse addItem(Long userId, AddCartItemRequest request) {
+    public OrderDto.CartResponse addItem(Long userId, OrderDto.AddCartItemRequest request) {
         Cart cart = getOrCreateCart(userId);
 
         CartItem cartItem = CartItem.builder()
@@ -49,12 +46,12 @@ public class CartServiceImpl implements CartService {
         log.info("장바구니 아이템 추가: userId={}, productId={}", userId, request.getProductId());
 
         Cart updatedCart = cartRepository.findByUserId(userId).orElseThrow(OrderException::notFound);
-        return toCartResponse(updatedCart);
+        return toOrderDto.CartResponse(updatedCart);
     }
 
     @Override
     @Transactional
-    public CartResponse updateItemQuantity(Long userId, Long cartItemId, UpdateCartItemRequest request) {
+    public OrderDto.CartResponse updateItemQuantity(Long userId, Long cartItemId, OrderDto.UpdateCartItemRequest request) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(OrderException::cartItemNotFound);
 
@@ -62,7 +59,7 @@ public class CartServiceImpl implements CartService {
         log.info("장바구니 아이템 수량 수정: userId={}, cartItemId={}", userId, cartItemId);
 
         Cart cart = cartRepository.findByUserId(userId).orElseThrow(OrderException::notFound);
-        return toCartResponse(cart);
+        return toOrderDto.CartResponse(cart);
     }
 
     @Override
@@ -103,16 +100,16 @@ public class CartServiceImpl implements CartService {
                 });
     }
 
-    private CartResponse toCartResponse(Cart cart) {
-        List<CartItemResponse> items = cart.getCartItems().stream()
-                .map(CartItemResponse::from)
+    private OrderDto.CartResponse toOrderDto.CartResponse(Cart cart) {
+        List<OrderDto.CartItemResponse> items = cart.getCartItems().stream()
+                .map(OrderDto.CartItemResponse::from)
                 .collect(Collectors.toList());
 
         int totalPrice = cart.getCartItems().stream()
                 .mapToInt(item -> item.getQuantity())
                 .sum();
 
-        return CartResponse.builder()
+        return OrderDto.CartResponse.builder()
                 .cartId(cart.getId())
                 .items(items)
                 .totalPrice(totalPrice)

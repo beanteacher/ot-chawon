@@ -1,21 +1,17 @@
 package com.otchawon.product.service;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateProductRequest;
-import com.otchawon.product.dto.request.ProductSearchRequest;
-import com.otchawon.product.dto.request.UpdateProductRequest;
-import com.otchawon.product.dto.response.ProductListResponse;
-import com.otchawon.product.dto.response.ProductResponse;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
 
-    ProductResponse create(CreateProductRequest request);
+    ProductDto.ProductResponse create(ProductDto.CreateProductRequest request);
 
-    ProductResponse getById(Long id);
+    ProductDto.ProductResponse getById(Long id);
 
-    ProductListResponse search(ProductSearchRequest searchRequest, Pageable pageable);
+    ProductDto.ProductListResponse search(ProductDto.ProductSearchRequest searchRequest, Pageable pageable);
 
-    ProductResponse update(Long id, UpdateProductRequest request);
+    ProductDto.ProductResponse update(Long id, ProductDto.UpdateProductRequest request);
 
     void softDelete(Long id);
 }

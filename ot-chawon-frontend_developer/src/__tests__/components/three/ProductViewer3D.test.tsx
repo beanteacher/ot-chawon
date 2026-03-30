@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ProductViewer3D } from '@/components/three/ProductViewer3D';
+import { ProductViewer3D } from '@/components/three/product-viewer-3d';
 
 jest.mock('@react-three/fiber', () => ({
   Canvas: ({ children }: { children: React.ReactNode }) => (
@@ -19,15 +19,15 @@ jest.mock('@react-three/drei', () => ({
   useProgress: jest.fn(() => ({ progress: 100 })),
 }));
 
-jest.mock('@/components/three/GLBModel', () => ({
+jest.mock('@/components/three/glb-model', () => ({
   GLBModel: ({ url }: { url: string }) => <div data-testid="glb-model" data-url={url} />,
 }));
 
-jest.mock('@/components/three/ViewerLoading', () => ({
+jest.mock('@/components/three/viewer-loading', () => ({
   ViewerLoading: () => <div data-testid="viewer-loading" />,
 }));
 
-jest.mock('@/components/three/ViewerControls', () => ({
+jest.mock('@/components/three/viewer-controls', () => ({
   ViewerControls: ({
     autoRotate,
     onAutoRotateToggle,

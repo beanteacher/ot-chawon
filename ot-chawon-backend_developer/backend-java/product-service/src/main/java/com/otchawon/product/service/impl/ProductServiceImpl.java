@@ -1,12 +1,6 @@
 package com.otchawon.product.service.impl;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateProductRequest;
-import com.otchawon.product.dto.request.ProductSearchRequest;
-import com.otchawon.product.dto.request.UpdateProductRequest;
-import com.otchawon.product.dto.response.ProductAssetResponse;
-import com.otchawon.product.dto.response.ProductListResponse;
-import com.otchawon.product.dto.response.ProductOptionResponse;
-import com.otchawon.product.dto.response.ProductResponse;
 import com.otchawon.product.entity.Product;
 import com.otchawon.product.entity.ProductOption;
 import com.otchawon.product.exception.ProductException;
@@ -35,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductResponse create(CreateProductRequest request) {
+    public ProductDto.ProductResponse create(ProductDto.CreateProductRequest request) {
         Product product = Product.builder()
                 .name(request.getName())
                 .price(request.getPrice())
@@ -58,40 +52,40 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toList());
             productOptionRepository.saveAll(options);
 
-            List<ProductOptionResponse> optionResponses = options.stream()
-                    .map(ProductOptionResponse::from)
+            List<ProductDto.ProductOptionResponse> optionResponses = options.stream()
+                    .map(ProductDto.ProductOptionResponse::from)
                     .collect(Collectors.toList());
             log.info("상품 등록 완료: productId={}", saved.getId());
-            return ProductResponse.from(saved, optionResponses);
+            return ProductDto.ProductResponse.from(saved, optionResponses);
         }
 
         log.info("상품 등록 완료: productId={}", saved.getId());
-        return ProductResponse.from(saved);
+        return ProductDto.ProductResponse.from(saved);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ProductResponse getById(Long id) {
+    public ProductDto.ProductResponse getById(Long id) {
         Product product = productRepository.findById(id)
                 .filter(p -> !p.isDeleted())
                 .orElseThrow(ProductException::notFound);
 
-        List<ProductOptionResponse> options = productOptionRepository.findByProductId(id)
+        List<ProductDto.ProductOptionResponse> options = productOptionRepository.findByProductId(id)
                 .stream()
-                .map(ProductOptionResponse::from)
+                .map(ProductDto.ProductOptionResponse::from)
                 .collect(Collectors.toList());
 
-        List<ProductAssetResponse> assets = productAssetRepository.findAllByProductId(id)
+        List<ProductDto.ProductAssetResponse> assets = productAssetRepository.findAllByProductId(id)
                 .stream()
-                .map(ProductAssetResponse::from)
+                .map(ProductDto.ProductAssetResponse::from)
                 .collect(Collectors.toList());
 
-        return ProductResponse.from(product, options, assets);
+        return ProductDto.ProductResponse.from(product, options, assets);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ProductListResponse search(ProductSearchRequest searchRequest, Pageable pageable) {
+    public ProductDto.ProductListResponse search(ProductDto.ProductSearchRequest searchRequest, Pageable pageable) {
         Page<Product> page = productRepository.search(
                 searchRequest.getKeyword(),
                 searchRequest.getCategoryId(),
@@ -101,11 +95,11 @@ public class ProductServiceImpl implements ProductService {
                 searchRequest.getStatus(),
                 pageable);
 
-        List<ProductResponse> products = page.getContent().stream()
-                .map(ProductResponse::from)
+        List<ProductDto.ProductResponse> products = page.getContent().stream()
+                .map(ProductDto.ProductResponse::from)
                 .collect(Collectors.toList());
 
-        return ProductListResponse.builder()
+        return ProductDto.ProductListResponse.builder()
                 .products(products)
                 .totalPages(page.getTotalPages())
                 .totalElements(page.getTotalElements())
@@ -115,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductResponse update(Long id, UpdateProductRequest request) {
+    public ProductDto.ProductResponse update(Long id, ProductDto.UpdateProductRequest request) {
         Product product = productRepository.findById(id)
                 .filter(p -> !p.isDeleted())
                 .orElseThrow(ProductException::notFound);
@@ -128,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
                 request.getCategoryId());
 
         log.info("상품 수정 완료: productId={}", id);
-        return ProductResponse.from(product);
+        return ProductDto.ProductResponse.from(product);
     }
 
     @Override

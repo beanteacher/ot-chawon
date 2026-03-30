@@ -1,7 +1,6 @@
 package com.otchawon.brand.service.impl;
+import com.otchawon.brand.dto.BrandDto;
 
-import com.otchawon.brand.dto.request.AddBrandAdminRequest;
-import com.otchawon.brand.dto.response.BrandAdminResponse;
 import com.otchawon.brand.entity.BrandAdmin;
 import com.otchawon.brand.exception.BrandException;
 import com.otchawon.brand.repository.BrandAdminRepository;
@@ -26,7 +25,7 @@ public class BrandAdminServiceImpl implements BrandAdminService {
 
     @Override
     @Transactional
-    public BrandAdminResponse addAdmin(Long brandId, AddBrandAdminRequest request) {
+    public BrandDto.AdminResponse addAdmin(Long brandId, BrandDto.AddAdminRequest request) {
         if (!brandRepository.existsById(brandId)) {
             throw BrandException.notFound();
         }
@@ -43,18 +42,18 @@ public class BrandAdminServiceImpl implements BrandAdminService {
 
         BrandAdmin savedAdmin = brandAdminRepository.save(brandAdmin);
         log.info("BrandAdmin added: brandId={}, userId={}", brandId, request.getUserId());
-        return BrandAdminResponse.from(savedAdmin);
+        return BrandDto.AdminResponse.from(savedAdmin);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<BrandAdminResponse> getAdmins(Long brandId) {
+    public List<BrandDto.AdminResponse> getAdmins(Long brandId) {
         if (!brandRepository.existsById(brandId)) {
             throw BrandException.notFound();
         }
 
         return brandAdminRepository.findByBrandId(brandId).stream()
-                .map(BrandAdminResponse::from)
+                .map(BrandDto.AdminResponse::from)
                 .collect(Collectors.toList());
     }
 

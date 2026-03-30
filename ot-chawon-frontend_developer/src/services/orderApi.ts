@@ -1,7 +1,7 @@
 'use client';
 
 import { apiClient } from '@/lib/api/axios';
-import type { OrderDto } from '@/types/order.dto';
+import type { OrderDto } from '@/services/order/dto/order.dto';
 
 export const orderApi = {
   createOrder: async (req: OrderDto.Request): Promise<OrderDto.Response> => {

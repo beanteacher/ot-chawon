@@ -1,20 +1,16 @@
 package com.otchawon.user.service;
+import com.otchawon.user.dto.UserDto;
 
-import com.otchawon.user.dto.request.LoginRequest;
-import com.otchawon.user.dto.request.RefreshRequest;
-import com.otchawon.user.dto.request.SignupRequest;
-import com.otchawon.user.dto.response.TokenResponse;
-import com.otchawon.user.dto.response.UserResponse;
 
 public interface AuthService {
 
-    UserResponse signup(SignupRequest request);
+    UserDto.UserResponse signup(UserDto.SignupRequest request);
 
-    TokenResponse login(LoginRequest request);
+    UserDto.TokenResponse login(UserDto.LoginRequest request);
 
-    TokenResponse refresh(RefreshRequest request);
+    UserDto.TokenResponse refresh(UserDto.RefreshRequest request);
 
-    void logout(RefreshRequest request);
+    void logout(UserDto.RefreshRequest request);
 
-    UserResponse getProfile(Long userId);
+    UserDto.UserResponse getProfile(Long userId);
 }

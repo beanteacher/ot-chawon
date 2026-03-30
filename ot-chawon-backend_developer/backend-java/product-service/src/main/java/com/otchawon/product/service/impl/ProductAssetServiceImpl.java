@@ -1,8 +1,6 @@
 package com.otchawon.product.service.impl;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateProductAssetRequest;
-import com.otchawon.product.dto.request.UpdateProductAssetRequest;
-import com.otchawon.product.dto.response.ProductAssetResponse;
 import com.otchawon.product.entity.ProductAsset;
 import com.otchawon.product.exception.ProductException;
 import com.otchawon.product.repository.ProductAssetRepository;
@@ -28,24 +26,24 @@ public class ProductAssetServiceImpl implements ProductAssetService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductAssetResponse> getAssetsByProductId(Long productId) {
+    public List<ProductDto.ProductAssetResponse> getAssetsByProductId(Long productId) {
         return productAssetRepository.findAllByProductId(productId)
                 .stream()
-                .map(ProductAssetResponse::from)
+                .map(ProductDto.ProductAssetResponse::from)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ProductAssetResponse getAsset(Long assetId) {
+    public ProductDto.ProductAssetResponse getAsset(Long assetId) {
         ProductAsset asset = productAssetRepository.findById(assetId)
                 .orElseThrow(() -> new ProductException("에셋을 찾을 수 없습니다.", org.springframework.http.HttpStatus.NOT_FOUND));
-        return ProductAssetResponse.from(asset);
+        return ProductDto.ProductAssetResponse.from(asset);
     }
 
     @Override
     @Transactional
-    public ProductAssetResponse createAsset(CreateProductAssetRequest request) {
+    public ProductDto.ProductAssetResponse createAsset(ProductDto.CreateProductAssetRequest request) {
         String lodLevel = request.getLodLevel() != null ? request.getLodLevel() : "LOD0";
         String cdnUrl = buildCdnUrl(request.getProductId(), lodLevel);
 
@@ -53,12 +51,12 @@ public class ProductAssetServiceImpl implements ProductAssetService {
         ProductAsset saved = productAssetRepository.save(asset);
 
         log.info("에셋 생성 완료: assetId={}, productId={}", saved.getId(), saved.getProductId());
-        return ProductAssetResponse.from(saved);
+        return ProductDto.ProductAssetResponse.from(saved);
     }
 
     @Override
     @Transactional
-    public ProductAssetResponse updateAsset(Long assetId, UpdateProductAssetRequest request) {
+    public ProductDto.ProductAssetResponse updateAsset(Long assetId, ProductDto.UpdateProductAssetRequest request) {
         ProductAsset asset = productAssetRepository.findById(assetId)
                 .orElseThrow(() -> new ProductException("에셋을 찾을 수 없습니다.", org.springframework.http.HttpStatus.NOT_FOUND));
 
@@ -82,7 +80,7 @@ public class ProductAssetServiceImpl implements ProductAssetService {
         );
 
         log.info("에셋 수정 완료: assetId={}", assetId);
-        return ProductAssetResponse.from(asset);
+        return ProductDto.ProductAssetResponse.from(asset);
     }
 
     @Override

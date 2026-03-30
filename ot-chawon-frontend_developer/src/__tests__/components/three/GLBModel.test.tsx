@@ -33,7 +33,7 @@ jest.mock('three', () => ({
   Group: jest.fn(),
 }));
 
-import { GLBModel } from '@/components/three/GLBModel';
+import { GLBModel } from '@/components/three/glb-model';
 
 describe('GLBModel', () => {
   const testUrl = 'https://cdn.example.com/assets/clothing/shirt.glb';

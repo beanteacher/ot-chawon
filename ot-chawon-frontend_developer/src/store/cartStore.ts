@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { CartDto } from '@/types/cart.dto';
+import type { CartDto } from '@/services/cart/dto/cart.dto';
 
 interface CartStoreState {
   items: CartDto.Item[];

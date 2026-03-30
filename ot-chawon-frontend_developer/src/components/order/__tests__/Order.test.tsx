@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { OrderForm } from '../OrderForm';
-import { PaymentSelect } from '../PaymentSelect';
+import { OrderForm } from '../order-form';
+import { PaymentSelect } from '../payment-select';
 
 // UI 컴포넌트 mock
 jest.mock('@/components/ui', () => ({

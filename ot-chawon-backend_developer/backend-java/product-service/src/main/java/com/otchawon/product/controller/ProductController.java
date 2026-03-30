@@ -1,10 +1,6 @@
 package com.otchawon.product.controller;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateProductRequest;
-import com.otchawon.product.dto.request.ProductSearchRequest;
-import com.otchawon.product.dto.request.UpdateProductRequest;
-import com.otchawon.product.dto.response.ProductListResponse;
-import com.otchawon.product.dto.response.ProductResponse;
 import com.otchawon.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +18,13 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponse> create(@Valid @RequestBody CreateProductRequest request) {
-        ProductResponse response = productService.create(request);
+    public ResponseEntity<ProductDto.ProductResponse> create(@Valid @RequestBody ProductDto.CreateProductRequest request) {
+        ProductDto.ProductResponse response = productService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<ProductListResponse> list(
+    public ResponseEntity<ProductDto.ProductListResponse> list(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Long brandId,
@@ -37,7 +33,7 @@ public class ProductController {
             @RequestParam(required = false) String status,
             @PageableDefault(size = 20) Pageable pageable) {
 
-        ProductSearchRequest searchRequest = ProductSearchRequest.builder()
+        ProductDto.ProductSearchRequest searchRequest = ProductDto.ProductSearchRequest.builder()
                 .keyword(keyword)
                 .categoryId(categoryId)
                 .brandId(brandId)
@@ -46,21 +42,21 @@ public class ProductController {
                 .status(status)
                 .build();
 
-        ProductListResponse response = productService.search(searchRequest, pageable);
+        ProductDto.ProductListResponse response = productService.search(searchRequest, pageable);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getById(@PathVariable Long id) {
-        ProductResponse response = productService.getById(id);
+    public ResponseEntity<ProductDto.ProductResponse> getById(@PathVariable Long id) {
+        ProductDto.ProductResponse response = productService.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> update(
+    public ResponseEntity<ProductDto.ProductResponse> update(
             @PathVariable Long id,
-            @RequestBody UpdateProductRequest request) {
-        ProductResponse response = productService.update(id, request);
+            @RequestBody ProductDto.UpdateProductRequest request) {
+        ProductDto.ProductResponse response = productService.update(id, request);
         return ResponseEntity.ok(response);
     }
 

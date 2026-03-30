@@ -1,8 +1,6 @@
 package com.otchawon.order.controller;
+import com.otchawon.order.dto.OrderDto;
 
-import com.otchawon.order.dto.request.AddCartItemRequest;
-import com.otchawon.order.dto.request.UpdateCartItemRequest;
-import com.otchawon.order.dto.response.CartResponse;
 import com.otchawon.order.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,25 +17,25 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public ResponseEntity<CartResponse> getCart(@RequestHeader("X-User-Id") Long userId) {
-        CartResponse response = cartService.getCart(userId);
+    public ResponseEntity<OrderDto.CartResponse> getCart(@RequestHeader("X-User-Id") Long userId) {
+        OrderDto.CartResponse response = cartService.getCart(userId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/items")
-    public ResponseEntity<CartResponse> addItem(
+    public ResponseEntity<OrderDto.CartResponse> addItem(
             @RequestHeader("X-User-Id") Long userId,
-            @RequestBody @Valid AddCartItemRequest request) {
-        CartResponse response = cartService.addItem(userId, request);
+            @RequestBody @Valid OrderDto.AddCartItemRequest request) {
+        OrderDto.CartResponse response = cartService.addItem(userId, request);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/items/{cartItemId}")
-    public ResponseEntity<CartResponse> updateQuantity(
+    public ResponseEntity<OrderDto.CartResponse> updateQuantity(
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long cartItemId,
-            @RequestBody @Valid UpdateCartItemRequest request) {
-        CartResponse response = cartService.updateItemQuantity(userId, cartItemId, request);
+            @RequestBody @Valid OrderDto.UpdateCartItemRequest request) {
+        OrderDto.CartResponse response = cartService.updateItemQuantity(userId, cartItemId, request);
         return ResponseEntity.ok(response);
     }
 

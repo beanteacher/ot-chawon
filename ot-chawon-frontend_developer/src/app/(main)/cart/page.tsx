@@ -3,9 +3,9 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Checkbox, SkeletonCard } from '@/components/ui';
-import { CartItem } from '@/components/cart/CartItem';
-import { CartSummary } from '@/components/cart/CartSummary';
-import { ErrorFallback } from '@/components/error/ErrorFallback';
+import { CartItem } from '@/components/cart/cart-item';
+import { CartSummary } from '@/components/cart/cart-summary';
+import { ErrorFallback } from '@/components/error/error-fallback';
 import { useCart } from '@/hooks/useCart';
 
 export default function CartPage() {

@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { orderApi } from '@/services/orderApi';
-import type { OrderDto } from '@/types/order.dto';
+import type { OrderDto } from '@/services/order/dto/order.dto';
 
 export const ORDER_QUERY_KEY = ['orders'] as const;
 

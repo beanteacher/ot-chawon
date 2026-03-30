@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api/axios';
-import type { ProductDto } from '@/types/product.dto';
+import type { ProductDto } from '@/services/product/dto/product.dto';
 
 export function useProducts(page = 0, size = 20) {
   return useQuery<ProductDto.ListResponse>({

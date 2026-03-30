@@ -1,9 +1,7 @@
 package com.otchawon.order.controller;
+import com.otchawon.order.dto.OrderDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.order.dto.request.CreateOrderRequest;
-import com.otchawon.order.dto.response.OrderListResponse;
-import com.otchawon.order.dto.response.OrderResponse;
 import com.otchawon.order.entity.OrderStatus;
 import com.otchawon.order.exception.GlobalExceptionHandler;
 import com.otchawon.order.exception.OrderException;
@@ -41,7 +39,7 @@ class OrderControllerTest {
     @Test
     @DisplayName("POST /api/orders - 주문 생성 성공 (201)")
     void createOrder_성공() throws Exception {
-        OrderResponse response = OrderResponse.builder()
+        OrderDto.OrderResponse response = OrderDto.OrderResponse.builder()
                 .orderId(1L)
                 .userId(1L)
                 .status(OrderStatus.PENDING)
@@ -50,7 +48,7 @@ class OrderControllerTest {
                 .items(List.of())
                 .build();
 
-        given(orderService.createFromCart(eq(1L), any(CreateOrderRequest.class))).willReturn(response);
+        given(orderService.createFromCart(eq(1L), any(OrderDto.CreateOrderRequest.class))).willReturn(response);
 
         String body = "{\"cartItemIds\":[1,2],\"shippingAddress\":\"서울시 강남구\"}";
 
@@ -66,7 +64,7 @@ class OrderControllerTest {
     @Test
     @DisplayName("POST /api/orders - 장바구니 비어있음 400")
     void createOrder_장바구니없음_400() throws Exception {
-        given(orderService.createFromCart(eq(1L), any(CreateOrderRequest.class)))
+        given(orderService.createFromCart(eq(1L), any(OrderDto.CreateOrderRequest.class)))
                 .willThrow(OrderException.cartEmpty());
 
         String body = "{\"cartItemIds\":[1],\"shippingAddress\":\"서울시 강남구\"}";
@@ -81,7 +79,7 @@ class OrderControllerTest {
     @Test
     @DisplayName("GET /api/orders - 주문 목록 조회 성공 (200)")
     void getOrders_성공() throws Exception {
-        OrderListResponse response = OrderListResponse.builder()
+        OrderDto.OrderListResponse response = OrderDto.OrderListResponse.builder()
                 .orders(List.of())
                 .totalElements(0)
                 .totalPages(0)
@@ -99,7 +97,7 @@ class OrderControllerTest {
     @Test
     @DisplayName("GET /api/orders/{orderId} - 주문 단건 조회 성공 (200)")
     void getOrder_성공() throws Exception {
-        OrderResponse response = OrderResponse.builder()
+        OrderDto.OrderResponse response = OrderDto.OrderResponse.builder()
                 .orderId(1L)
                 .userId(1L)
                 .status(OrderStatus.PENDING)
@@ -129,7 +127,7 @@ class OrderControllerTest {
     @Test
     @DisplayName("PUT /api/orders/{orderId}/cancel - 주문 취소 성공 (200)")
     void cancelOrder_성공() throws Exception {
-        OrderResponse response = OrderResponse.builder()
+        OrderDto.OrderResponse response = OrderDto.OrderResponse.builder()
                 .orderId(1L)
                 .userId(1L)
                 .status(OrderStatus.CANCELLED)

@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
-import { HeroBanner } from '@/components/home/HeroBanner';
-import { CategoryNav } from '@/components/home/CategoryNav';
-import { ProductGrid } from '@/components/home/ProductGrid';
-import { SkeletonCard } from '@/components/ui/SkeletonCard';
+import { HeroBanner } from '@/components/home/hero-banner';
+import { CategoryNav } from '@/components/home/category-nav';
+import { ProductGrid } from '@/components/home/product-grid';
+import { SkeletonCard } from '@/components/ui/skeleton-card';
 
 function ProductGridSkeleton() {
   return (

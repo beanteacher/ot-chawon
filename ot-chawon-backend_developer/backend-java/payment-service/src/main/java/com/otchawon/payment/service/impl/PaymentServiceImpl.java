@@ -1,9 +1,6 @@
 package com.otchawon.payment.service.impl;
+import com.otchawon.payment.dto.PaymentDto;
 
-import com.otchawon.payment.dto.request.PaymentRequest;
-import com.otchawon.payment.dto.request.RefundRequest;
-import com.otchawon.payment.dto.response.PaymentResponse;
-import com.otchawon.payment.dto.response.RefundResponse;
 import com.otchawon.payment.entity.Payment;
 import com.otchawon.payment.entity.PaymentStatus;
 import com.otchawon.payment.entity.Refund;
@@ -30,7 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public PaymentResponse requestPayment(Long userId, PaymentRequest request) {
+    public PaymentDto.PaymentResponse requestPayment(Long userId, PaymentDto.PaymentRequest request) {
         paymentRepository.findByOrderId(request.getOrderId()).ifPresent(p -> {
             if (p.getStatus() == PaymentStatus.COMPLETED) {
                 throw PaymentException.alreadyPaid();
@@ -56,12 +53,12 @@ public class PaymentServiceImpl implements PaymentService {
             throw PaymentException.paymentFailed(result.getMessage());
         }
 
-        return PaymentResponse.from(saved);
+        return PaymentDto.PaymentResponse.from(saved);
     }
 
     @Override
     @Transactional
-    public PaymentResponse confirmPayment(Long userId, Long paymentId) {
+    public PaymentDto.PaymentResponse confirmPayment(Long userId, Long paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
                 .filter(p -> p.getUserId().equals(userId))
                 .orElseThrow(PaymentException::notFound);
@@ -73,32 +70,32 @@ public class PaymentServiceImpl implements PaymentService {
         payment.complete(payment.getPgTransactionId());
         log.info("결제 확인 완료: userId={}, paymentId={}", userId, paymentId);
 
-        return PaymentResponse.from(payment);
+        return PaymentDto.PaymentResponse.from(payment);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public PaymentResponse getPayment(Long userId, Long paymentId) {
+    public PaymentDto.PaymentResponse getPayment(Long userId, Long paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
                 .filter(p -> p.getUserId().equals(userId))
                 .orElseThrow(PaymentException::notFound);
 
-        return PaymentResponse.from(payment);
+        return PaymentDto.PaymentResponse.from(payment);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public PaymentResponse getPaymentByOrderId(Long userId, Long orderId) {
+    public PaymentDto.PaymentResponse getPaymentByOrderId(Long userId, Long orderId) {
         Payment payment = paymentRepository.findByOrderId(orderId)
                 .filter(p -> p.getUserId().equals(userId))
                 .orElseThrow(PaymentException::notFound);
 
-        return PaymentResponse.from(payment);
+        return PaymentDto.PaymentResponse.from(payment);
     }
 
     @Override
     @Transactional
-    public RefundResponse refundPayment(Long userId, Long paymentId, RefundRequest request) {
+    public PaymentDto.RefundResponse refundPayment(Long userId, Long paymentId, PaymentDto.RefundRequest request) {
         Payment payment = paymentRepository.findById(paymentId)
                 .filter(p -> p.getUserId().equals(userId))
                 .orElseThrow(PaymentException::notFound);
@@ -128,6 +125,6 @@ public class PaymentServiceImpl implements PaymentService {
             throw PaymentException.refundFailed(result.getMessage());
         }
 
-        return RefundResponse.from(savedRefund);
+        return PaymentDto.RefundResponse.from(savedRefund);
     }
 }

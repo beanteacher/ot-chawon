@@ -1,17 +1,14 @@
 package com.otchawon.brand.service;
+import com.otchawon.brand.dto.BrandDto;
 
-import com.otchawon.brand.dto.request.CreateBrandRequest;
-import com.otchawon.brand.dto.request.UpdateBrandRequest;
-import com.otchawon.brand.dto.response.BrandListResponse;
-import com.otchawon.brand.dto.response.BrandResponse;
 
 public interface BrandService {
 
-    BrandResponse create(CreateBrandRequest request);
+    BrandDto.Response create(BrandDto.CreateRequest request);
 
-    BrandResponse getById(Long id);
+    BrandDto.Response getById(Long id);
 
-    BrandListResponse getAll();
+    BrandDto.ListResponse getAll();
 
-    BrandResponse update(Long id, UpdateBrandRequest request);
+    BrandDto.Response update(Long id, BrandDto.UpdateRequest request);
 }

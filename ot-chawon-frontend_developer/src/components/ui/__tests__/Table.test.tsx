@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Table } from '../Table';
-import type { Column } from '../Table';
+import { Table } from '../table';
+import type { Column } from '../table';
 
 interface User {
   id: number;

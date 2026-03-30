@@ -1,9 +1,6 @@
 package com.otchawon.payment.controller;
+import com.otchawon.payment.dto.PaymentDto;
 
-import com.otchawon.payment.dto.request.PaymentRequest;
-import com.otchawon.payment.dto.request.RefundRequest;
-import com.otchawon.payment.dto.response.PaymentResponse;
-import com.otchawon.payment.dto.response.RefundResponse;
 import com.otchawon.payment.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,43 +16,43 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<PaymentResponse> requestPayment(
+    public ResponseEntity<PaymentDto.PaymentResponse> requestPayment(
             @RequestHeader("X-User-Id") Long userId,
-            @RequestBody @Valid PaymentRequest request) {
-        PaymentResponse response = paymentService.requestPayment(userId, request);
+            @RequestBody @Valid PaymentDto.PaymentRequest request) {
+        PaymentDto.PaymentResponse response = paymentService.requestPayment(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/{paymentId}/confirm")
-    public ResponseEntity<PaymentResponse> confirmPayment(
+    public ResponseEntity<PaymentDto.PaymentResponse> confirmPayment(
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long paymentId) {
-        PaymentResponse response = paymentService.confirmPayment(userId, paymentId);
+        PaymentDto.PaymentResponse response = paymentService.confirmPayment(userId, paymentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{paymentId}")
-    public ResponseEntity<PaymentResponse> getPayment(
+    public ResponseEntity<PaymentDto.PaymentResponse> getPayment(
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long paymentId) {
-        PaymentResponse response = paymentService.getPayment(userId, paymentId);
+        PaymentDto.PaymentResponse response = paymentService.getPayment(userId, paymentId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/order/{orderId}")
-    public ResponseEntity<PaymentResponse> getPaymentByOrderId(
+    public ResponseEntity<PaymentDto.PaymentResponse> getPaymentByOrderId(
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long orderId) {
-        PaymentResponse response = paymentService.getPaymentByOrderId(userId, orderId);
+        PaymentDto.PaymentResponse response = paymentService.getPaymentByOrderId(userId, orderId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{paymentId}/refund")
-    public ResponseEntity<RefundResponse> refundPayment(
+    public ResponseEntity<PaymentDto.RefundResponse> refundPayment(
             @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long paymentId,
-            @RequestBody RefundRequest request) {
-        RefundResponse response = paymentService.refundPayment(userId, paymentId, request);
+            @RequestBody PaymentDto.RefundRequest request) {
+        PaymentDto.RefundResponse response = paymentService.refundPayment(userId, paymentId, request);
         return ResponseEntity.ok(response);
     }
 }

@@ -1,9 +1,7 @@
 package com.otchawon.product.controller;
+import com.otchawon.product.dto.ProductDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.product.dto.request.CreateProductRequest;
-import com.otchawon.product.dto.response.ProductListResponse;
-import com.otchawon.product.dto.response.ProductResponse;
 import com.otchawon.product.exception.GlobalExceptionHandler;
 import com.otchawon.product.exception.ProductException;
 import com.otchawon.product.service.ProductService;
@@ -40,14 +38,14 @@ class ProductControllerTest {
     @Test
     @DisplayName("POST /api/products - 상품 등록 성공 (201)")
     void create_success() throws Exception {
-        CreateProductRequest request = CreateProductRequest.builder()
+        ProductDto.CreateProductRequest request = ProductDto.CreateProductRequest.builder()
                 .name("테스트 상품")
                 .price(10000)
                 .categoryId(1L)
                 .brandId(1L)
                 .build();
 
-        ProductResponse response = ProductResponse.builder()
+        ProductDto.ProductResponse response = ProductDto.ProductResponse.builder()
                 .id(1L)
                 .name("테스트 상품")
                 .price(10000)
@@ -69,7 +67,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("POST /api/products - 필수 필드 누락 시 400")
     void create_validationFail() throws Exception {
-        CreateProductRequest request = CreateProductRequest.builder()
+        ProductDto.CreateProductRequest request = ProductDto.CreateProductRequest.builder()
                 .price(10000)
                 .build();
 
@@ -82,7 +80,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("GET /api/products/{id} - 상품 조회 성공 (200)")
     void getById_success() throws Exception {
-        ProductResponse response = ProductResponse.builder()
+        ProductDto.ProductResponse response = ProductDto.ProductResponse.builder()
                 .id(1L)
                 .name("테스트 상품")
                 .price(10000)
@@ -108,7 +106,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("GET /api/products - 상품 목록 조회 성공")
     void list_success() throws Exception {
-        ProductListResponse response = ProductListResponse.builder()
+        ProductDto.ProductListResponse response = ProductDto.ProductListResponse.builder()
                 .products(List.of())
                 .totalPages(0)
                 .totalElements(0)

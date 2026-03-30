@@ -1,9 +1,7 @@
 package com.otchawon.fitting.controller;
+import com.otchawon.fitting.dto.FittingDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.fitting.dto.request.CreateFittingRequest;
-import com.otchawon.fitting.dto.response.FittingResponse;
-import com.otchawon.fitting.dto.response.FittingResultResponse;
 import com.otchawon.fitting.entity.FittingStatus;
 import com.otchawon.fitting.exception.FittingException;
 import com.otchawon.fitting.exception.GlobalExceptionHandler;
@@ -45,7 +43,7 @@ class FittingControllerTest {
     @Test
     @DisplayName("POST /api/v1/fittings - 피팅 요청 생성 성공 (201)")
     void createFitting_성공() throws Exception {
-        FittingResponse response = FittingResponse.builder()
+        FittingDto.Response response = FittingDto.Response.builder()
                 .id(1L)
                 .userId("user-1")
                 .itemId("item-1")
@@ -53,9 +51,9 @@ class FittingControllerTest {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        given(fittingService.createFitting(any(CreateFittingRequest.class))).willReturn(response);
+        given(fittingService.createFitting(any(FittingDto.CreateRequest.class))).willReturn(response);
 
-        String body = objectMapper.writeValueAsString(CreateFittingRequest.builder()
+        String body = objectMapper.writeValueAsString(FittingDto.CreateRequest.builder()
                 .userId("user-1")
                 .itemId("item-1")
                 .bodyMeasurement(Map.of("height", 175, "weight", 70))
@@ -83,7 +81,7 @@ class FittingControllerTest {
     @Test
     @DisplayName("GET /api/v1/fittings/{id} - 피팅 단건 조회 성공 (200)")
     void getFitting_성공() throws Exception {
-        FittingResponse response = FittingResponse.builder()
+        FittingDto.Response response = FittingDto.Response.builder()
                 .id(1L)
                 .userId("user-1")
                 .itemId("item-1")
@@ -113,10 +111,10 @@ class FittingControllerTest {
     @Test
     @DisplayName("GET /api/v1/fittings/user/{userId} - 사용자 피팅 목록 조회 성공 (200)")
     void getFittingsByUser_성공() throws Exception {
-        FittingResponse r1 = FittingResponse.builder()
+        FittingDto.Response r1 = FittingDto.Response.builder()
                 .id(1L).userId("user-1").itemId("item-1")
                 .status(FittingStatus.COMPLETED).createdAt(LocalDateTime.now()).build();
-        FittingResponse r2 = FittingResponse.builder()
+        FittingDto.Response r2 = FittingDto.Response.builder()
                 .id(2L).userId("user-1").itemId("item-2")
                 .status(FittingStatus.QUEUED).createdAt(LocalDateTime.now()).build();
 
@@ -130,7 +128,7 @@ class FittingControllerTest {
     @Test
     @DisplayName("GET /api/v1/fittings/{id}/result - 완료된 피팅 결과 조회 성공 (200)")
     void getResult_성공() throws Exception {
-        FittingResultResponse response = FittingResultResponse.builder()
+        FittingDto.ResultResponse response = FittingDto.ResultResponse.builder()
                 .fittedGlbUrl("https://cdn.example.com/fitted.glb")
                 .renders(Map.of("front", "https://cdn.example.com/front.jpg"))
                 .sizeRecommendation(Map.of("size", "M"))

@@ -1,20 +1,20 @@
-export { SearchBar } from './SearchBar';
-export type { SearchBarProps } from './SearchBar';
+export { SearchBar } from './search-bar';
+export type { SearchBarProps } from './search-bar';
 
-export { FilterPanel } from './FilterPanel';
-export type { FilterPanelProps } from './FilterPanel';
+export { FilterPanel } from './filter-panel';
+export type { FilterPanelProps } from './filter-panel';
 
-export { ActiveFilterChips } from './ActiveFilterChips';
-export type { ActiveFilterChipsProps } from './ActiveFilterChips';
+export { ActiveFilterChips } from './active-filter-chips';
+export type { ActiveFilterChipsProps } from './active-filter-chips';
 
-export { SearchResults } from './SearchResults';
-export type { SearchResultsProps } from './SearchResults';
+export { SearchResults } from './search-results';
+export type { SearchResultsProps } from './search-results';
 
-export { NoSearchResult } from './NoSearchResult';
-export type { NoSearchResultProps } from './NoSearchResult';
+export { NoSearchResult } from './no-search-result';
+export type { NoSearchResultProps } from './no-search-result';
 
-export { RecentKeywords, addRecentKeyword } from './RecentKeywords';
-export type { RecentKeywordsProps } from './RecentKeywords';
+export { RecentKeywords, addRecentKeyword } from './recent-keywords';
+export type { RecentKeywordsProps } from './recent-keywords';
 
-export { PopularKeywords } from './PopularKeywords';
-export type { PopularKeywordsProps, PopularKeyword, Trend } from './PopularKeywords';
+export { PopularKeywords } from './popular-keywords';
+export type { PopularKeywordsProps, PopularKeyword, Trend } from './popular-keywords';

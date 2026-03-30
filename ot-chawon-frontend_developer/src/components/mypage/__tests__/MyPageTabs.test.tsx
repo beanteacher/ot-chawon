@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MyPageTabs } from '../MyPageTabs';
-import type { MyPageTab } from '../MyPageTabs';
+import { MyPageTabs } from '../my-page-tabs';
+import type { MyPageTab } from '../my-page-tabs';
 
 describe('MyPageTabs', () => {
   const tabs: { id: MyPageTab; label: string }[] = [

@@ -1,10 +1,6 @@
 package com.otchawon.user.controller;
+import com.otchawon.user.dto.UserDto;
 
-import com.otchawon.user.dto.request.LoginRequest;
-import com.otchawon.user.dto.request.RefreshRequest;
-import com.otchawon.user.dto.request.SignupRequest;
-import com.otchawon.user.dto.response.TokenResponse;
-import com.otchawon.user.dto.response.UserResponse;
 import com.otchawon.user.security.JwtTokenProvider;
 import com.otchawon.user.service.AuthService;
 import jakarta.validation.Valid;
@@ -23,34 +19,34 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse> signup(@Valid @RequestBody SignupRequest request) {
-        UserResponse response = authService.signup(request);
+    public ResponseEntity<UserDto.UserResponse> signup(@Valid @RequestBody UserDto.SignupRequest request) {
+        UserDto.UserResponse response = authService.signup(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
-        TokenResponse response = authService.login(request);
+    public ResponseEntity<UserDto.TokenResponse> login(@Valid @RequestBody UserDto.LoginRequest request) {
+        UserDto.TokenResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponse> refresh(@Valid @RequestBody RefreshRequest request) {
-        TokenResponse response = authService.refresh(request);
+    public ResponseEntity<UserDto.TokenResponse> refresh(@Valid @RequestBody UserDto.RefreshRequest request) {
+        UserDto.TokenResponse response = authService.refresh(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@Valid @RequestBody RefreshRequest request) {
+    public ResponseEntity<Void> logout(@Valid @RequestBody UserDto.RefreshRequest request) {
         authService.logout(request);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserResponse> getProfile(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<UserDto.UserResponse> getProfile(@RequestHeader("Authorization") String authorizationHeader) {
         String token = resolveToken(authorizationHeader);
         Long userId = jwtTokenProvider.extractUserId(token);
-        UserResponse response = authService.getProfile(userId);
+        UserDto.UserResponse response = authService.getProfile(userId);
         return ResponseEntity.ok(response);
     }
 

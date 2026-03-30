@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { Spinner } from '@/components/ui/Spinner';
-import { SearchClient } from './SearchClient';
-import type { Product } from '@/components/product/ProductCard';
+import { Spinner } from '@/components/ui/spinner';
+import { SearchClient } from './search-client';
+import type { Product } from '@/components/product/product-card';
 
 interface SearchPageProps {
   searchParams: { q?: string; category?: string; priceRange?: string; brands?: string; sizes?: string };

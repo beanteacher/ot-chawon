@@ -1,9 +1,7 @@
 package com.otchawon.fitting.service;
+import com.otchawon.fitting.dto.FittingDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.fitting.dto.request.CreateFittingRequest;
-import com.otchawon.fitting.dto.response.FittingResponse;
-import com.otchawon.fitting.dto.response.FittingResultResponse;
 import com.otchawon.fitting.entity.FittingRequest;
 import com.otchawon.fitting.entity.FittingStatus;
 import com.otchawon.fitting.exception.FittingException;
@@ -58,13 +56,13 @@ class FittingServiceImplTest {
 
         given(fittingRequestRepository.save(any(FittingRequest.class))).willReturn(saved);
 
-        CreateFittingRequest request = CreateFittingRequest.builder()
+        FittingDto.CreateRequest request = FittingDto.CreateRequest.builder()
                 .userId("user-1")
                 .itemId("item-1")
                 .bodyMeasurement(Map.of("height", 175))
                 .build();
 
-        FittingResponse response = fittingService.createFitting(request);
+        FittingDto.Response response = fittingService.createFitting(request);
 
         assertThat(response).isNotNull();
         assertThat(response.getId()).isEqualTo(1L);
@@ -85,7 +83,7 @@ class FittingServiceImplTest {
 
         given(fittingRequestRepository.findByIdAndUserId(1L, "user-1")).willReturn(Optional.of(fitting));
 
-        FittingResponse response = fittingService.getFitting(1L, "user-1");
+        FittingDto.Response response = fittingService.getFitting(1L, "user-1");
 
         assertThat(response.getId()).isEqualTo(1L);
         assertThat(response.getStatus()).isEqualTo(FittingStatus.PROCESSING);
@@ -113,7 +111,7 @@ class FittingServiceImplTest {
 
         given(fittingRequestRepository.findAllByUserIdOrderByCreatedAtDesc("user-1")).willReturn(fittings);
 
-        List<FittingResponse> responses = fittingService.getFittingsByUser("user-1");
+        List<FittingDto.Response> responses = fittingService.getFittingsByUser("user-1");
 
         assertThat(responses).hasSize(2);
         assertThat(responses.get(0).getId()).isEqualTo(1L);

@@ -1,10 +1,7 @@
 package com.otchawon.order.controller;
+import com.otchawon.order.dto.OrderDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.order.dto.request.AddCartItemRequest;
-import com.otchawon.order.dto.request.UpdateCartItemRequest;
-import com.otchawon.order.dto.response.CartItemResponse;
-import com.otchawon.order.dto.response.CartResponse;
 import com.otchawon.order.exception.GlobalExceptionHandler;
 import com.otchawon.order.exception.OrderException;
 import com.otchawon.order.service.CartService;
@@ -42,7 +39,7 @@ class CartControllerTest {
     @Test
     @DisplayName("GET /api/carts - 장바구니 조회 성공 (200)")
     void getCart_성공() throws Exception {
-        CartResponse response = CartResponse.builder()
+        OrderDto.CartResponse response = OrderDto.CartResponse.builder()
                 .cartId(1L)
                 .items(List.of())
                 .totalPrice(0)
@@ -60,20 +57,20 @@ class CartControllerTest {
     @Test
     @DisplayName("POST /api/carts/items - 장바구니 아이템 추가 성공 (200)")
     void addItem_성공() throws Exception {
-        CartItemResponse itemResponse = CartItemResponse.builder()
+        OrderDto.CartItemResponse itemResponse = OrderDto.CartItemResponse.builder()
                 .cartItemId(1L)
                 .productId(100L)
                 .productOptionId(1L)
                 .quantity(2)
                 .build();
 
-        CartResponse response = CartResponse.builder()
+        OrderDto.CartResponse response = OrderDto.CartResponse.builder()
                 .cartId(1L)
                 .items(List.of(itemResponse))
                 .totalPrice(2)
                 .build();
 
-        given(cartService.addItem(eq(1L), any(AddCartItemRequest.class))).willReturn(response);
+        given(cartService.addItem(eq(1L), any(OrderDto.AddCartItemRequest.class))).willReturn(response);
 
         String body = "{\"productId\":100,\"productOptionId\":1,\"quantity\":2}";
 
@@ -101,13 +98,13 @@ class CartControllerTest {
     @Test
     @DisplayName("PUT /api/carts/items/{cartItemId} - 수량 수정 성공 (200)")
     void updateQuantity_성공() throws Exception {
-        CartResponse response = CartResponse.builder()
+        OrderDto.CartResponse response = OrderDto.CartResponse.builder()
                 .cartId(1L)
                 .items(List.of())
                 .totalPrice(0)
                 .build();
 
-        given(cartService.updateItemQuantity(eq(1L), eq(1L), any(UpdateCartItemRequest.class))).willReturn(response);
+        given(cartService.updateItemQuantity(eq(1L), eq(1L), any(OrderDto.UpdateCartItemRequest.class))).willReturn(response);
 
         String body = "{\"quantity\":5}";
 

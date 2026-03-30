@@ -1,4 +1,4 @@
-export { ProductViewer3D } from './ProductViewer3D';
-export { GLBModel } from './GLBModel';
-export { ViewerControls } from './ViewerControls';
-export { ViewerLoading } from './ViewerLoading';
+export { ProductViewer3D } from './product-viewer-3d';
+export { GLBModel } from './glb-model';
+export { ViewerControls } from './viewer-controls';
+export { ViewerLoading } from './viewer-loading';

@@ -1,7 +1,7 @@
 'use client';
 
 import { apiClient } from '@/lib/api/axios';
-import type { CartDto } from '@/types/cart.dto';
+import type { CartDto } from '@/services/cart/dto/cart.dto';
 
 export const cartApi = {
   getCart: async (): Promise<CartDto.Response> => {

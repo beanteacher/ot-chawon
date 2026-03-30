@@ -1,8 +1,6 @@
 package com.otchawon.order.service.impl;
+import com.otchawon.order.dto.OrderDto;
 
-import com.otchawon.order.dto.request.CreateOrderRequest;
-import com.otchawon.order.dto.response.OrderListResponse;
-import com.otchawon.order.dto.response.OrderResponse;
 import com.otchawon.order.entity.*;
 import com.otchawon.order.exception.OrderException;
 import com.otchawon.order.repository.CartItemRepository;
@@ -30,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponse createFromCart(Long userId, CreateOrderRequest request) {
+    public OrderDto.OrderResponse createFromCart(Long userId, OrderDto.CreateOrderRequest request) {
         Cart cart = cartRepository.findByUserId(userId)
                 .orElseThrow(OrderException::cartEmpty);
 
@@ -69,22 +67,22 @@ public class OrderServiceImpl implements OrderService {
         cartItemRepository.deleteAll(selectedItems);
         log.info("주문 생성 완료: userId={}, orderId={}", userId, saved.getId());
 
-        return OrderResponse.from(saved);
+        return OrderDto.OrderResponse.from(saved);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public OrderResponse getOrder(Long userId, Long orderId) {
+    public OrderDto.OrderResponse getOrder(Long userId, Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .filter(o -> o.getUserId().equals(userId))
                 .orElseThrow(OrderException::notFound);
 
-        return OrderResponse.from(order);
+        return OrderDto.OrderResponse.from(order);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public OrderListResponse getOrders(Long userId, String status, Pageable pageable) {
+    public OrderDto.OrderListResponse getOrders(Long userId, String status, Pageable pageable) {
         Page<Order> page;
 
         if (status != null && !status.isBlank()) {
@@ -99,12 +97,12 @@ public class OrderServiceImpl implements OrderService {
             page = orderRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
         }
 
-        return OrderListResponse.from(page);
+        return OrderDto.OrderListResponse.from(page);
     }
 
     @Override
     @Transactional
-    public OrderResponse cancelOrder(Long userId, Long orderId) {
+    public OrderDto.OrderResponse cancelOrder(Long userId, Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .filter(o -> o.getUserId().equals(userId))
                 .orElseThrow(OrderException::notFound);
@@ -120,6 +118,6 @@ public class OrderServiceImpl implements OrderService {
         order.cancel();
         log.info("주문 취소 완료: userId={}, orderId={}", userId, orderId);
 
-        return OrderResponse.from(order);
+        return OrderDto.OrderResponse.from(order);
     }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { apiClient } from '@/lib/api/axios';
-import type { PaymentDto } from '@/types/payment.dto';
+import type { PaymentDto } from '@/services/payment/dto/payment.dto';
 
 export const paymentApi = {
   requestPayment: async (req: PaymentDto.Request): Promise<PaymentDto.Response> => {

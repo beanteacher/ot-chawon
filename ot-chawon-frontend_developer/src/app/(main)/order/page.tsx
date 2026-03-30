@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Checkbox } from '@/components/ui';
-import { OrderForm, ShippingInfo } from '@/components/order/OrderForm';
-import { PaymentSelect } from '@/components/order/PaymentSelect';
-import type { PaymentMethod } from '@/components/order/PaymentSelect';
+import { OrderForm, ShippingInfo } from '@/components/order/order-form';
+import { PaymentSelect } from '@/components/order/payment-select';
+import type { PaymentMethod } from '@/components/order/payment-select';
 import { useCartStore } from '@/store/cartStore';
 import { useCreateOrder } from '@/hooks/useOrder';
 import { paymentApi } from '@/services/paymentApi';

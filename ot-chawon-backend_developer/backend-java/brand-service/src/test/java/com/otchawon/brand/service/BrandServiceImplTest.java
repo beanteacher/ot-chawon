@@ -1,9 +1,6 @@
 package com.otchawon.brand.service;
+import com.otchawon.brand.dto.BrandDto;
 
-import com.otchawon.brand.dto.request.CreateBrandRequest;
-import com.otchawon.brand.dto.request.UpdateBrandRequest;
-import com.otchawon.brand.dto.response.BrandListResponse;
-import com.otchawon.brand.dto.response.BrandResponse;
 import com.otchawon.brand.entity.Brand;
 import com.otchawon.brand.entity.BrandStatus;
 import com.otchawon.brand.exception.BrandException;
@@ -36,7 +33,7 @@ class BrandServiceImplTest {
     @Test
     @DisplayName("브랜드 생성 성공")
     void create_success() {
-        CreateBrandRequest request = new CreateBrandRequest("테스트브랜드", "설명", "http://logo.url");
+        BrandDto.CreateRequest request = new BrandDto.CreateRequest("테스트브랜드", "설명", "http://logo.url");
         Brand brand = Brand.builder()
                 .id(1L)
                 .name("테스트브랜드")
@@ -47,7 +44,7 @@ class BrandServiceImplTest {
         given(brandRepository.existsByName("테스트브랜드")).willReturn(false);
         given(brandRepository.save(any(Brand.class))).willReturn(brand);
 
-        BrandResponse response = brandService.create(request);
+        BrandDto.Response response = brandService.create(request);
 
         assertThat(response.getName()).isEqualTo("테스트브랜드");
         assertThat(response.getId()).isEqualTo(1L);
@@ -56,7 +53,7 @@ class BrandServiceImplTest {
     @Test
     @DisplayName("브랜드 생성 실패 - 중복 이름")
     void create_fail_duplicateName() {
-        CreateBrandRequest request = new CreateBrandRequest("중복브랜드", null, null);
+        BrandDto.CreateRequest request = new BrandDto.CreateRequest("중복브랜드", null, null);
 
         given(brandRepository.existsByName("중복브랜드")).willReturn(true);
 
@@ -71,7 +68,7 @@ class BrandServiceImplTest {
         Brand brand = Brand.builder().id(1L).name("브랜드").build();
         given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
 
-        BrandResponse response = brandService.getById(1L);
+        BrandDto.Response response = brandService.getById(1L);
 
         assertThat(response.getId()).isEqualTo(1L);
     }
@@ -93,7 +90,7 @@ class BrandServiceImplTest {
         Brand brand2 = Brand.builder().id(2L).name("브랜드2").build();
         given(brandRepository.findAll()).willReturn(List.of(brand1, brand2));
 
-        BrandListResponse response = brandService.getAll();
+        BrandDto.ListResponse response = brandService.getAll();
 
         assertThat(response.getBrands()).hasSize(2);
         assertThat(response.getTotalCount()).isEqualTo(2);
@@ -103,12 +100,12 @@ class BrandServiceImplTest {
     @DisplayName("브랜드 수정 성공")
     void update_success() {
         Brand brand = Brand.builder().id(1L).name("기존브랜드").status(BrandStatus.ACTIVE).build();
-        UpdateBrandRequest request = new UpdateBrandRequest("새브랜드", null, null, BrandStatus.INACTIVE);
+        BrandDto.UpdateRequest request = new BrandDto.UpdateRequest("새브랜드", null, null, BrandStatus.INACTIVE);
 
         given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
         given(brandRepository.existsByName("새브랜드")).willReturn(false);
 
-        BrandResponse response = brandService.update(1L, request);
+        BrandDto.Response response = brandService.update(1L, request);
 
         assertThat(response).isNotNull();
     }

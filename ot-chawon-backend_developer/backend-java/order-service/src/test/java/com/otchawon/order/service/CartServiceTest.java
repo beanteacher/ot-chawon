@@ -1,8 +1,6 @@
 package com.otchawon.order.service;
+import com.otchawon.order.dto.OrderDto;
 
-import com.otchawon.order.dto.request.AddCartItemRequest;
-import com.otchawon.order.dto.request.UpdateCartItemRequest;
-import com.otchawon.order.dto.response.CartResponse;
 import com.otchawon.order.entity.Cart;
 import com.otchawon.order.entity.CartItem;
 import com.otchawon.order.exception.OrderException;
@@ -49,7 +47,7 @@ class CartServiceTest {
 
         given(cartRepository.findByUserId(1L)).willReturn(Optional.of(cart));
 
-        CartResponse response = cartService.getCart(1L);
+        OrderDto.CartResponse response = cartService.getCart(1L);
 
         assertThat(response.getCartId()).isEqualTo(1L);
         assertThat(response.getItems()).isEmpty();
@@ -75,12 +73,12 @@ class CartServiceTest {
         given(cartRepository.findByUserId(1L)).willReturn(Optional.of(cart));
         given(cartItemRepository.save(any(CartItem.class))).willReturn(savedItem);
 
-        AddCartItemRequest request = new AddCartItemRequest();
+        OrderDto.AddCartItemRequest request = new OrderDto.AddCartItemRequest();
         setField(request, "productId", 100L);
         setField(request, "productOptionId", 1L);
         setField(request, "quantity", 2);
 
-        CartResponse response = cartService.addItem(1L, request);
+        OrderDto.CartResponse response = cartService.addItem(1L, request);
 
         assertThat(response).isNotNull();
         verify(cartItemRepository).save(any(CartItem.class));
@@ -106,10 +104,10 @@ class CartServiceTest {
         given(cartItemRepository.findById(1L)).willReturn(Optional.of(cartItem));
         given(cartRepository.findByUserId(1L)).willReturn(Optional.of(cart));
 
-        UpdateCartItemRequest request = new UpdateCartItemRequest();
+        OrderDto.UpdateCartItemRequest request = new OrderDto.UpdateCartItemRequest();
         setField(request, "quantity", 5);
 
-        CartResponse response = cartService.updateItemQuantity(1L, 1L, request);
+        OrderDto.CartResponse response = cartService.updateItemQuantity(1L, 1L, request);
 
         assertThat(response).isNotNull();
         assertThat(cartItem.getQuantity()).isEqualTo(5);
@@ -120,7 +118,7 @@ class CartServiceTest {
     void updateQuantity_아이템없음_예외() {
         given(cartItemRepository.findById(999L)).willReturn(Optional.empty());
 
-        UpdateCartItemRequest request = new UpdateCartItemRequest();
+        OrderDto.UpdateCartItemRequest request = new OrderDto.UpdateCartItemRequest();
         setField(request, "quantity", 5);
 
         assertThatThrownBy(() -> cartService.updateItemQuantity(1L, 999L, request))

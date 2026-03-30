@@ -1,3 +1,3 @@
-export { CartItem } from './CartItem';
+export { CartItem } from './cart-item';
 
-export { CartSummary } from './CartSummary';
+export { CartSummary } from './cart-summary';

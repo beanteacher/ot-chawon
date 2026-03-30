@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { SizeRecommendation } from '@/components/fitting/SizeRecommendation';
-import type { FittingDto } from '@/types/fitting.dto';
+import { SizeRecommendation } from '@/components/fitting/size-recommendation';
+import type { FittingDto } from '@/services/fitting/dto/fitting.dto';
 
 const mockRecommendation: FittingDto.SizeRecommendation = {
   recommended_size: 'M',

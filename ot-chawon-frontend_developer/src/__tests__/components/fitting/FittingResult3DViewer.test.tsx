@@ -18,7 +18,7 @@ jest.mock('next/dynamic', () => {
   };
 });
 
-import { FittingResult3DViewer } from '@/components/fitting/FittingResult3DViewer';
+import { FittingResult3DViewer } from '@/components/fitting/fitting-result-3d-viewer';
 
 describe('FittingResult3DViewer', () => {
   const testGlbUrl = 'https://cdn.example.com/assets/fitted/test.glb';

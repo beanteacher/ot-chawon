@@ -1,5 +1,5 @@
 import { serverFetch } from '@/lib/api/client';
-import type { FittingDto } from '@/types/fitting.dto';
+import type { FittingDto } from '@/services/fitting/dto/fitting.dto';
 
 export async function getFittingResult(
   sessionId: string

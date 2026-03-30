@@ -1,9 +1,6 @@
 package com.otchawon.brand.service.impl;
+import com.otchawon.brand.dto.BrandDto;
 
-import com.otchawon.brand.dto.request.CreateBrandRequest;
-import com.otchawon.brand.dto.request.UpdateBrandRequest;
-import com.otchawon.brand.dto.response.BrandListResponse;
-import com.otchawon.brand.dto.response.BrandResponse;
 import com.otchawon.brand.entity.Brand;
 import com.otchawon.brand.exception.BrandException;
 import com.otchawon.brand.repository.BrandRepository;
@@ -25,7 +22,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public BrandResponse create(CreateBrandRequest request) {
+    public BrandDto.Response create(BrandDto.CreateRequest request) {
         if (brandRepository.existsByName(request.getName())) {
             throw BrandException.nameAlreadyExists();
         }
@@ -38,25 +35,25 @@ public class BrandServiceImpl implements BrandService {
 
         Brand savedBrand = brandRepository.save(brand);
         log.info("Brand created: id={}, name={}", savedBrand.getId(), savedBrand.getName());
-        return BrandResponse.from(savedBrand);
+        return BrandDto.Response.from(savedBrand);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BrandResponse getById(Long id) {
+    public BrandDto.Response getById(Long id) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(BrandException::notFound);
-        return BrandResponse.from(brand);
+        return BrandDto.Response.from(brand);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BrandListResponse getAll() {
+    public BrandDto.ListResponse getAll() {
         List<Brand> brands = brandRepository.findAll();
-        List<BrandResponse> brandResponses = brands.stream()
-                .map(BrandResponse::from)
+        List<BrandDto.Response> brandResponses = brands.stream()
+                .map(BrandDto.Response::from)
                 .collect(Collectors.toList());
-        return BrandListResponse.builder()
+        return BrandDto.ListResponse.builder()
                 .brands(brandResponses)
                 .totalCount(brandResponses.size())
                 .build();
@@ -64,7 +61,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public BrandResponse update(Long id, UpdateBrandRequest request) {
+    public BrandDto.Response update(Long id, BrandDto.UpdateRequest request) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(BrandException::notFound);
 
@@ -76,6 +73,6 @@ public class BrandServiceImpl implements BrandService {
 
         brand.update(request.getName(), request.getDescription(), request.getLogoUrl(), request.getStatus());
         log.info("Brand updated: id={}", id);
-        return BrandResponse.from(brand);
+        return BrandDto.Response.from(brand);
     }
 }

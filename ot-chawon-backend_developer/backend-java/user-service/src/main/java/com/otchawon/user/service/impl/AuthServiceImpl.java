@@ -1,10 +1,6 @@
 package com.otchawon.user.service.impl;
+import com.otchawon.user.dto.UserDto;
 
-import com.otchawon.user.dto.request.LoginRequest;
-import com.otchawon.user.dto.request.RefreshRequest;
-import com.otchawon.user.dto.request.SignupRequest;
-import com.otchawon.user.dto.response.TokenResponse;
-import com.otchawon.user.dto.response.UserResponse;
 import com.otchawon.user.entity.User;
 import com.otchawon.user.exception.AuthException;
 import com.otchawon.user.repository.UserRepository;
@@ -33,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public UserResponse signup(SignupRequest request) {
+    public UserDto.UserResponse signup(UserDto.SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw AuthException.emailAlreadyExists();
         }
@@ -48,12 +44,12 @@ public class AuthServiceImpl implements AuthService {
 
         User savedUser = userRepository.save(user);
         log.info("New user registered: {}", savedUser.getEmail());
-        return UserResponse.from(savedUser);
+        return UserDto.UserResponse.from(savedUser);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public TokenResponse login(LoginRequest request) {
+    public UserDto.TokenResponse login(UserDto.LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(AuthException::invalidCredentials);
 
@@ -67,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         storeRefreshToken(user.getId(), refreshToken);
 
         log.info("User logged in: {}", user.getEmail());
-        return TokenResponse.builder()
+        return UserDto.TokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .expiresIn(jwtTokenProvider.getAccessTokenExpiryMs() / 1000)
@@ -75,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public TokenResponse refresh(RefreshRequest request) {
+    public UserDto.TokenResponse refresh(UserDto.RefreshRequest request) {
         String refreshToken = request.getRefreshToken();
 
         if (!jwtTokenProvider.isValid(refreshToken)) {
@@ -98,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
 
         storeRefreshToken(userId, newRefreshToken);
 
-        return TokenResponse.builder()
+        return UserDto.TokenResponse.builder()
                 .accessToken(newAccessToken)
                 .refreshToken(newRefreshToken)
                 .expiresIn(jwtTokenProvider.getAccessTokenExpiryMs() / 1000)
@@ -106,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void logout(RefreshRequest request) {
+    public void logout(UserDto.RefreshRequest request) {
         String refreshToken = request.getRefreshToken();
 
         if (!jwtTokenProvider.isValid(refreshToken)) {
@@ -122,10 +118,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserResponse getProfile(Long userId) {
+    public UserDto.UserResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(AuthException::userNotFound);
-        return UserResponse.from(user);
+        return UserDto.UserResponse.from(user);
     }
 
     private void storeRefreshToken(Long userId, String refreshToken) {

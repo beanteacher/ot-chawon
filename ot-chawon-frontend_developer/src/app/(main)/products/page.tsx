@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { SkeletonCardList } from '@/components/ui/SkeletonCard';
-import { ProductListClient } from './ProductListClient';
-import { ProductDto } from '@/types/product.dto';
+import { SkeletonCardList } from '@/components/ui/skeleton-card';
+import { ProductListClient } from './product-list-client';
+import { ProductDto } from '@/services/product/dto/product.dto';
 
 export const metadata: Metadata = {
   title: '상품 목록 | OT-CHAWON',

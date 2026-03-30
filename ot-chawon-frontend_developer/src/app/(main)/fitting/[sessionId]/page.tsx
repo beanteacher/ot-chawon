@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { FittingResultClient } from './FittingResultClient';
+import { FittingResultClient } from './fitting-result-client';
 import { Skeleton } from '@/components/ui';
 
 interface FittingPageProps {

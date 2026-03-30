@@ -1,7 +1,6 @@
 package com.otchawon.brand.controller;
+import com.otchawon.brand.dto.BrandDto;
 
-import com.otchawon.brand.dto.request.AddBrandAdminRequest;
-import com.otchawon.brand.dto.response.BrandAdminResponse;
 import com.otchawon.brand.service.BrandAdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +18,16 @@ public class BrandAdminController {
     private final BrandAdminService brandAdminService;
 
     @PostMapping
-    public ResponseEntity<BrandAdminResponse> addAdmin(
+    public ResponseEntity<BrandDto.AdminResponse> addAdmin(
             @PathVariable Long brandId,
-            @Valid @RequestBody AddBrandAdminRequest request) {
-        BrandAdminResponse response = brandAdminService.addAdmin(brandId, request);
+            @Valid @RequestBody BrandDto.AddAdminRequest request) {
+        BrandDto.AdminResponse response = brandAdminService.addAdmin(brandId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<BrandAdminResponse>> getAdmins(@PathVariable Long brandId) {
-        List<BrandAdminResponse> response = brandAdminService.getAdmins(brandId);
+    public ResponseEntity<List<BrandDto.AdminResponse>> getAdmins(@PathVariable Long brandId) {
+        List<BrandDto.AdminResponse> response = brandAdminService.getAdmins(brandId);
         return ResponseEntity.ok(response);
     }
 

@@ -1,8 +1,7 @@
 package com.otchawon.payment.controller;
+import com.otchawon.payment.dto.PaymentDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.payment.dto.response.PaymentResponse;
-import com.otchawon.payment.dto.response.RefundResponse;
 import com.otchawon.payment.entity.PaymentStatus;
 import com.otchawon.payment.exception.GlobalExceptionHandler;
 import com.otchawon.payment.exception.PaymentException;
@@ -38,7 +37,7 @@ class PaymentControllerTest {
     @Test
     @DisplayName("POST /api/payments - 결제 요청 성공 (201)")
     void requestPayment_성공() throws Exception {
-        PaymentResponse response = PaymentResponse.builder()
+        PaymentDto.PaymentResponse response = PaymentDto.PaymentResponse.builder()
                 .id(1L)
                 .orderId(1L)
                 .userId(1L)
@@ -78,7 +77,7 @@ class PaymentControllerTest {
     @Test
     @DisplayName("POST /api/payments/{paymentId}/confirm - 결제 확인 성공 (200)")
     void confirmPayment_성공() throws Exception {
-        PaymentResponse response = PaymentResponse.builder()
+        PaymentDto.PaymentResponse response = PaymentDto.PaymentResponse.builder()
                 .id(1L)
                 .orderId(1L)
                 .userId(1L)
@@ -98,7 +97,7 @@ class PaymentControllerTest {
     @Test
     @DisplayName("GET /api/payments/{paymentId} - 결제 조회 성공 (200)")
     void getPayment_성공() throws Exception {
-        PaymentResponse response = PaymentResponse.builder()
+        PaymentDto.PaymentResponse response = PaymentDto.PaymentResponse.builder()
                 .id(1L)
                 .orderId(1L)
                 .userId(1L)
@@ -130,7 +129,7 @@ class PaymentControllerTest {
     @Test
     @DisplayName("POST /api/payments/{paymentId}/refund - 환불 요청 성공 (200)")
     void refundPayment_성공() throws Exception {
-        RefundResponse response = RefundResponse.builder()
+        PaymentDto.RefundResponse response = PaymentDto.RefundResponse.builder()
                 .id(1L)
                 .paymentId(1L)
                 .amount(50000)

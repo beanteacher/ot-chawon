@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { FittingDto } from '@/types/fitting.dto';
+import type { FittingDto } from '@/services/fitting/dto/fitting.dto';
 
 interface FittingState {
   sessionId: string | null;

@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState, type ReactNode } from 'react';
-import { ToastProvider } from '@/components/ui/ToastProvider';
+import { ToastProvider } from '@/components/ui/toast-provider';
 
 interface ProvidersProps {
   children: ReactNode;

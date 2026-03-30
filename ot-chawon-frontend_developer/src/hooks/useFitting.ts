@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api/axios';
 import { useFittingStore } from '@/store/fitting.store';
-import type { FittingDto } from '@/types/fitting.dto';
+import type { FittingDto } from '@/services/fitting/dto/fitting.dto';
 
 export function useFittingRequest() {
   const { setSession, setPendingRequest } = useFittingStore();

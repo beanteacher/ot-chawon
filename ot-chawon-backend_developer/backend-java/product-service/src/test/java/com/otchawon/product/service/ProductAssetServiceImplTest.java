@@ -1,8 +1,6 @@
 package com.otchawon.product.service;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateProductAssetRequest;
-import com.otchawon.product.dto.request.UpdateProductAssetRequest;
-import com.otchawon.product.dto.response.ProductAssetResponse;
 import com.otchawon.product.entity.ProductAsset;
 import com.otchawon.product.exception.ProductException;
 import com.otchawon.product.repository.ProductAssetRepository;
@@ -59,7 +57,7 @@ class ProductAssetServiceImplTest {
     void getAssetsByProductId_success() {
         given(productAssetRepository.findAllByProductId(10L)).willReturn(List.of(sampleAsset()));
 
-        List<ProductAssetResponse> result = productAssetService.getAssetsByProductId(10L);
+        List<ProductDto.ProductAssetResponse> result = productAssetService.getAssetsByProductId(10L);
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getProductId()).isEqualTo(10L);
@@ -71,7 +69,7 @@ class ProductAssetServiceImplTest {
     void getAsset_success() {
         given(productAssetRepository.findById(1L)).willReturn(Optional.of(sampleAsset()));
 
-        ProductAssetResponse result = productAssetService.getAsset(1L);
+        ProductDto.ProductAssetResponse result = productAssetService.getAsset(1L);
 
         assertThat(result.getId()).isEqualTo(1L);
         assertThat(result.getGlbUrl()).isEqualTo("https://storage.otchawon.com/products/10/lod0.glb");
@@ -90,7 +88,7 @@ class ProductAssetServiceImplTest {
     @Test
     @DisplayName("에셋 생성 - CDN URL 자동 생성 및 저장 성공")
     void createAsset_success() {
-        CreateProductAssetRequest request = CreateProductAssetRequest.builder()
+        ProductDto.CreateProductAssetRequest request = ProductDto.CreateProductAssetRequest.builder()
                 .productId(10L)
                 .glbUrl("https://storage.otchawon.com/products/10/lod0.glb")
                 .lodLevel("LOD0")
@@ -101,7 +99,7 @@ class ProductAssetServiceImplTest {
         ProductAsset saved = sampleAsset();
         given(productAssetRepository.save(any(ProductAsset.class))).willReturn(saved);
 
-        ProductAssetResponse result = productAssetService.createAsset(request);
+        ProductDto.ProductAssetResponse result = productAssetService.createAsset(request);
 
         assertThat(result.getProductId()).isEqualTo(10L);
         assertThat(result.getCdnUrl()).isEqualTo("https://cdn.otchawon.com/assets/clothing/10/lod0.glb");
@@ -114,12 +112,12 @@ class ProductAssetServiceImplTest {
         ProductAsset asset = sampleAsset();
         given(productAssetRepository.findById(1L)).willReturn(Optional.of(asset));
 
-        UpdateProductAssetRequest request = UpdateProductAssetRequest.builder()
+        ProductDto.UpdateProductAssetRequest request = ProductDto.UpdateProductAssetRequest.builder()
                 .lodLevel("LOD1")
                 .polygonCount(3000)
                 .build();
 
-        ProductAssetResponse result = productAssetService.updateAsset(1L, request);
+        ProductDto.ProductAssetResponse result = productAssetService.updateAsset(1L, request);
 
         assertThat(result).isNotNull();
         verify(productAssetRepository).findById(1L);
@@ -130,7 +128,7 @@ class ProductAssetServiceImplTest {
     void updateAsset_notFound() {
         given(productAssetRepository.findById(999L)).willReturn(Optional.empty());
 
-        UpdateProductAssetRequest request = UpdateProductAssetRequest.builder().build();
+        ProductDto.UpdateProductAssetRequest request = ProductDto.UpdateProductAssetRequest.builder().build();
 
         assertThatThrownBy(() -> productAssetService.updateAsset(999L, request))
                 .isInstanceOf(ProductException.class)

@@ -1,8 +1,7 @@
 package com.otchawon.product.controller;
+import com.otchawon.product.dto.ProductDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.product.dto.request.CreateProductAssetRequest;
-import com.otchawon.product.dto.response.ProductAssetResponse;
 import com.otchawon.product.exception.GlobalExceptionHandler;
 import com.otchawon.product.exception.ProductException;
 import com.otchawon.product.service.ProductAssetService;
@@ -39,8 +38,8 @@ class ProductAssetControllerTest {
     @MockBean
     private ProductAssetService productAssetService;
 
-    private ProductAssetResponse sampleResponse() {
-        return ProductAssetResponse.builder()
+    private ProductDto.ProductAssetResponse sampleResponse() {
+        return ProductDto.ProductAssetResponse.builder()
                 .id(1L)
                 .productId(10L)
                 .glbUrl("https://storage.otchawon.com/products/10/lod0.glb")
@@ -91,7 +90,7 @@ class ProductAssetControllerTest {
     @Test
     @DisplayName("POST /api/v1/assets - 에셋 생성 성공 (201)")
     void createAsset_success() throws Exception {
-        CreateProductAssetRequest request = CreateProductAssetRequest.builder()
+        ProductDto.CreateProductAssetRequest request = ProductDto.CreateProductAssetRequest.builder()
                 .productId(10L)
                 .glbUrl("https://storage.otchawon.com/products/10/lod0.glb")
                 .lodLevel("LOD0")
@@ -109,7 +108,7 @@ class ProductAssetControllerTest {
     @Test
     @DisplayName("POST /api/v1/assets - 필수 필드 누락 시 400")
     void createAsset_validationFail() throws Exception {
-        CreateProductAssetRequest request = CreateProductAssetRequest.builder()
+        ProductDto.CreateProductAssetRequest request = ProductDto.CreateProductAssetRequest.builder()
                 .lodLevel("LOD0")
                 .build();
 
@@ -122,7 +121,7 @@ class ProductAssetControllerTest {
     @Test
     @DisplayName("PUT /api/v1/assets/{assetId} - 에셋 수정 성공 (200)")
     void updateAsset_success() throws Exception {
-        ProductAssetResponse updated = ProductAssetResponse.builder()
+        ProductDto.ProductAssetResponse updated = ProductDto.ProductAssetResponse.builder()
                 .id(1L)
                 .productId(10L)
                 .glbUrl("https://storage.otchawon.com/products/10/lod1.glb")

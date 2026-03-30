@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { CartItem } from '@/components/cart/CartItem';
-import { CartSummary } from '@/components/cart/CartSummary';
-import { OrderForm } from '@/components/order/OrderForm';
-import { PaymentSelect } from '@/components/order/PaymentSelect';
+import { CartItem } from '@/components/cart/cart-item';
+import { CartSummary } from '@/components/cart/cart-summary';
+import { OrderForm } from '@/components/order/order-form';
+import { PaymentSelect } from '@/components/order/payment-select';
 
 // UI 컴포넌트 mock
 jest.mock('@/components/ui', () => ({

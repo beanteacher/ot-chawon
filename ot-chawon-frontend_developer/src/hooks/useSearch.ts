@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { Product } from '@/components/product/ProductCard';
+import type { Product } from '@/components/product/product-card';
 
 export interface SearchFilters {
   category: string;

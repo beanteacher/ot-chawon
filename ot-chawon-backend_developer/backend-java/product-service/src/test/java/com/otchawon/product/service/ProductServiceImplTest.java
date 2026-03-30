@@ -1,10 +1,6 @@
 package com.otchawon.product.service;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateProductRequest;
-import com.otchawon.product.dto.request.ProductSearchRequest;
-import com.otchawon.product.dto.request.UpdateProductRequest;
-import com.otchawon.product.dto.response.ProductListResponse;
-import com.otchawon.product.dto.response.ProductResponse;
 import com.otchawon.product.entity.Product;
 import com.otchawon.product.exception.ProductException;
 import com.otchawon.product.repository.ProductOptionRepository;
@@ -45,7 +41,7 @@ class ProductServiceImplTest {
     @Test
     @DisplayName("상품 등록 - 성공")
     void create_success() {
-        CreateProductRequest request = CreateProductRequest.builder()
+        ProductDto.CreateProductRequest request = ProductDto.CreateProductRequest.builder()
                 .name("테스트 상품")
                 .price(10000)
                 .categoryId(1L)
@@ -66,7 +62,7 @@ class ProductServiceImplTest {
         given(productRepository.save(any(Product.class))).willReturn(saved);
         given(productOptionRepository.findByProductId(1L)).willReturn(List.of());
 
-        ProductResponse response = productService.create(request);
+        ProductDto.ProductResponse response = productService.create(request);
 
         assertThat(response.getName()).isEqualTo("테스트 상품");
         assertThat(response.getPrice()).isEqualTo(10000);
@@ -119,8 +115,8 @@ class ProductServiceImplTest {
 
         given(productRepository.search(any(), any(), any(), any(), any(), any(), any())).willReturn(page);
 
-        ProductSearchRequest searchRequest = ProductSearchRequest.builder().build();
-        ProductListResponse response = productService.search(searchRequest, pageable);
+        ProductDto.ProductSearchRequest searchRequest = ProductDto.ProductSearchRequest.builder().build();
+        ProductDto.ProductListResponse response = productService.search(searchRequest, pageable);
 
         assertThat(response.getProducts()).hasSize(1);
         assertThat(response.getTotalElements()).isEqualTo(1);
@@ -160,12 +156,12 @@ class ProductServiceImplTest {
 
         given(productRepository.findById(1L)).willReturn(Optional.of(product));
 
-        UpdateProductRequest request = UpdateProductRequest.builder()
+        ProductDto.UpdateProductRequest request = ProductDto.UpdateProductRequest.builder()
                 .name("수정된 상품")
                 .price(20000)
                 .build();
 
-        ProductResponse response = productService.update(1L, request);
+        ProductDto.ProductResponse response = productService.update(1L, request);
 
         assertThat(response.getName()).isEqualTo("수정된 상품");
         assertThat(response.getPrice()).isEqualTo(20000);

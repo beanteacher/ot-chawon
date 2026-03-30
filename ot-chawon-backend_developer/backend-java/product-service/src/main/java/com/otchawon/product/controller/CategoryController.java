@@ -1,7 +1,6 @@
 package com.otchawon.product.controller;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateCategoryRequest;
-import com.otchawon.product.dto.response.CategoryResponse;
 import com.otchawon.product.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +18,13 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> getAll() {
+    public ResponseEntity<List<ProductDto.CategoryResponse>> getAll() {
         return ResponseEntity.ok(categoryService.getAll());
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponse> create(@Valid @RequestBody CreateCategoryRequest request) {
-        CategoryResponse response = categoryService.create(request);
+    public ResponseEntity<ProductDto.CategoryResponse> create(@Valid @RequestBody ProductDto.CreateCategoryRequest request) {
+        ProductDto.CategoryResponse response = categoryService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

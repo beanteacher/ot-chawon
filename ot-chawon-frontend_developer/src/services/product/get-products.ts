@@ -1,5 +1,5 @@
 import { serverFetch } from '@/lib/api/client';
-import type { ProductDto } from '@/types/product.dto';
+import type { ProductDto } from '@/services/product/dto/product.dto';
 
 export async function getProducts(
   page = 0,

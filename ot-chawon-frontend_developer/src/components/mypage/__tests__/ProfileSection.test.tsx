@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ProfileSection } from '../ProfileSection';
+import { ProfileSection } from '../profile-section';
 import { useAuthStore } from '@/store/auth.store';
 
 // auth store mock

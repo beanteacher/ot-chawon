@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BodyMeasurementForm } from '@/components/fitting/BodyMeasurementForm';
-import { FittingLoading } from '@/components/fitting/FittingLoading';
+import { BodyMeasurementForm } from '@/components/fitting/body-measurement-form';
+import { FittingLoading } from '@/components/fitting/fitting-loading';
 import { createFitting } from '@/services/fitting/fitting-api';
 
 interface BodyMeasurement {

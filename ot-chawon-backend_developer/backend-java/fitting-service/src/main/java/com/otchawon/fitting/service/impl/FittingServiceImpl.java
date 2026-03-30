@@ -1,9 +1,7 @@
 package com.otchawon.fitting.service.impl;
+import com.otchawon.fitting.dto.FittingDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.fitting.dto.request.CreateFittingRequest;
-import com.otchawon.fitting.dto.response.FittingResponse;
-import com.otchawon.fitting.dto.response.FittingResultResponse;
 import com.otchawon.fitting.entity.FittingRequest;
 import com.otchawon.fitting.entity.FittingStatus;
 import com.otchawon.fitting.event.FittingRequestedEvent;
@@ -30,7 +28,7 @@ public class FittingServiceImpl implements FittingService {
 
     @Override
     @Transactional
-    public FittingResponse createFitting(CreateFittingRequest request) {
+    public FittingDto.Response createFitting(FittingDto.CreateRequest request) {
         String bodyMeasurementJson = null;
         try {
             bodyMeasurementJson = objectMapper.writeValueAsString(request.getBodyMeasurement());
@@ -58,23 +56,23 @@ public class FittingServiceImpl implements FittingService {
 
         fittingEventProducer.sendFittingRequested(event);
 
-        return FittingResponse.from(saved);
+        return FittingDto.Response.from(saved);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public FittingResponse getFitting(Long id, String userId) {
+    public FittingDto.Response getFitting(Long id, String userId) {
         FittingRequest fitting = fittingRequestRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(FittingException::notFound);
-        return FittingResponse.from(fitting);
+        return FittingDto.Response.from(fitting);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<FittingResponse> getFittingsByUser(String userId) {
+    public List<FittingDto.Response> getFittingsByUser(String userId) {
         return fittingRequestRepository.findAllByUserIdOrderByCreatedAtDesc(userId)
                 .stream()
-                .map(FittingResponse::from)
+                .map(FittingDto.Response::from)
                 .collect(Collectors.toList());
     }
 
@@ -96,7 +94,7 @@ public class FittingServiceImpl implements FittingService {
 
     @Override
     @Transactional(readOnly = true)
-    public FittingResultResponse getResult(Long id, String userId) {
+    public FittingDto.ResultResponse getResult(Long id, String userId) {
         FittingRequest fitting = fittingRequestRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(FittingException::notFound);
 
@@ -108,6 +106,6 @@ public class FittingServiceImpl implements FittingService {
             throw FittingException.processingFailed();
         }
 
-        return FittingResultResponse.from(fitting);
+        return FittingDto.ResultResponse.from(fitting);
     }
 }

@@ -1,9 +1,6 @@
 package com.otchawon.user.controller;
+import com.otchawon.user.dto.UserDto;
 
-import com.otchawon.user.dto.request.BodyMeasurementRequest;
-import com.otchawon.user.dto.request.UpdateProfileRequest;
-import com.otchawon.user.dto.response.BodyMeasurementResponse;
-import com.otchawon.user.dto.response.UserResponse;
 import com.otchawon.user.security.JwtTokenProvider;
 import com.otchawon.user.service.ProfileService;
 import jakarta.validation.Valid;
@@ -35,11 +32,11 @@ public class ProfileController {
      * 프로필(닉네임, 주소)을 수정한다.
      */
     @PutMapping("/profile")
-    public ResponseEntity<UserResponse> updateProfile(
+    public ResponseEntity<UserDto.UserResponse> updateProfile(
             @RequestHeader("Authorization") String authorizationHeader,
-            @Valid @RequestBody UpdateProfileRequest request) {
+            @Valid @RequestBody UserDto.UpdateProfileRequest request) {
         Long userId = extractUserId(authorizationHeader);
-        UserResponse response = profileService.updateProfile(userId, request);
+        UserDto.UserResponse response = profileService.updateProfile(userId, request);
         return ResponseEntity.ok(response);
     }
 
@@ -47,11 +44,11 @@ public class ProfileController {
      * 체형 정보를 최초 저장한다.
      */
     @PostMapping("/body-measurements")
-    public ResponseEntity<BodyMeasurementResponse> createBodyMeasurement(
+    public ResponseEntity<UserDto.BodyMeasurementResponse> createBodyMeasurement(
             @RequestHeader("Authorization") String authorizationHeader,
-            @Valid @RequestBody BodyMeasurementRequest request) {
+            @Valid @RequestBody UserDto.BodyMeasurementRequest request) {
         Long userId = extractUserId(authorizationHeader);
-        BodyMeasurementResponse response = profileService.createBodyMeasurement(userId, request);
+        UserDto.BodyMeasurementResponse response = profileService.createBodyMeasurement(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -59,10 +56,10 @@ public class ProfileController {
      * 체형 정보를 조회한다.
      */
     @GetMapping("/body-measurements")
-    public ResponseEntity<BodyMeasurementResponse> getBodyMeasurement(
+    public ResponseEntity<UserDto.BodyMeasurementResponse> getBodyMeasurement(
             @RequestHeader("Authorization") String authorizationHeader) {
         Long userId = extractUserId(authorizationHeader);
-        BodyMeasurementResponse response = profileService.getBodyMeasurement(userId);
+        UserDto.BodyMeasurementResponse response = profileService.getBodyMeasurement(userId);
         return ResponseEntity.ok(response);
     }
 
@@ -70,11 +67,11 @@ public class ProfileController {
      * 체형 정보를 수정한다.
      */
     @PutMapping("/body-measurements")
-    public ResponseEntity<BodyMeasurementResponse> updateBodyMeasurement(
+    public ResponseEntity<UserDto.BodyMeasurementResponse> updateBodyMeasurement(
             @RequestHeader("Authorization") String authorizationHeader,
-            @Valid @RequestBody BodyMeasurementRequest request) {
+            @Valid @RequestBody UserDto.BodyMeasurementRequest request) {
         Long userId = extractUserId(authorizationHeader);
-        BodyMeasurementResponse response = profileService.updateBodyMeasurement(userId, request);
+        UserDto.BodyMeasurementResponse response = profileService.updateBodyMeasurement(userId, request);
         return ResponseEntity.ok(response);
     }
 

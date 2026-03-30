@@ -1,4 +1,4 @@
-export { Header } from './Header';
-export { Footer } from './Footer';
-export { MobileNav } from './MobileNav';
-export { Sidebar } from './Sidebar';
+export { Header } from './header';
+export { Footer } from './footer';
+export { MobileNav } from './mobile-nav';
+export { Sidebar } from './sidebar';

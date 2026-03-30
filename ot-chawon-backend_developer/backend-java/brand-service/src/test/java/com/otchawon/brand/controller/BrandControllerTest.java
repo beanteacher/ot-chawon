@@ -1,9 +1,7 @@
 package com.otchawon.brand.controller;
+import com.otchawon.brand.dto.BrandDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otchawon.brand.dto.request.CreateBrandRequest;
-import com.otchawon.brand.dto.response.BrandListResponse;
-import com.otchawon.brand.dto.response.BrandResponse;
 import com.otchawon.brand.entity.BrandStatus;
 import com.otchawon.brand.exception.BrandException;
 import com.otchawon.brand.exception.GlobalExceptionHandler;
@@ -40,14 +38,14 @@ class BrandControllerTest {
     @Test
     @DisplayName("POST /api/brands - 브랜드 등록 성공 (201)")
     void create_success() throws Exception {
-        CreateBrandRequest request = new CreateBrandRequest("테스트브랜드", "설명", "http://logo.url");
-        BrandResponse response = BrandResponse.builder()
+        BrandDto.CreateRequest request = new BrandDto.CreateRequest("테스트브랜드", "설명", "http://logo.url");
+        BrandDto.Response response = BrandDto.Response.builder()
                 .id(1L)
                 .name("테스트브랜드")
                 .status(BrandStatus.ACTIVE)
                 .build();
 
-        given(brandService.create(any(CreateBrandRequest.class))).willReturn(response);
+        given(brandService.create(any(BrandDto.CreateRequest.class))).willReturn(response);
 
         mockMvc.perform(post("/api/brands")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -60,7 +58,7 @@ class BrandControllerTest {
     @Test
     @DisplayName("POST /api/brands - 유효성 검사 실패 (400)")
     void create_validation_fail() throws Exception {
-        CreateBrandRequest request = new CreateBrandRequest("", null, null);
+        BrandDto.CreateRequest request = new BrandDto.CreateRequest("", null, null);
 
         mockMvc.perform(post("/api/brands")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -71,8 +69,8 @@ class BrandControllerTest {
     @Test
     @DisplayName("GET /api/brands - 브랜드 목록 조회 성공 (200)")
     void getAll_success() throws Exception {
-        BrandResponse brand = BrandResponse.builder().id(1L).name("브랜드1").status(BrandStatus.ACTIVE).build();
-        BrandListResponse response = BrandListResponse.builder()
+        BrandDto.Response brand = BrandDto.Response.builder().id(1L).name("브랜드1").status(BrandStatus.ACTIVE).build();
+        BrandDto.ListResponse response = BrandDto.ListResponse.builder()
                 .brands(List.of(brand))
                 .totalCount(1)
                 .build();
@@ -88,7 +86,7 @@ class BrandControllerTest {
     @Test
     @DisplayName("GET /api/brands/{id} - 브랜드 상세 조회 성공 (200)")
     void getById_success() throws Exception {
-        BrandResponse response = BrandResponse.builder().id(1L).name("브랜드").status(BrandStatus.ACTIVE).build();
+        BrandDto.Response response = BrandDto.Response.builder().id(1L).name("브랜드").status(BrandStatus.ACTIVE).build();
         given(brandService.getById(1L)).willReturn(response);
 
         mockMvc.perform(get("/api/brands/1"))

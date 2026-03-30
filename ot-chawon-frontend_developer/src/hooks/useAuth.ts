@@ -3,7 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api/axios';
 import { useAuthStore } from '@/store/auth.store';
-import type { AuthDto } from '@/types/auth.dto';
+import type { AuthDto } from '@/services/auth/dto/auth.dto';
 
 export function useLogin() {
   const { setAuth } = useAuthStore();

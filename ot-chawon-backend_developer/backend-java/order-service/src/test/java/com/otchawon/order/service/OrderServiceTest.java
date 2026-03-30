@@ -1,8 +1,6 @@
 package com.otchawon.order.service;
+import com.otchawon.order.dto.OrderDto;
 
-import com.otchawon.order.dto.request.CreateOrderRequest;
-import com.otchawon.order.dto.response.OrderListResponse;
-import com.otchawon.order.dto.response.OrderResponse;
 import com.otchawon.order.entity.*;
 import com.otchawon.order.exception.OrderException;
 import com.otchawon.order.repository.CartItemRepository;
@@ -73,11 +71,11 @@ class OrderServiceTest {
         given(cartRepository.findByUserId(1L)).willReturn(Optional.of(cart));
         given(orderRepository.save(any(Order.class))).willReturn(savedOrder);
 
-        CreateOrderRequest request = new CreateOrderRequest();
+        OrderDto.CreateOrderRequest request = new OrderDto.CreateOrderRequest();
         setField(request, "cartItemIds", List.of(1L));
         setField(request, "shippingAddress", "서울시 강남구");
 
-        OrderResponse response = orderService.createFromCart(1L, request);
+        OrderDto.OrderResponse response = orderService.createFromCart(1L, request);
 
         assertThat(response).isNotNull();
         assertThat(response.getUserId()).isEqualTo(1L);
@@ -88,7 +86,7 @@ class OrderServiceTest {
     void createFromCart_장바구니없음_예외() {
         given(cartRepository.findByUserId(1L)).willReturn(Optional.empty());
 
-        CreateOrderRequest request = new CreateOrderRequest();
+        OrderDto.CreateOrderRequest request = new OrderDto.CreateOrderRequest();
         setField(request, "cartItemIds", List.of(1L));
         setField(request, "shippingAddress", "서울시 강남구");
 
@@ -110,7 +108,7 @@ class OrderServiceTest {
 
         given(orderRepository.findById(1L)).willReturn(Optional.of(order));
 
-        OrderResponse response = orderService.getOrder(1L, 1L);
+        OrderDto.OrderResponse response = orderService.getOrder(1L, 1L);
 
         assertThat(response.getOrderId()).isEqualTo(1L);
         assertThat(response.getUserId()).isEqualTo(1L);
@@ -142,7 +140,7 @@ class OrderServiceTest {
 
         given(orderRepository.findByUserIdOrderByCreatedAtDesc(1L, pageable)).willReturn(page);
 
-        OrderListResponse response = orderService.getOrders(1L, null, pageable);
+        OrderDto.OrderListResponse response = orderService.getOrders(1L, null, pageable);
 
         assertThat(response.getOrders()).hasSize(1);
         assertThat(response.getTotalElements()).isEqualTo(1);
@@ -161,7 +159,7 @@ class OrderServiceTest {
 
         given(orderRepository.findById(1L)).willReturn(Optional.of(order));
 
-        OrderResponse response = orderService.cancelOrder(1L, 1L);
+        OrderDto.OrderResponse response = orderService.cancelOrder(1L, 1L);
 
         assertThat(response.getStatus()).isEqualTo(OrderStatus.CANCELLED);
     }

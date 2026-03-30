@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { OrderDetailClient } from './OrderDetailClient';
+import { OrderDetailClient } from './order-detail-client';
 
 interface Props {
   params: { orderId: string };

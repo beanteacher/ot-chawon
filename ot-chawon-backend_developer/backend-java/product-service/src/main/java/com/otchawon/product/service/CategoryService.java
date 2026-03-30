@@ -1,13 +1,12 @@
 package com.otchawon.product.service;
+import com.otchawon.product.dto.ProductDto;
 
-import com.otchawon.product.dto.request.CreateCategoryRequest;
-import com.otchawon.product.dto.response.CategoryResponse;
 
 import java.util.List;
 
 public interface CategoryService {
 
-    List<CategoryResponse> getAll();
+    List<ProductDto.CategoryResponse> getAll();
 
-    CategoryResponse create(CreateCategoryRequest request);
+    ProductDto.CategoryResponse create(ProductDto.CreateCategoryRequest request);
 }

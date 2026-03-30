@@ -1,6 +1,6 @@
-export { MyPageTabs } from './MyPageTabs';
-export type { MyPageTab } from './MyPageTabs';
-export { ProfileSection } from './ProfileSection';
-export { OrderHistory } from './OrderHistory';
-export { FittingGallery } from './FittingGallery';
-export { AddressManagement } from './AddressManagement';
+export { MyPageTabs } from './my-page-tabs';
+export type { MyPageTab } from './my-page-tabs';
+export { ProfileSection } from './profile-section';
+export { OrderHistory } from './order-history';
+export { FittingGallery } from './fitting-gallery';
+export { AddressManagement } from './address-management';

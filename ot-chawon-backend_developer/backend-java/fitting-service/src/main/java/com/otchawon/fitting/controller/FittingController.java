@@ -1,8 +1,6 @@
 package com.otchawon.fitting.controller;
+import com.otchawon.fitting.dto.FittingDto;
 
-import com.otchawon.fitting.dto.request.CreateFittingRequest;
-import com.otchawon.fitting.dto.response.FittingResponse;
-import com.otchawon.fitting.dto.response.FittingResultResponse;
 import com.otchawon.fitting.service.FittingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,32 +18,32 @@ public class FittingController {
     private final FittingService fittingService;
 
     @PostMapping
-    public ResponseEntity<FittingResponse> createFitting(
-            @RequestBody @Valid CreateFittingRequest request) {
-        FittingResponse response = fittingService.createFitting(request);
+    public ResponseEntity<FittingDto.Response> createFitting(
+            @RequestBody @Valid FittingDto.CreateRequest request) {
+        FittingDto.Response response = fittingService.createFitting(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FittingResponse> getFitting(
+    public ResponseEntity<FittingDto.Response> getFitting(
             @PathVariable Long id,
             @RequestHeader("X-User-Id") String userId) {
-        FittingResponse response = fittingService.getFitting(id, userId);
+        FittingDto.Response response = fittingService.getFitting(id, userId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<FittingResponse>> getFittingsByUser(
+    public ResponseEntity<List<FittingDto.Response>> getFittingsByUser(
             @PathVariable String userId) {
-        List<FittingResponse> responses = fittingService.getFittingsByUser(userId);
+        List<FittingDto.Response> responses = fittingService.getFittingsByUser(userId);
         return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/{id}/result")
-    public ResponseEntity<FittingResultResponse> getResult(
+    public ResponseEntity<FittingDto.ResultResponse> getResult(
             @PathVariable Long id,
             @RequestHeader("X-User-Id") String userId) {
-        FittingResultResponse response = fittingService.getResult(id, userId);
+        FittingDto.ResultResponse response = fittingService.getResult(id, userId);
         return ResponseEntity.ok(response);
     }
 }

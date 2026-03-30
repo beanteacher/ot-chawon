@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { OrderDto } from '@/types/order.dto';
+import type { OrderDto } from '@/services/order/dto/order.dto';
 
 interface CartItem extends OrderDto.Item {
   cartItemId: string;

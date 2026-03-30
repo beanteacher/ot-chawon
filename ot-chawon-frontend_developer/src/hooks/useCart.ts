@@ -3,7 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { cartApi } from '@/services/cartApi';
 import { useCartStore } from '@/store/cartStore';
-import type { CartDto } from '@/types/cart.dto';
+import type { CartDto } from '@/services/cart/dto/cart.dto';
 
 export const CART_QUERY_KEY = ['cart'] as const;
 

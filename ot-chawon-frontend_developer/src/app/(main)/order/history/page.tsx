@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiClient } from '@/lib/api/axios';
-import { Pagination } from '@/components/ui/Pagination';
+import { Pagination } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils/cn';
-import type { OrderDto } from '@/types/order.dto';
+import type { OrderDto } from '@/services/order/dto/order.dto';
 
 type StatusFilter = 'ALL' | OrderDto.OrderStatus;
 

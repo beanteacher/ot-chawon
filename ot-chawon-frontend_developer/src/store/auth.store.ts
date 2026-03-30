@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { AuthDto } from '@/types/auth.dto';
+import type { AuthDto } from '@/services/auth/dto/auth.dto';
 
 interface AuthState {
   user: AuthDto.UserProfile | null;

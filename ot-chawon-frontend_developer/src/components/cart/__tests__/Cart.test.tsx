@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { CartItem } from '../CartItem';
-import { CartSummary } from '../CartSummary';
+import { CartItem } from '../cart-item';
+import { CartSummary } from '../cart-summary';
 
 // UI 컴포넌트 mock
 jest.mock('@/components/ui', () => ({

@@ -1,4 +1,4 @@
-import type { FittingDto } from '@/types/fitting.dto';
+import type { FittingDto } from '@/services/fitting/dto/fitting.dto';
 
 const GATEWAY_URL = process.env.NEXT_PUBLIC_SPRING_GATEWAY_URL ?? 'http://localhost:8080';
 const AI_SERVER_URL = process.env.NEXT_PUBLIC_AI_SERVER_URL ?? 'http://localhost:8001';
