@@ -19,7 +19,7 @@ public class UserDto {
     public record SignupRequest(
             @Email(message = "올바른 이메일 형식이 아닙니다.") @NotBlank(message = "이메일은 필수입니다.") String email,
             @NotBlank(message = "비밀번호는 필수입니다.") @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.") String password,
-            @NotBlank(message = "닉네임은 필수입니다.") String nickname
+            @NotBlank(message = "이름은 필수입니다.") String name
     ) {}
 
     public record RefreshRequest(
@@ -27,7 +27,7 @@ public class UserDto {
     ) {}
 
     public record UpdateProfileRequest(
-            @NotBlank(message = "닉네임은 필수입니다.") @Size(max = 100, message = "닉네임은 최대 100자입니다.") String nickname,
+            @NotBlank(message = "이름은 필수입니다.") @Size(max = 100, message = "이름은 최대 100자입니다.") String name,
             @Size(max = 500, message = "주소는 최대 500자입니다.") String address
     ) {}
 
@@ -51,7 +51,7 @@ public class UserDto {
     public record UserResponse(
             Long id,
             String email,
-            String nickname,
+            String name,
             String role,
             String status,
             LocalDateTime createdAt
@@ -60,7 +60,7 @@ public class UserDto {
             return new UserResponse(
                     user.getId(),
                     user.getEmail(),
-                    user.getNickname(),
+                    user.getName(),
                     user.getRole(),
                     user.getStatus(),
                     user.getCreatedAt()

@@ -30,7 +30,7 @@ public class ProfileServiceImpl implements ProfileService {
     public UserDto.UserResponse updateProfile(Long userId, UserDto.UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(AuthException::userNotFound);
-        user.updateProfile(request.getNickname(), request.getAddress());
+        user.updateProfile(request.name(), request.address());
         log.info("프로필 수정 완료: userId={}", userId);
         return UserDto.UserResponse.from(user);
     }
@@ -44,14 +44,14 @@ public class ProfileServiceImpl implements ProfileService {
 
         BodyMeasurement measurement = BodyMeasurement.builder()
                 .userId(userId)
-                .height(request.getHeight())
-                .weight(request.getWeight())
-                .chest(request.getChest())
-                .waist(request.getWaist())
-                .hip(request.getHip())
-                .shoulder(request.getShoulder())
-                .armLength(request.getArmLength())
-                .legLength(request.getLegLength())
+                .height(request.height())
+                .weight(request.weight())
+                .chest(request.chest())
+                .waist(request.waist())
+                .hip(request.hip())
+                .shoulder(request.shoulder())
+                .armLength(request.armLength())
+                .legLength(request.legLength())
                 .build();
 
         BodyMeasurement saved = bodyMeasurementRepository.save(measurement);
@@ -74,14 +74,14 @@ public class ProfileServiceImpl implements ProfileService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "체형 정보가 존재하지 않습니다. POST 메서드로 먼저 저장하세요."));
 
         measurement.update(
-                request.getHeight(),
-                request.getWeight(),
-                request.getChest(),
-                request.getWaist(),
-                request.getHip(),
-                request.getShoulder(),
-                request.getArmLength(),
-                request.getLegLength()
+                request.height(),
+                request.weight(),
+                request.chest(),
+                request.waist(),
+                request.hip(),
+                request.shoulder(),
+                request.armLength(),
+                request.legLength()
         );
 
         log.info("체형 정보 수정 완료: userId={}", userId);

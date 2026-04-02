@@ -6,100 +6,116 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+            maxAge: 3600
       routes:
         - id: user-service-auth
-          uri: http://localhost:8081
+          uri: ${USER_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/v1/auth/**
           filters:
             - StripPrefix=0
 
         - id: user-service-auth-direct
-          uri: http://localhost:8081
+          uri: ${USER_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/auth/**
           filters:
             - StripPrefix=0
 
         - id: user-service-users
-          uri: http://localhost:8081
+          uri: ${USER_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/v1/users/**
           filters:
             - StripPrefix=0
 
         - id: product-service
-          uri: http://localhost:8082
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/api/v1/products/**
           filters:
             - StripPrefix=0
 
         - id: order-service
-          uri: http://localhost:8083
+          uri: ${ORDER_SERVICE_URL:http://localhost:8083}
           predicates:
             - Path=/api/v1/orders/**
           filters:
             - StripPrefix=0
 
         - id: order-service-direct
-          uri: http://localhost:8083
+          uri: ${ORDER_SERVICE_URL:http://localhost:8083}
           predicates:
             - Path=/api/orders/**
           filters:
             - StripPrefix=0
 
         - id: cart-service
-          uri: http://localhost:8083
+          uri: ${ORDER_SERVICE_URL:http://localhost:8083}
           predicates:
             - Path=/api/carts/**
           filters:
             - StripPrefix=0
 
         - id: cart-service-v1
-          uri: http://localhost:8083
+          uri: ${ORDER_SERVICE_URL:http://localhost:8083}
           predicates:
             - Path=/api/v1/carts/**
           filters:
             - StripPrefix=0
 
         - id: payment-service
-          uri: http://localhost:8084
+          uri: ${PAYMENT_SERVICE_URL:http://localhost:8084}
           predicates:
             - Path=/api/v1/payments/**
           filters:
             - StripPrefix=0
 
         - id: payment-service-direct
-          uri: http://localhost:8084
+          uri: ${PAYMENT_SERVICE_URL:http://localhost:8084}
           predicates:
             - Path=/api/payments/**
           filters:
             - StripPrefix=0
 
         - id: fitting-service
-          uri: http://localhost:8085
+          uri: ${FITTING_SERVICE_URL:http://localhost:8085}
           predicates:
             - Path=/api/v1/fittings/**
           filters:
             - StripPrefix=0
 
         - id: fitting-service-legacy
-          uri: http://localhost:8085
+          uri: ${FITTING_SERVICE_URL:http://localhost:8085}
           predicates:
             - Path=/api/v1/fitting/**
           filters:
             - StripPrefix=0
 
         - id: brand-service
-          uri: http://localhost:8086
+          uri: ${BRAND_SERVICE_URL:http://localhost:8086}
           predicates:
             - Path=/api/v1/brands/**
           filters:
             - StripPrefix=0
 
         - id: product-asset-service
-          uri: http://localhost:8082
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/api/v1/assets/**,/api/v1/products/*/assets/**
           filters:

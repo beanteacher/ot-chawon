@@ -30,14 +30,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public UserDto.UserResponse signup(UserDto.SignupRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.email())) {
             throw AuthException.emailAlreadyExists();
         }
 
         User user = User.builder()
-                .email(request.getEmail())
-                .passwordHash(passwordEncoder.encode(request.getPassword()))
-                .nickname(request.getNickname())
+                .email(request.email())
+                .passwordHash(passwordEncoder.encode(request.password()))
+                .name(request.name())
                 .role("USER")
                 .status("ACTIVE")
                 .build();
@@ -50,10 +50,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(readOnly = true)
     public UserDto.TokenResponse login(UserDto.LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.email())
                 .orElseThrow(AuthException::invalidCredentials);
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+        if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw AuthException.invalidCredentials();
         }
 
@@ -63,16 +63,13 @@ public class AuthServiceImpl implements AuthService {
         storeRefreshToken(user.getId(), refreshToken);
 
         log.info("User logged in: {}", user.getEmail());
-        return UserDto.TokenResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .expiresIn(jwtTokenProvider.getAccessTokenExpiryMs() / 1000)
-                .build();
+        return new UserDto.TokenResponse(accessToken, refreshToken,
+                jwtTokenProvider.getAccessTokenExpiryMs() / 1000);
     }
 
     @Override
     public UserDto.TokenResponse refresh(UserDto.RefreshRequest request) {
-        String refreshToken = request.getRefreshToken();
+        String refreshToken = request.refreshToken();
 
         if (!jwtTokenProvider.isValid(refreshToken)) {
             throw AuthException.invalidRefreshToken();
@@ -94,16 +91,13 @@ public class AuthServiceImpl implements AuthService {
 
         storeRefreshToken(userId, newRefreshToken);
 
-        return UserDto.TokenResponse.builder()
-                .accessToken(newAccessToken)
-                .refreshToken(newRefreshToken)
-                .expiresIn(jwtTokenProvider.getAccessTokenExpiryMs() / 1000)
-                .build();
+        return new UserDto.TokenResponse(newAccessToken, newRefreshToken,
+                jwtTokenProvider.getAccessTokenExpiryMs() / 1000);
     }
 
     @Override
     public void logout(UserDto.RefreshRequest request) {
-        String refreshToken = request.getRefreshToken();
+        String refreshToken = request.refreshToken();
 
         if (!jwtTokenProvider.isValid(refreshToken)) {
             throw AuthException.invalidRefreshToken();

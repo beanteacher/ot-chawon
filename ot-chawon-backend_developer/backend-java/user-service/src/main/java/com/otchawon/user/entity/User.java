@@ -25,8 +25,8 @@ public class User {
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    @Column(length = 100)
-    private String nickname;
+    @Column(name = "name", length = 100)
+    private String name;
 
     @Column(length = 500)
     private String address;
@@ -51,13 +51,13 @@ public class User {
     private LocalDateTime deletedAt;
 
     /**
-     * 프로필 정보(닉네임, 주소)를 수정한다.
+     * 프로필 정보(이름, 주소)를 수정한다.
      *
-     * @param nickname 새 닉네임
-     * @param address  새 주소
+     * @param name    새 이름
+     * @param address 새 주소
      */
-    public void updateProfile(String nickname, String address) {
-        this.nickname = nickname;
+    public void updateProfile(String name, String address) {
+        this.name = name;
         this.address = address;
     }
 }
