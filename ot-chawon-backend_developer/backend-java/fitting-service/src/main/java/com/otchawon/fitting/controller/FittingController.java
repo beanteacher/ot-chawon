@@ -19,8 +19,12 @@ public class FittingController {
 
     @PostMapping
     public ResponseEntity<FittingDto.Response> createFitting(
-            @RequestBody @Valid FittingDto.CreateRequest request) {
-        FittingDto.Response response = fittingService.createFitting(request);
+            @RequestBody @Valid FittingDto.CreateRequest request,
+            @RequestHeader(value = "X-User-Id", required = false) String headerUserId) {
+        FittingDto.CreateRequest effectiveRequest = (headerUserId != null && !headerUserId.isBlank())
+                ? new FittingDto.CreateRequest(headerUserId, request.itemId(), request.bodyMeasurement(), request.renderOptions())
+                : request;
+        FittingDto.Response response = fittingService.createFitting(effectiveRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

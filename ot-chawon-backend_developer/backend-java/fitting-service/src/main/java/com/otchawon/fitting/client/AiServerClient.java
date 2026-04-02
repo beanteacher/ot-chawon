@@ -17,7 +17,7 @@ public class AiServerClient {
 
     private final WebClient.Builder webClientBuilder;
 
-    @Value("${otc.ai-ml.base-url:http://localhost:8000}")
+    @Value("${AI_SERVER_URL:http://ai-server:8090}")
     private String aiBaseUrl;
 
     public Mono<Map> requestFitting(FittingRequestedEvent event) {
@@ -29,7 +29,7 @@ public class AiServerClient {
                         "fitting_id", event.getFittingId(),
                         "user_id", event.getUserId(),
                         "item_id", event.getItemId(),
-                        "body_measurement", event.getBodyMeasurement(),
+                        "body", event.getBodyMeasurement(),
                         "render_options", event.getRenderOptions() != null ? event.getRenderOptions() : Map.of()
                 ))
                 .retrieve()

@@ -126,7 +126,10 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => {
+                  setActiveCategory(cat);
+                  setFilters((f) => ({ ...f, categories: [] }));
+                }}
                 className={cn(
                   'px-4 py-2 text-sm font-medium rounded-full transition-colors whitespace-nowrap',
                   activeCategory === cat
@@ -162,7 +165,7 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
               </span>
             )}
             <button
-              onClick={() => setFilters(INITIAL_FILTERS)}
+              onClick={() => { setFilters(INITIAL_FILTERS); setActiveCategory('전체'); }}
               className="text-xs text-oc-gray-500 hover:text-white transition-colors underline"
             >
               전체 초기화
@@ -174,7 +177,7 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
           {/* 필터 사이드바 (데스크탑) */}
           <aside className="hidden lg:block w-56 flex-shrink-0">
             <div className="sticky top-4">
-              <ProductFilter filters={filters} onChange={setFilters} />
+              <ProductFilter filters={filters} onChange={setFilters} onReset={() => setActiveCategory('전체')} />
             </div>
           </aside>
 
@@ -324,6 +327,7 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
               <ProductFilter
                 filters={filters}
                 onChange={setFilters}
+                onReset={() => setActiveCategory('전체')}
                 onClose={() => setMobileFilterOpen(false)}
                 isMobile
               />

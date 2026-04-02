@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
+import { useAuthStore } from '@/store/auth.store';
+
 
 interface Product {
   id: string;
@@ -25,10 +28,17 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: ProductCardProps) => {
   const [liked, setLiked] = useState(product.isLiked ?? false);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
+  const router = useRouter();
 
   const handleLike = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
     const next = !liked;
     setLiked(next);
     onLikeToggle?.(product.id, next);

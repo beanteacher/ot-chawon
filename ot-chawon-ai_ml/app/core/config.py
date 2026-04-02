@@ -25,6 +25,7 @@ class Settings(BaseSettings):
 
     # AI Server
     ai_server_url: str = "http://localhost:8000"
+    ai_server_base_url: str = "http://ai-server:8001"
 
     # Backend fitting-service
     fitting_service_url: str = "http://localhost:8001"

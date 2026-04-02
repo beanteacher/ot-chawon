@@ -35,7 +35,7 @@ server:
 
 otc:
   ai-ml:
-    base-url: ${AI_ML_BASE_URL:http://localhost:8000}
+    base-url: ${AI_ML_BASE_URL:http://ai-server:8001}
 
 management:
   endpoints:

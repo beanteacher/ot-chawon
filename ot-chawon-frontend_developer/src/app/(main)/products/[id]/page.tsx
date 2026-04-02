@@ -49,6 +49,26 @@ const DUMMY_PRODUCTS: Record<string, ProductDto.Detail> = {
     ],
     category: '하의',
   },
+  '6': {
+    id: 6,
+    name: '캔버스 로우 스니커즈',
+    price: 59000,
+    brandName: 'Converse',
+    thumbnailUrl: '',
+    hasThreeD: false,
+    glbAssetKey: null,
+    description: `클래식한 디자인의 캔버스 로우컷 스니커즈입니다.\n\n가볍고 편안한 착화감으로 일상에서 활용하기 좋습니다.\n\n소재: 캔버스 어퍼, 고무 아웃솔\n현재 품절된 상품입니다.`,
+    images: [],
+    sizes: [
+      { label: '240', stock: 0 },
+      { label: '250', stock: 0 },
+      { label: '260', stock: 0 },
+      { label: '270', stock: 0 },
+      { label: '280', stock: 0 },
+    ],
+    soldOut: true,
+    category: '신발',
+  },
 };
 
 const DUMMY_RELATED: ProductDto.Item[] = [
@@ -89,12 +109,13 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   if (!product) {
     return { title: '상품을 찾을 수 없습니다 | OT-CHAWON' };
   }
+  const description = (product.description ?? '').slice(0, 150);
   return {
     title: `${product.name} | OT-CHAWON`,
-    description: product.description.slice(0, 150),
+    description,
     openGraph: {
       title: product.name,
-      description: product.description.slice(0, 150),
+      description,
       images: product.thumbnailUrl ? [{ url: product.thumbnailUrl, alt: product.name }] : [],
     },
   };

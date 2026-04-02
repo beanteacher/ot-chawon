@@ -1,7 +1,9 @@
 """피팅 서비스 — 체형 → 아바타 → 의류 변형 → 렌더링 파이프라인."""
+import os
 import time
 import logging
 from pathlib import Path
+from pathlib import Path as FilePath
 from typing import Optional
 
 import numpy as np
@@ -72,9 +74,25 @@ def _get_avatar_bounds(body: BodyInput) -> dict:
     }
 
 
-def _build_glb_url(item_id: str, job_id: str) -> str:
-    """피팅 결과 GLB URL 생성 (CDN 또는 로컬 경로)."""
-    return f"/static/fits/{job_id}/{item_id}_fitted.glb"
+def _save_and_build_glb_url(fitted_mesh: Optional["trimesh.Trimesh"], item_id: str, job_id: str) -> str:
+    """피팅 결과 GLB 저장 및 URL 반환."""
+    base_url = os.environ.get("AI_SERVER_BASE_URL", "http://ai-server:8001")
+    relative_path = f"/static/fits/{job_id}/{item_id}_fitted.glb"
+
+    if TRIMESH_AVAILABLE and fitted_mesh is not None:
+        try:
+            save_dir = FilePath(f"/tmp/fits/{job_id}")
+            save_dir.mkdir(parents=True, exist_ok=True)
+            glb_path = save_dir / f"{item_id}_fitted.glb"
+            # Export as GLB
+            glb_bytes = fitted_mesh.export(file_type='glb')
+            with open(glb_path, 'wb') as f:
+                f.write(glb_bytes)
+            logger.info("GLB 저장 완료: %s", glb_path)
+        except Exception as e:
+            logger.warning("GLB 저장 실패: %s", e)
+
+    return base_url + relative_path
 
 
 def _build_render_urls(render_bytes: dict[str, bytes], job_id: str) -> dict[str, str]:
@@ -164,6 +182,6 @@ class FittingService:
 
         return FitResult(
             renders=render_urls,
-            glb_url=_build_glb_url(item_id, job_id),
+            glb_url=_save_and_build_glb_url(fitted_mesh, item_id, job_id),
             size_recommendation=size_rec,
         )

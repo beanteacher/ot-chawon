@@ -26,7 +26,7 @@ export default function FittingEntryPage() {
     try {
       const response = await createFitting({
         userId: 'guest',
-        itemId: '',
+        itemId: 'default',
         bodyMeasurement: {
           height: data.height,
           weight: data.weight,

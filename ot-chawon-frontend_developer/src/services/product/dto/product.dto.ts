@@ -15,6 +15,7 @@ export namespace ProductDto {
     images: string[];
     sizes: SizeOption[];
     category: string;
+    soldOut?: boolean;
   }
 
   export interface SizeOption {

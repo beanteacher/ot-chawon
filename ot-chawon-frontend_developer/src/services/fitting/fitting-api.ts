@@ -3,11 +3,23 @@ import type { FittingDto } from '@/services/fitting/dto/fitting.dto';
 const GATEWAY_URL = process.env.NEXT_PUBLIC_SPRING_GATEWAY_URL ?? 'http://localhost:8080';
 const AI_SERVER_URL = process.env.NEXT_PUBLIC_AI_SERVER_URL ?? 'http://localhost:8001';
 
+function getAuthToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const authStorage = localStorage.getItem('auth-storage');
+    return authStorage ? JSON.parse(authStorage)?.state?.accessToken ?? null : null;
+  } catch {
+    return null;
+  }
+}
+
 async function apiFetch<T>(url: string, init?: RequestInit): Promise<T> {
+  const token = getAuthToken();
   const response = await fetch(url, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...init?.headers,
     },
   });

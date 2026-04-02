@@ -16,6 +16,7 @@ export interface FilterState {
 interface ProductFilterProps {
   filters: FilterState;
   onChange: (filters: FilterState) => void;
+  onReset?: () => void;
   onClose?: () => void;
   isMobile?: boolean;
 }
@@ -88,12 +89,13 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
   );
 }
 
-export function ProductFilter({ filters, onChange, onClose, isMobile = false }: ProductFilterProps) {
+export function ProductFilter({ filters, onChange, onReset, onClose, isMobile = false }: ProductFilterProps) {
   const toggle = <T,>(arr: T[], item: T): T[] =>
     arr.includes(item) ? arr.filter((v) => v !== item) : [...arr, item];
 
   const handleReset = () => {
     onChange({ categories: [], brands: [], priceMin: 0, priceMax: 500000, colors: [], sizes: [] });
+    onReset?.();
   };
 
   const content = (

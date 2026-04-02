@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 import { useCartStore } from '@/store/cart.store';
 import { cn } from '@/lib/utils/cn';
@@ -21,6 +22,17 @@ export function Header({ onMenuOpen }: HeaderProps) {
   const { isAuthenticated, user, clearAuth } = useAuthStore();
   const items = useCartStore((s) => s.items);
   const [scrolled, setScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const query = (e.currentTarget.value || searchQuery).trim();
+      if (query) {
+        router.push(`/search?q=${encodeURIComponent(query)}`);
+      }
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 0);
@@ -73,6 +85,9 @@ export function Header({ onMenuOpen }: HeaderProps) {
           <input
             type="search"
             placeholder="상품 검색..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleSearchKeyDown}
             className="w-full bg-oc-gray-900 border border-oc-gray-700 rounded-lg px-3 py-1.5 text-sm text-white placeholder-oc-gray-500 focus:outline-none focus:border-oc-primary-500"
           />
         </div>

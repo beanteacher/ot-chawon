@@ -1,15 +1,24 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Checkbox, SkeletonCard } from '@/components/ui';
 import { CartItem } from '@/components/cart/cart-item';
 import { CartSummary } from '@/components/cart/cart-summary';
 import { ErrorFallback } from '@/components/error/error-fallback';
 import { useCart } from '@/hooks/useCart';
+import { useAuthStore } from '@/store/auth.store';
 
 export default function CartPage() {
   const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace('/login');
+    }
+  }, [isAuthenticated, router]);
+
   const {
     items,
     isLoading,
@@ -26,6 +35,8 @@ export default function CartPage() {
     removeItem,
     removeSelectedItems,
   } = useCart();
+
+  if (!isAuthenticated) return null;
 
   const shippingFee = subtotal >= 50000 ? 0 : 3000;
 
@@ -51,7 +62,7 @@ export default function CartPage() {
     );
   }
 
-  if (isError) {
+  if (isError && isAuthenticated) {
     return (
       <main className="max-w-screen-xl mx-auto px-4 py-12">
         <h1 className="text-2xl font-bold text-white mb-8">장바구니</h1>

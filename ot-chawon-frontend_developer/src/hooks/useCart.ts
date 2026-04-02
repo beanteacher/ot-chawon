@@ -3,12 +3,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { cartApi } from '@/services/cartApi';
 import { useCartStore } from '@/store/cartStore';
+import { useAuthStore } from '@/store/auth.store';
 import type { CartDto } from '@/services/cart/dto/cart.dto';
 
 export const CART_QUERY_KEY = ['cart'] as const;
 
 export function useCart() {
   const queryClient = useQueryClient();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const { setItems, selectedIds, toggleSelect, selectAll, clearSelection, getSelectedItems, getSubtotal, getSelectedCount } =
     useCartStore();
 
@@ -19,6 +21,7 @@ export function useCart() {
       setItems(data.items);
       return data;
     },
+    enabled: isAuthenticated,
   });
 
   const addItemMutation = useMutation({

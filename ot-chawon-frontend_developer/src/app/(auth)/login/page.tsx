@@ -13,9 +13,23 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const errors: { email?: string; password?: string } = {};
+    if (!email.trim()) {
+      errors.email = '이메일을 입력해주세요.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = '올바른 이메일 형식을 입력해주세요.';
+    }
+    if (!password.trim()) errors.password = '비밀번호를 입력해주세요.';
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
     loginMutation.mutate(
       { email, password },
       {
@@ -31,29 +45,30 @@ export default function LoginPage() {
       <section className="w-full max-w-md px-8 py-12">
         <h1 className="text-2xl font-bold text-white mb-8">로그인</h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <Input
-            type="email"
-            label="이메일"
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            {...(loginMutation.isError && loginMutation.error?.message
-              ? { errorMessage: loginMutation.error.message }
-              : {})}
-            required
-            autoComplete="email"
-          />
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+          <div>
+            <Input
+              type="email"
+              label="이메일"
+              placeholder="이메일을 입력하세요"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); setFieldErrors((prev) => ({ ...prev, email: '' })); }}
+              autoComplete="email"
+            />
+            {fieldErrors.email && <p className="mt-1 text-xs text-red-500">{fieldErrors.email}</p>}
+          </div>
 
-          <Input
-            type="password"
-            label="비밀번호"
-            placeholder="비밀번호를 입력하세요"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-          />
+          <div>
+            <Input
+              type="password"
+              label="비밀번호"
+              placeholder="비밀번호를 입력하세요"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); setFieldErrors((prev) => ({ ...prev, password: '' })); }}
+              autoComplete="current-password"
+            />
+            {fieldErrors.password && <p className="mt-1 text-xs text-red-500">{fieldErrors.password}</p>}
+          </div>
 
           {loginMutation.isError && (
             <p className="text-sm text-oc-error">

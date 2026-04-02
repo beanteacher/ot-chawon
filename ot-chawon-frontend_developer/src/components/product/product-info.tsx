@@ -28,6 +28,7 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('상세설명');
 
+  const isSoldOut = product.soldOut === true || product.sizes.every((s) => s.stock === 0);
   const discountedPrice = Math.round(product.price * (1 - DUMMY_DISCOUNT / 100));
 
   const handleAddToCart = () => {
@@ -51,7 +52,14 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
       {/* 브랜드 + 상품명 + 가격 */}
       <div>
         <p className="text-sm text-oc-primary-400 font-medium mb-1">{product.brandName}</p>
-        <h1 className="text-xl font-bold text-white mb-3">{product.name}</h1>
+        <div className="flex items-center gap-2 mb-3">
+          <h1 className="text-xl font-bold text-white">{product.name}</h1>
+          {isSoldOut && (
+            <span className="px-2 py-0.5 text-xs font-bold bg-oc-gray-700 text-oc-gray-400 rounded border border-oc-gray-600">
+              SOLD OUT
+            </span>
+          )}
+        </div>
         <div className="flex items-center gap-3">
           <span className="text-2xl font-bold text-white">{discountedPrice.toLocaleString()}원</span>
           <span className="text-base text-oc-gray-500 line-through">{product.price.toLocaleString()}원</span>
@@ -151,17 +159,30 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
 
       {/* 버튼 */}
       <div className="flex gap-3">
-        <Button
-          variant="secondary"
-          fullWidth
-          onClick={handleAddToCart}
-          className="border-oc-gray-600 text-oc-gray-200 bg-oc-gray-800 hover:bg-oc-gray-700"
-        >
-          장바구니
-        </Button>
-        <Button variant="primary" fullWidth onClick={handleBuyNow}>
-          바로구매
-        </Button>
+        {isSoldOut ? (
+          <Button
+            variant="secondary"
+            fullWidth
+            disabled
+            className="border-oc-gray-800 text-oc-gray-600 bg-oc-gray-900 cursor-not-allowed"
+          >
+            품절
+          </Button>
+        ) : (
+          <>
+            <Button
+              variant="secondary"
+              fullWidth
+              onClick={handleAddToCart}
+              className="border-oc-gray-600 text-oc-gray-200 bg-oc-gray-800 hover:bg-oc-gray-700"
+            >
+              장바구니
+            </Button>
+            <Button variant="primary" fullWidth onClick={handleBuyNow}>
+              바로구매
+            </Button>
+          </>
+        )}
       </div>
 
       {/* 탭 */}

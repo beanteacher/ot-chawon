@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Checkbox } from '@/components/ui';
 import { OrderForm, ShippingInfo } from '@/components/order/order-form';
@@ -9,6 +9,7 @@ import type { PaymentMethod } from '@/components/order/payment-select';
 import { useCartStore } from '@/store/cartStore';
 import { useCreateOrder } from '@/hooks/useOrder';
 import { paymentApi } from '@/services/paymentApi';
+import { useAuthStore } from '@/store/auth.store';
 
 const TERMS = [
   { id: 'terms-service', label: '[필수] 서비스 이용약관 동의' },
@@ -19,6 +20,14 @@ const TERMS = [
 
 export default function OrderPage() {
   const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace('/login');
+    }
+  }, [isAuthenticated, router]);
+
   const { getSelectedItems, selectedIds } = useCartStore();
   const selectedItems = getSelectedItems();
 
@@ -36,6 +45,8 @@ export default function OrderPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const createOrderMutation = useCreateOrder();
+
+  if (!isAuthenticated) return null;
 
   const subtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shippingFee = subtotal >= 50000 ? 0 : 3000;
