@@ -31,10 +31,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public ProductDto.CategoryResponse create(ProductDto.CreateCategoryRequest request) {
         Category category = Category.builder()
-                .name(request.getName())
-                .parentId(request.getParentId())
-                .depth(request.getDepth())
-                .sortOrder(request.getSortOrder())
+                .name(request.name())
+                .parentId(request.parentId())
+                .depth(request.depth())
+                .sortOrder(request.sortOrder())
                 .build();
 
         Category saved = categoryRepository.save(category);

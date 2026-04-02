@@ -31,23 +31,23 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto.ProductResponse create(ProductDto.CreateProductRequest request) {
         Product product = Product.builder()
-                .name(request.getName())
-                .price(request.getPrice())
-                .categoryId(request.getCategoryId())
-                .brandId(request.getBrandId())
-                .description(request.getDescription())
+                .name(request.name())
+                .price(request.price())
+                .categoryId(request.categoryId())
+                .brandId(request.brandId())
+                .description(request.description())
                 .build();
 
         Product saved = productRepository.save(product);
 
-        if (request.getOptions() != null && !request.getOptions().isEmpty()) {
-            List<ProductOption> options = request.getOptions().stream()
+        if (request.options() != null && !request.options().isEmpty()) {
+            List<ProductOption> options = request.options().stream()
                     .map(opt -> ProductOption.builder()
                             .productId(saved.getId())
-                            .size(opt.getSize())
-                            .color(opt.getColor())
-                            .stock(opt.getStock())
-                            .extraPrice(opt.getExtraPrice())
+                            .size(opt.size())
+                            .color(opt.color())
+                            .stock(opt.stock())
+                            .extraPrice(opt.extraPrice())
                             .build())
                     .collect(Collectors.toList());
             productOptionRepository.saveAll(options);
@@ -87,24 +87,23 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     public ProductDto.ProductListResponse search(ProductDto.ProductSearchRequest searchRequest, Pageable pageable) {
         Page<Product> page = productRepository.search(
-                searchRequest.getKeyword(),
-                searchRequest.getCategoryId(),
-                searchRequest.getBrandId(),
-                searchRequest.getMinPrice(),
-                searchRequest.getMaxPrice(),
-                searchRequest.getStatus(),
+                searchRequest.keyword(),
+                searchRequest.categoryId(),
+                searchRequest.brandId(),
+                searchRequest.minPrice(),
+                searchRequest.maxPrice(),
+                searchRequest.status(),
                 pageable);
 
         List<ProductDto.ProductResponse> products = page.getContent().stream()
                 .map(ProductDto.ProductResponse::from)
                 .collect(Collectors.toList());
 
-        return ProductDto.ProductListResponse.builder()
-                .products(products)
-                .totalPages(page.getTotalPages())
-                .totalElements(page.getTotalElements())
-                .currentPage(page.getNumber())
-                .build();
+        return new ProductDto.ProductListResponse(
+                products,
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.getNumber());
     }
 
     @Override
@@ -115,11 +114,11 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(ProductException::notFound);
 
         product.update(
-                request.getName(),
-                request.getPrice(),
-                request.getDescription(),
-                request.getStatus(),
-                request.getCategoryId());
+                request.name(),
+                request.price(),
+                request.description(),
+                request.status(),
+                request.categoryId());
 
         log.info("상품 수정 완료: productId={}", id);
         return ProductDto.ProductResponse.from(product);

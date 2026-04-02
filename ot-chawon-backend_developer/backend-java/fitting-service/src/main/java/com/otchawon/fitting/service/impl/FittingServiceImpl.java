@@ -31,14 +31,14 @@ public class FittingServiceImpl implements FittingService {
     public FittingDto.Response createFitting(FittingDto.CreateRequest request) {
         String bodyMeasurementJson = null;
         try {
-            bodyMeasurementJson = objectMapper.writeValueAsString(request.getBodyMeasurement());
+            bodyMeasurementJson = objectMapper.writeValueAsString(request.bodyMeasurement());
         } catch (Exception e) {
             log.warn("bodyMeasurement 직렬화 실패: {}", e.getMessage());
         }
 
         FittingRequest fitting = FittingRequest.builder()
-                .userId(request.getUserId())
-                .itemId(request.getItemId())
+                .userId(request.userId())
+                .itemId(request.itemId())
                 .bodyMeasurement(bodyMeasurementJson)
                 .status(FittingStatus.QUEUED)
                 .build();
@@ -50,8 +50,8 @@ public class FittingServiceImpl implements FittingService {
                 .fittingId(saved.getId())
                 .userId(saved.getUserId())
                 .itemId(saved.getItemId())
-                .bodyMeasurement(request.getBodyMeasurement())
-                .renderOptions(request.getRenderOptions())
+                .bodyMeasurement(request.bodyMeasurement())
+                .renderOptions(request.renderOptions())
                 .build();
 
         fittingEventProducer.sendFittingRequested(event);

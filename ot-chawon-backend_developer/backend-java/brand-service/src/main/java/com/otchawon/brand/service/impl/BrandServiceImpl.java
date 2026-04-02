@@ -23,14 +23,14 @@ public class BrandServiceImpl implements BrandService {
     @Override
     @Transactional
     public BrandDto.Response create(BrandDto.CreateRequest request) {
-        if (brandRepository.existsByName(request.getName())) {
+        if (brandRepository.existsByName(request.name())) {
             throw BrandException.nameAlreadyExists();
         }
 
         Brand brand = Brand.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .logoUrl(request.getLogoUrl())
+                .name(request.name())
+                .description(request.description())
+                .logoUrl(request.logoUrl())
                 .build();
 
         Brand savedBrand = brandRepository.save(brand);
@@ -53,10 +53,7 @@ public class BrandServiceImpl implements BrandService {
         List<BrandDto.Response> brandResponses = brands.stream()
                 .map(BrandDto.Response::from)
                 .collect(Collectors.toList());
-        return BrandDto.ListResponse.builder()
-                .brands(brandResponses)
-                .totalCount(brandResponses.size())
-                .build();
+        return new BrandDto.ListResponse(brandResponses, brandResponses.size());
     }
 
     @Override
@@ -65,13 +62,13 @@ public class BrandServiceImpl implements BrandService {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(BrandException::notFound);
 
-        if (request.getName() != null && !request.getName().equals(brand.getName())) {
-            if (brandRepository.existsByName(request.getName())) {
+        if (request.name() != null && !request.name().equals(brand.getName())) {
+            if (brandRepository.existsByName(request.name())) {
                 throw BrandException.nameAlreadyExists();
             }
         }
 
-        brand.update(request.getName(), request.getDescription(), request.getLogoUrl(), request.getStatus());
+        brand.update(request.name(), request.description(), request.logoUrl(), request.status());
         log.info("Brand updated: id={}", id);
         return BrandDto.Response.from(brand);
     }

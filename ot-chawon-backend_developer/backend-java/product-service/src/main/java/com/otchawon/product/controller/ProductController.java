@@ -33,14 +33,8 @@ public class ProductController {
             @RequestParam(required = false) String status,
             @PageableDefault(size = 20) Pageable pageable) {
 
-        ProductDto.ProductSearchRequest searchRequest = ProductDto.ProductSearchRequest.builder()
-                .keyword(keyword)
-                .categoryId(categoryId)
-                .brandId(brandId)
-                .minPrice(minPrice)
-                .maxPrice(maxPrice)
-                .status(status)
-                .build();
+        ProductDto.ProductSearchRequest searchRequest = new ProductDto.ProductSearchRequest(
+                keyword, categoryId, brandId, minPrice, maxPrice, status);
 
         ProductDto.ProductListResponse response = productService.search(searchRequest, pageable);
         return ResponseEntity.ok(response);

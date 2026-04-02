@@ -28,22 +28,22 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public PaymentDto.PaymentResponse requestPayment(Long userId, PaymentDto.PaymentRequest request) {
-        paymentRepository.findByOrderId(request.getOrderId()).ifPresent(p -> {
+        paymentRepository.findByOrderId(request.orderId()).ifPresent(p -> {
             if (p.getStatus() == PaymentStatus.COMPLETED) {
                 throw PaymentException.alreadyPaid();
             }
         });
 
         Payment payment = Payment.builder()
-                .orderId(request.getOrderId())
+                .orderId(request.orderId())
                 .userId(userId)
-                .amount(request.getAmount())
-                .paymentMethod(request.getPaymentMethod())
+                .amount(request.amount())
+                .paymentMethod(request.paymentMethod())
                 .build();
 
         Payment saved = paymentRepository.save(payment);
 
-        PgChargeResult result = pgClient.charge(request.getAmount(), request.getPaymentMethod());
+        PgChargeResult result = pgClient.charge(request.amount(), request.paymentMethod());
         if (result.isSuccess()) {
             saved.complete(result.getTransactionId());
             log.info("결제 완료: userId={}, paymentId={}, txId={}", userId, saved.getId(), result.getTransactionId());
@@ -104,12 +104,12 @@ public class PaymentServiceImpl implements PaymentService {
             throw PaymentException.invalidStatus();
         }
 
-        int refundAmount = (request.getAmount() != null) ? request.getAmount() : payment.getAmount();
+        int refundAmount = (request.amount() != null) ? request.amount() : payment.getAmount();
 
         Refund refund = Refund.builder()
                 .payment(payment)
                 .amount(refundAmount)
-                .reason(request.getReason())
+                .reason(request.reason())
                 .build();
 
         Refund savedRefund = refundRepository.save(refund);

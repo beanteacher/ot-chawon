@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(OrderException::cartEmpty);
 
         List<CartItem> selectedItems = cart.getCartItems().stream()
-                .filter(item -> request.getCartItemIds().contains(item.getId()))
+                .filter(item -> request.cartItemIds().contains(item.getId()))
                 .collect(Collectors.toList());
 
         if (selectedItems.isEmpty()) {
@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = Order.builder()
                 .userId(userId)
                 .totalPrice(totalPrice)
-                .shippingAddress(request.getShippingAddress())
+                .shippingAddress(request.shippingAddress())
                 .build();
 
         List<OrderItem> orderItems = selectedItems.stream()

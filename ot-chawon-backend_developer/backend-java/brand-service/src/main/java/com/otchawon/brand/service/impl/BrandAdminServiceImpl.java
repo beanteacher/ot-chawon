@@ -30,18 +30,18 @@ public class BrandAdminServiceImpl implements BrandAdminService {
             throw BrandException.notFound();
         }
 
-        if (brandAdminRepository.existsByBrandIdAndUserId(brandId, request.getUserId())) {
+        if (brandAdminRepository.existsByBrandIdAndUserId(brandId, request.userId())) {
             throw BrandException.adminAlreadyExists();
         }
 
         BrandAdmin brandAdmin = BrandAdmin.builder()
                 .brandId(brandId)
-                .userId(request.getUserId())
-                .role(request.getRole())
+                .userId(request.userId())
+                .role(request.role())
                 .build();
 
         BrandAdmin savedAdmin = brandAdminRepository.save(brandAdmin);
-        log.info("BrandAdmin added: brandId={}, userId={}", brandId, request.getUserId());
+        log.info("BrandAdmin added: brandId={}, userId={}", brandId, request.userId());
         return BrandDto.AdminResponse.from(savedAdmin);
     }
 

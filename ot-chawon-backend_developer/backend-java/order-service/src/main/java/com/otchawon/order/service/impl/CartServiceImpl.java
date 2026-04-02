@@ -27,7 +27,7 @@ public class CartServiceImpl implements CartService {
     @Transactional(readOnly = true)
     public OrderDto.CartResponse getCart(Long userId) {
         Cart cart = getOrCreateCart(userId);
-        return toOrderDto.CartResponse(cart);
+        return toCartResponse(cart);
     }
 
     @Override
@@ -37,16 +37,16 @@ public class CartServiceImpl implements CartService {
 
         CartItem cartItem = CartItem.builder()
                 .cart(cart)
-                .productId(request.getProductId())
-                .productOptionId(request.getProductOptionId() != null ? request.getProductOptionId() : 0L)
-                .quantity(request.getQuantity())
+                .productId(request.productId())
+                .productOptionId(request.productOptionId() != null ? request.productOptionId() : 0L)
+                .quantity(request.quantity())
                 .build();
 
         cartItemRepository.save(cartItem);
-        log.info("장바구니 아이템 추가: userId={}, productId={}", userId, request.getProductId());
+        log.info("장바구니 아이템 추가: userId={}, productId={}", userId, request.productId());
 
         Cart updatedCart = cartRepository.findByUserId(userId).orElseThrow(OrderException::notFound);
-        return toOrderDto.CartResponse(updatedCart);
+        return toCartResponse(updatedCart);
     }
 
     @Override
@@ -55,11 +55,11 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(OrderException::cartItemNotFound);
 
-        cartItem.updateQuantity(request.getQuantity());
+        cartItem.updateQuantity(request.quantity());
         log.info("장바구니 아이템 수량 수정: userId={}, cartItemId={}", userId, cartItemId);
 
         Cart cart = cartRepository.findByUserId(userId).orElseThrow(OrderException::notFound);
-        return toOrderDto.CartResponse(cart);
+        return toCartResponse(cart);
     }
 
     @Override
@@ -100,19 +100,15 @@ public class CartServiceImpl implements CartService {
                 });
     }
 
-    private OrderDto.CartResponse toOrderDto.CartResponse(Cart cart) {
+    private OrderDto.CartResponse toCartResponse(Cart cart) {
         List<OrderDto.CartItemResponse> items = cart.getCartItems().stream()
                 .map(OrderDto.CartItemResponse::from)
                 .collect(Collectors.toList());
 
         int totalPrice = cart.getCartItems().stream()
-                .mapToInt(item -> item.getQuantity())
+                .mapToInt(CartItem::getQuantity)
                 .sum();
 
-        return OrderDto.CartResponse.builder()
-                .cartId(cart.getId())
-                .items(items)
-                .totalPrice(totalPrice)
-                .build();
+        return new OrderDto.CartResponse(cart.getId(), items, totalPrice);
     }
 }

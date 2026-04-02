@@ -44,8 +44,8 @@ public class ProductAssetServiceImpl implements ProductAssetService {
     @Override
     @Transactional
     public ProductDto.ProductAssetResponse createAsset(ProductDto.CreateProductAssetRequest request) {
-        String lodLevel = request.getLodLevel() != null ? request.getLodLevel() : "LOD0";
-        String cdnUrl = buildCdnUrl(request.getProductId(), lodLevel);
+        String lodLevel = request.lodLevel() != null ? request.lodLevel() : "LOD0";
+        String cdnUrl = buildCdnUrl(request.productId(), lodLevel);
 
         ProductAsset asset = request.toEntity(cdnUrl);
         ProductAsset saved = productAssetRepository.save(asset);
@@ -60,23 +60,23 @@ public class ProductAssetServiceImpl implements ProductAssetService {
         ProductAsset asset = productAssetRepository.findById(assetId)
                 .orElseThrow(() -> new ProductException("에셋을 찾을 수 없습니다.", org.springframework.http.HttpStatus.NOT_FOUND));
 
-        String newLodLevel = request.getLodLevel() != null ? request.getLodLevel() : asset.getLodLevel();
+        String newLodLevel = request.lodLevel() != null ? request.lodLevel() : asset.getLodLevel();
         String cdnUrl = buildCdnUrl(asset.getProductId(), newLodLevel);
 
-        boolean dracoCompressed = request.getDracoCompressed() != null ? request.getDracoCompressed() : asset.isDracoCompressed();
+        boolean dracoCompressed = request.dracoCompressed() != null ? request.dracoCompressed() : asset.isDracoCompressed();
 
         asset.update(
-                request.getGlbUrl(),
-                request.getThumbnailUrl(),
-                request.getRigType(),
+                request.glbUrl(),
+                request.thumbnailUrl(),
+                request.rigType(),
                 dracoCompressed,
-                request.getLodLevel(),
-                request.getFileSize(),
-                request.getPolygonCount(),
-                request.getTextureInfo(),
+                request.lodLevel(),
+                request.fileSize(),
+                request.polygonCount(),
+                request.textureInfo(),
                 cdnUrl,
-                request.getCategory(),
-                request.getMaterialType()
+                request.category(),
+                request.materialType()
         );
 
         log.info("에셋 수정 완료: assetId={}", assetId);
