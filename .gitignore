@@ -16,3 +16,11 @@ node_modules/
 # Env
 .env
 .env.local
+
+# Playwright MCP
+.playwright-mcp/
+
+# Gradle build artifacts
+**/.gradle/
+**/build/
+**/*.class
