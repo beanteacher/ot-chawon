@@ -3,16 +3,16 @@ import Link from 'next/link';
 
 const HeroBanner = () => {
   return (
-    <section className="relative w-full h-[480px] sm:h-[560px] lg:h-[640px] overflow-hidden bg-oc-gray-900">
+    <section className="relative w-full h-[480px] sm:h-[560px] lg:h-[640px] overflow-hidden bg-white">
       {/* 배경 그라데이션 (placeholder 이미지 대체) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-oc-gray-900 via-oc-gray-800 to-oc-black" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-oc-gray-100 to-oc-gray-50" />
 
       {/* 장식용 원형 그라데이션 */}
       <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-oc-primary-500/20 blur-3xl" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-oc-secondary-500/15 blur-3xl" />
 
       {/* 그라데이션 오버레이 */}
-      <div className="absolute inset-0 bg-gradient-to-t from-oc-black/80 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-oc-gray-50/80 via-transparent to-transparent" />
 
       {/* 콘텐츠 */}
       <div className="relative z-10 h-full flex flex-col justify-end max-w-screen-xl mx-auto px-4 pb-12 sm:pb-16">
@@ -20,12 +20,12 @@ const HeroBanner = () => {
           <span className="inline-block text-oc-primary-500 text-sm font-semibold uppercase tracking-widest mb-3">
             New Season
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-oc-gray-900 leading-tight mb-4">
             나만의 스타일을
             <br />
             <span className="text-oc-primary-500">AI로 완성</span>하세요
           </h1>
-          <p className="text-oc-gray-400 text-base sm:text-lg mb-8 leading-relaxed">
+          <p className="text-oc-gray-500 text-base sm:text-lg mb-8 leading-relaxed">
             3D 피팅 기술로 옷을 입어보고, 내 체형에 맞는 완벽한 스타일을 찾아보세요.
           </p>
           <div className="flex flex-wrap gap-3">
@@ -40,7 +40,7 @@ const HeroBanner = () => {
             </Link>
             <Link
               href="/fitting"
-              className="inline-flex items-center gap-2 border border-oc-gray-600 hover:border-oc-gray-400 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
+              className="inline-flex items-center gap-2 border border-oc-gray-300 hover:border-oc-gray-400 text-oc-gray-900 font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
             >
               AI 피팅 체험
             </Link>

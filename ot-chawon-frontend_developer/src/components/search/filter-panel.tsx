@@ -38,14 +38,14 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
   return (
     <div
       className={cn(
-        'w-full bg-[#212121] border border-[#616161] rounded-lg p-5',
+        'w-full bg-white border border-oc-gray-300 rounded-lg p-5',
         className
       )}
     >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* 카테고리 */}
         <div>
-          <h3 className="text-sm font-semibold text-[#F9F9F9] mb-3">카테고리</h3>
+          <h3 className="text-sm font-semibold text-oc-gray-900 mb-3">카테고리</h3>
           <div className="flex flex-col gap-2">
             {CATEGORIES.map((cat) => (
               <label key={cat} className="flex items-center gap-2 cursor-pointer group">
@@ -60,7 +60,7 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
                 <span
                   className={cn(
                     'text-sm transition-colors',
-                    filters.category === cat ? 'text-[#FF6B35] font-medium' : 'text-[#BDBDBD] group-hover:text-[#F9F9F9]'
+                    filters.category === cat ? 'text-[#FF6B35] font-medium' : 'text-oc-gray-500 group-hover:text-oc-gray-900'
                   )}
                 >
                   {cat}
@@ -72,7 +72,7 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
 
         {/* 가격대 */}
         <div>
-          <h3 className="text-sm font-semibold text-[#F9F9F9] mb-3">가격대</h3>
+          <h3 className="text-sm font-semibold text-oc-gray-900 mb-3">가격대</h3>
           <div className="flex flex-col gap-2 mb-4">
             {PRICE_RANGES.map((range) => (
               <label key={range} className="flex items-center gap-2 cursor-pointer group">
@@ -87,7 +87,7 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
                 <span
                   className={cn(
                     'text-sm transition-colors',
-                    filters.priceRange === range ? 'text-[#FF6B35] font-medium' : 'text-[#BDBDBD] group-hover:text-[#F9F9F9]'
+                    filters.priceRange === range ? 'text-[#FF6B35] font-medium' : 'text-oc-gray-500 group-hover:text-oc-gray-900'
                   )}
                 >
                   {range}
@@ -115,7 +115,7 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
 
         {/* 브랜드 */}
         <div>
-          <h3 className="text-sm font-semibold text-[#F9F9F9] mb-3">브랜드</h3>
+          <h3 className="text-sm font-semibold text-oc-gray-900 mb-3">브랜드</h3>
           <div className="flex flex-col gap-2">
             {BRANDS.map((brand) => (
               <label key={brand} className="flex items-center gap-2 cursor-pointer group">
@@ -128,7 +128,7 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
                 <span
                   className={cn(
                     'text-sm transition-colors',
-                    filters.brands.includes(brand) ? 'text-[#FF6B35] font-medium' : 'text-[#BDBDBD] group-hover:text-[#F9F9F9]'
+                    filters.brands.includes(brand) ? 'text-[#FF6B35] font-medium' : 'text-oc-gray-500 group-hover:text-oc-gray-900'
                   )}
                 >
                   {brand}
@@ -140,7 +140,7 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
 
         {/* 사이즈 */}
         <div>
-          <h3 className="text-sm font-semibold text-[#F9F9F9] mb-3">사이즈</h3>
+          <h3 className="text-sm font-semibold text-oc-gray-900 mb-3">사이즈</h3>
           <div className="grid grid-cols-3 gap-2">
             {SIZES.map((size) => (
               <button
@@ -151,7 +151,7 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
                   'h-9 rounded-md text-sm font-medium border transition-colors',
                   filters.sizes.includes(size)
                     ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
-                    : 'bg-transparent border-[#616161] text-[#BDBDBD] hover:border-[#F9F9F9] hover:text-[#F9F9F9]'
+                    : 'bg-transparent border-oc-gray-300 text-oc-gray-500 hover:border-oc-gray-900 hover:text-oc-gray-900'
                 )}
               >
                 {size}
@@ -162,13 +162,13 @@ const FilterPanel = ({ filters, onFilterChange, onClearAll, onApply, className }
       </div>
 
       {/* 버튼 영역 */}
-      <div className="flex justify-end gap-3 mt-5 pt-4 border-t border-[#616161]">
+      <div className="flex justify-end gap-3 mt-5 pt-4 border-t border-oc-gray-300">
         <button
           type="button"
           onClick={onClearAll}
           className={cn(
-            'px-4 h-9 rounded-md text-sm font-medium border border-[#616161]',
-            'text-[#BDBDBD] hover:text-[#F9F9F9] hover:border-[#F9F9F9] transition-colors'
+            'px-4 h-9 rounded-md text-sm font-medium border border-oc-gray-300',
+            'text-oc-gray-500 hover:text-oc-gray-900 hover:border-oc-gray-900 transition-colors'
           )}
         >
           초기화

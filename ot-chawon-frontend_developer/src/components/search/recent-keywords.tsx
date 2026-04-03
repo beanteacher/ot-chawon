@@ -45,11 +45,11 @@ const RecentKeywords = ({ onKeywordClick, className }: RecentKeywordsProps) => {
   return (
     <div className={cn('w-full', className)}>
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-[#F9F9F9]">최근 검색어</h3>
+        <h3 className="text-sm font-semibold text-oc-gray-900">최근 검색어</h3>
         <button
           type="button"
           onClick={clearAll}
-          className="text-xs text-[#9E9E9E] hover:text-[#BDBDBD] transition-colors"
+          className="text-xs text-[#9E9E9E] hover:text-oc-gray-500 transition-colors"
         >
           전체 삭제
         </button>
@@ -60,20 +60,20 @@ const RecentKeywords = ({ onKeywordClick, className }: RecentKeywordsProps) => {
             key={keyword}
             className={cn(
               'inline-flex items-center gap-1.5 pl-3 pr-2 h-8 rounded-full',
-              'bg-[#333333] border border-[#616161]'
+              'bg-oc-gray-100 border border-oc-gray-300'
             )}
           >
             <button
               type="button"
               onClick={() => onKeywordClick(keyword)}
-              className="text-sm text-[#BDBDBD] hover:text-[#F9F9F9] transition-colors"
+              className="text-sm text-oc-gray-500 hover:text-oc-gray-900 transition-colors"
             >
               {keyword}
             </button>
             <button
               type="button"
               onClick={() => removeKeyword(keyword)}
-              className="flex items-center justify-center w-4 h-4 rounded-full hover:bg-[#616161] transition-colors"
+              className="flex items-center justify-center w-4 h-4 rounded-full hover:bg-oc-gray-300 transition-colors"
               aria-label={`${keyword} 삭제`}
             >
               <svg className="w-2.5 h-2.5 text-[#9E9E9E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>

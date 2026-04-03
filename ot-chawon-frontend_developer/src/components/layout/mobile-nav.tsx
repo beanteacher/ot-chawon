@@ -65,7 +65,7 @@ export function MobileNav() {
   const items = useCartStore((s) => s.items);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-oc-black border-t border-oc-gray-800 pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-oc-gray-50 border-t border-oc-gray-200 pb-safe">
       <div className="flex items-stretch h-16">
         {NAV_ITEMS.map((item) => {
           const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);

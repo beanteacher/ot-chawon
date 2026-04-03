@@ -44,7 +44,7 @@ function CircularProgress({ score }: { score: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xl font-bold text-white">{score}</span>
+        <span className="text-xl font-bold text-oc-gray-900">{score}</span>
         <span className="text-xs text-oc-gray-500">점</span>
       </div>
     </div>
@@ -67,8 +67,8 @@ export function FittingResult({
   return (
     <div className="space-y-6">
       {/* 상품 정보 요약 */}
-      <div className="flex items-center gap-4 p-4 bg-oc-gray-800 rounded-xl">
-        <div className="w-16 h-16 rounded-lg bg-oc-gray-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
+      <div className="flex items-center gap-4 p-4 bg-oc-gray-100 rounded-xl">
+        <div className="w-16 h-16 rounded-lg bg-oc-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
           {productImage ? (
             <img src={productImage} alt={productName} className="w-full h-full object-cover" />
           ) : (
@@ -79,7 +79,7 @@ export function FittingResult({
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-white truncate">{productName}</p>
+          <p className="text-sm font-medium text-oc-gray-900 truncate">{productName}</p>
           <p className="text-xs text-oc-gray-500 mt-0.5">세션 ID: {sessionId.slice(0, 8)}...</p>
         </div>
         <div className="flex flex-col items-center gap-1">
@@ -89,9 +89,9 @@ export function FittingResult({
       </div>
 
       {/* 3D 뷰어 영역 */}
-      <div className="relative bg-oc-gray-900 rounded-2xl overflow-hidden">
+      <div className="relative bg-white rounded-2xl overflow-hidden">
         {/* 뷰 전환 탭 */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10 flex bg-oc-gray-800/80 backdrop-blur-sm rounded-full p-1">
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10 flex bg-oc-gray-100/80 backdrop-blur-sm rounded-full p-1">
           {VIEW_TABS.map(({ key, label }) => (
             <button
               key={key}
@@ -99,7 +99,7 @@ export function FittingResult({
               className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
                 activeView === key
                   ? 'bg-oc-primary-500 text-white'
-                  : 'text-oc-gray-400 hover:text-white'
+                  : 'text-oc-gray-400 hover:text-oc-gray-900'
               }`}
             >
               {label}
@@ -162,7 +162,7 @@ export function FittingResult({
           </div>
 
           {/* 360도 회전 힌트 */}
-          <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-xs text-oc-gray-600">
+          <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-xs text-oc-gray-400">
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
@@ -174,7 +174,7 @@ export function FittingResult({
         <div className="absolute bottom-3 right-3 flex flex-col gap-1">
           <button
             onClick={handleZoomIn}
-            className="w-8 h-8 bg-oc-gray-800/80 backdrop-blur-sm rounded-lg flex items-center justify-center text-oc-gray-300 hover:text-white hover:bg-oc-gray-700 transition-colors"
+            className="w-8 h-8 bg-oc-gray-100/80 backdrop-blur-sm rounded-lg flex items-center justify-center text-oc-gray-600 hover:text-oc-gray-900 hover:bg-oc-gray-200 transition-colors"
             title="확대"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@ export function FittingResult({
           </button>
           <button
             onClick={handleZoomOut}
-            className="w-8 h-8 bg-oc-gray-800/80 backdrop-blur-sm rounded-lg flex items-center justify-center text-oc-gray-300 hover:text-white hover:bg-oc-gray-700 transition-colors"
+            className="w-8 h-8 bg-oc-gray-100/80 backdrop-blur-sm rounded-lg flex items-center justify-center text-oc-gray-600 hover:text-oc-gray-900 hover:bg-oc-gray-200 transition-colors"
             title="축소"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,7 +191,7 @@ export function FittingResult({
             </svg>
           </button>
           <button
-            className="w-8 h-8 bg-oc-gray-800/80 backdrop-blur-sm rounded-lg flex items-center justify-center text-oc-gray-300 hover:text-white hover:bg-oc-gray-700 transition-colors"
+            className="w-8 h-8 bg-oc-gray-100/80 backdrop-blur-sm rounded-lg flex items-center justify-center text-oc-gray-600 hover:text-oc-gray-900 hover:bg-oc-gray-200 transition-colors"
             title="360도 회전"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,10 +201,10 @@ export function FittingResult({
         </div>
 
         {/* 핏 점수 배지 */}
-        <div className="absolute top-3 right-3 bg-oc-gray-800/80 backdrop-blur-sm rounded-lg px-2.5 py-1.5">
+        <div className="absolute top-3 right-3 bg-oc-gray-100/80 backdrop-blur-sm rounded-lg px-2.5 py-1.5">
           <div className="flex items-center gap-1.5">
             <div className={`w-2 h-2 rounded-full ${fitScore >= 80 ? 'bg-green-500' : fitScore >= 60 ? 'bg-yellow-500' : 'bg-red-500'}`} />
-            <span className="text-xs font-semibold text-white">{fitScore}점</span>
+            <span className="text-xs font-semibold text-oc-gray-900">{fitScore}점</span>
           </div>
         </div>
       </div>

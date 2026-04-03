@@ -7,7 +7,7 @@ import { SkeletonCard } from '@/components/ui/skeleton-card';
 function ProductGridSkeleton() {
   return (
     <section className="max-w-screen-xl mx-auto px-4 py-10">
-      <div className="h-7 w-32 bg-oc-gray-800 rounded mb-6 animate-pulse" />
+      <div className="h-7 w-32 bg-oc-gray-100 rounded mb-6 animate-pulse" />
       <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {Array.from({ length: 8 }).map((_, i) => (
           <SkeletonCard key={i} />
@@ -19,7 +19,7 @@ function ProductGridSkeleton() {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-oc-black">
+    <main className="min-h-screen bg-oc-gray-50">
       {/* 히어로 배너 */}
       <HeroBanner />
 
@@ -32,7 +32,7 @@ export default function HomePage() {
       </Suspense>
 
       {/* 신상품 섹션 */}
-      <div className="border-t border-oc-gray-900">
+      <div className="border-t border-oc-gray-200">
         <Suspense fallback={<ProductGridSkeleton />}>
           <ProductGrid title="신상품" />
         </Suspense>

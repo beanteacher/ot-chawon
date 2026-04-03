@@ -19,7 +19,7 @@ export function ViewerControls({
   isFullscreen,
 }: ViewerControlsProps) {
   return (
-    <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-oc-surface/80 backdrop-blur-sm rounded-xl px-3 py-2">
+    <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-oc-gray-100/80 backdrop-blur-sm rounded-xl px-3 py-2">
       {/* 자동 회전 토글 */}
       <button
         onClick={onAutoRotateToggle}

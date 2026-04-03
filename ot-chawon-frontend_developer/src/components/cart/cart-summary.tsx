@@ -23,11 +23,11 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
   const total = subtotal - discountAmount + shippingFee;
 
   return (
-    <div className="rounded-lg border border-oc-gray-700 bg-oc-gray-900 p-5">
-      <h2 className="text-base font-semibold text-white mb-4">주문 요약</h2>
+    <div className="rounded-lg border border-oc-gray-200 bg-white p-5">
+      <h2 className="text-base font-semibold text-oc-gray-900 mb-4">주문 요약</h2>
 
       <div className="flex flex-col gap-3 text-sm">
-        <div className="flex justify-between text-oc-gray-300">
+        <div className="flex justify-between text-oc-gray-600">
           <span>상품 금액 ({itemCount}개)</span>
           <span>{subtotal.toLocaleString()}원</span>
         </div>
@@ -39,7 +39,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
           </div>
         )}
 
-        <div className="flex justify-between text-oc-gray-300">
+        <div className="flex justify-between text-oc-gray-600">
           <span>배송비</span>
           <span>
             {shippingFee === 0 ? (
@@ -50,8 +50,8 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
           </span>
         </div>
 
-        <div className="border-t border-oc-gray-700 pt-3 flex justify-between font-semibold text-base">
-          <span className="text-white">총 결제 금액</span>
+        <div className="border-t border-oc-gray-200 pt-3 flex justify-between font-semibold text-base">
+          <span className="text-oc-gray-900">총 결제 금액</span>
           <span className="text-oc-primary-500">{total.toLocaleString()}원</span>
         </div>
       </div>

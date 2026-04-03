@@ -19,11 +19,11 @@ export function ProductGallery({ images, productName, hasThreeD = false, onThree
   return (
     <div className="flex flex-col gap-4">
       {/* 메인 이미지 */}
-      <div className="relative aspect-square bg-oc-gray-800 rounded-xl overflow-hidden group">
+      <div className="relative aspect-square bg-oc-gray-100 rounded-xl overflow-hidden group">
         {imageError[activeIndex] ? (
           <div className="w-full h-full flex items-center justify-center">
-            <div className="w-24 h-24 bg-oc-gray-700 rounded-xl flex items-center justify-center">
-              <svg className="w-12 h-12 text-oc-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-24 h-24 bg-oc-gray-200 rounded-xl flex items-center justify-center">
+              <svg className="w-12 h-12 text-oc-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
@@ -84,7 +84,7 @@ export function ProductGallery({ images, productName, hasThreeD = false, onThree
       {/* 3D 뷰어 플레이스홀더 */}
       {hasThreeD && (
         <div
-          className="relative aspect-square bg-gradient-to-br from-oc-gray-800 to-oc-gray-900 rounded-xl overflow-hidden border border-oc-gray-700 cursor-pointer group"
+          className="relative aspect-square bg-gradient-to-br from-oc-gray-100 to-oc-gray-50 rounded-xl overflow-hidden border border-oc-gray-200 cursor-pointer group"
           onClick={onThreeDView}
         >
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
@@ -93,7 +93,7 @@ export function ProductGallery({ images, productName, hasThreeD = false, onThree
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
               </svg>
             </div>
-            <span className="text-sm text-oc-gray-300 font-medium">3D 뷰어</span>
+            <span className="text-sm text-oc-gray-600 font-medium">3D 뷰어</span>
             <span className="text-xs text-oc-gray-500">클릭하여 3D로 확인하기</span>
           </div>
         </div>
@@ -110,12 +110,12 @@ export function ProductGallery({ images, productName, hasThreeD = false, onThree
                 'flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all',
                 activeIndex === idx
                   ? 'border-oc-primary-500 opacity-100'
-                  : 'border-oc-gray-700 opacity-60 hover:opacity-80 hover:border-oc-gray-500'
+                  : 'border-oc-gray-200 opacity-60 hover:opacity-80 hover:border-oc-gray-400'
               )}
             >
               {imageError[idx] ? (
-                <div className="w-full h-full bg-oc-gray-700 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-oc-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-full h-full bg-oc-gray-200 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-oc-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
                   </svg>
                 </div>

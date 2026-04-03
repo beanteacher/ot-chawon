@@ -29,9 +29,9 @@ const SearchResults = ({
     <div className={cn('w-full', className)}>
       {/* 결과 헤더 */}
       <div className="flex items-center justify-between mb-4">
-        <p className="text-sm text-[#BDBDBD]">
+        <p className="text-sm text-oc-gray-500">
           총{' '}
-          <span className="text-[#F9F9F9] font-semibold">{totalCount.toLocaleString()}</span>
+          <span className="text-oc-gray-900 font-semibold">{totalCount.toLocaleString()}</span>
           건
         </p>
         <div className="flex items-center gap-1">
@@ -44,13 +44,13 @@ const SearchResults = ({
                   'text-sm transition-colors px-1',
                   sortOption === option
                     ? 'text-[#FF6B35] font-semibold'
-                    : 'text-[#9E9E9E] hover:text-[#F9F9F9]'
+                    : 'text-[#9E9E9E] hover:text-oc-gray-900'
                 )}
               >
                 {option}
               </button>
               {index < SORT_OPTIONS.length - 1 && (
-                <span className="text-[#616161] text-xs">|</span>
+                <span className="text-oc-gray-400 text-xs">|</span>
               )}
             </React.Fragment>
           ))}
@@ -62,10 +62,10 @@ const SearchResults = ({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="animate-pulse">
-              <div className="aspect-[3/4] bg-[#333333] rounded-xl mb-3" />
-              <div className="h-3 bg-[#333333] rounded w-1/3 mb-2" />
-              <div className="h-4 bg-[#333333] rounded w-3/4 mb-2" />
-              <div className="h-4 bg-[#333333] rounded w-1/2" />
+              <div className="aspect-[3/4] bg-oc-gray-100 rounded-xl mb-3" />
+              <div className="h-3 bg-oc-gray-100 rounded w-1/3 mb-2" />
+              <div className="h-4 bg-oc-gray-100 rounded w-3/4 mb-2" />
+              <div className="h-4 bg-oc-gray-100 rounded w-1/2" />
             </div>
           ))}
         </div>

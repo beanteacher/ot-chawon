@@ -46,10 +46,10 @@ function CheckItem({
     <label className="flex items-center gap-2 cursor-pointer group">
       <span
         className={cn(
-          'w-4 h-4 border rounded flex items-center justify-center transition-colors',
+          'w-4 h-4 border rounded-md flex items-center justify-center transition-colors',
           checked
             ? 'bg-oc-primary-500 border-oc-primary-500'
-            : 'border-oc-gray-600 group-hover:border-oc-primary-400'
+            : 'border-oc-gray-300 group-hover:border-oc-primary-400'
         )}
         onClick={onChange}
       >
@@ -59,7 +59,7 @@ function CheckItem({
           </svg>
         )}
       </span>
-      <span className="text-sm text-oc-gray-300 group-hover:text-white transition-colors">
+      <span className="text-sm text-oc-gray-600 group-hover:text-oc-gray-900 transition-colors">
         {label}
       </span>
     </label>
@@ -69,12 +69,12 @@ function CheckItem({
 function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(true);
   return (
-    <div className="border-b border-oc-gray-800 py-4">
+    <div className="border-b border-oc-gray-100 py-4">
       <button
         className="flex items-center justify-between w-full mb-3"
         onClick={() => setOpen(!open)}
       >
-        <span className="text-sm font-semibold text-white">{title}</span>
+        <span className="text-sm font-semibold text-oc-gray-900">{title}</span>
         <svg
           className={cn('w-4 h-4 text-oc-gray-400 transition-transform', open && 'rotate-180')}
           fill="none"
@@ -99,9 +99,9 @@ export function ProductFilter({ filters, onChange, onReset, onClose, isMobile = 
   };
 
   const content = (
-    <div className={cn('bg-oc-gray-900 text-white', isMobile ? 'p-4' : 'p-0')}>
+    <div className={cn('bg-white text-oc-gray-900', isMobile ? 'p-4' : 'p-0')}>
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-base font-bold text-white">필터</h3>
+        <h3 className="text-base font-bold text-oc-gray-900">필터</h3>
         <button
           onClick={handleReset}
           className="text-xs text-oc-primary-400 hover:text-oc-primary-300 transition-colors"
@@ -134,7 +134,7 @@ export function ProductFilter({ filters, onChange, onReset, onClose, isMobile = 
 
       <FilterSection title="가격">
         <div className="space-y-3">
-          <div className="flex items-center justify-between text-xs text-oc-gray-400">
+          <div className="flex items-center justify-between text-xs text-oc-gray-500">
             <span>{filters.priceMin.toLocaleString()}원</span>
             <span>{filters.priceMax.toLocaleString()}원</span>
           </div>
@@ -161,7 +161,7 @@ export function ProductFilter({ filters, onChange, onReset, onClose, isMobile = 
                 'w-7 h-7 rounded-full border-2 transition-all',
                 filters.colors.includes(color.value)
                   ? 'border-oc-primary-500 scale-110'
-                  : 'border-oc-gray-700 hover:border-oc-gray-400'
+                  : 'border-oc-gray-200 hover:border-oc-gray-400'
               )}
               style={{ backgroundColor: color.hex }}
             />
@@ -176,10 +176,10 @@ export function ProductFilter({ filters, onChange, onReset, onClose, isMobile = 
               key={size}
               onClick={() => onChange({ ...filters, sizes: toggle(filters.sizes, size) })}
               className={cn(
-                'px-3 py-1 text-xs border rounded transition-colors',
+                'px-3 py-1.5 text-xs border rounded-full transition-colors',
                 filters.sizes.includes(size)
                   ? 'border-oc-primary-500 bg-oc-primary-500/20 text-oc-primary-400'
-                  : 'border-oc-gray-700 text-oc-gray-400 hover:border-oc-gray-400'
+                  : 'border-oc-gray-200 text-oc-gray-500 hover:border-oc-gray-400'
               )}
             >
               {size}

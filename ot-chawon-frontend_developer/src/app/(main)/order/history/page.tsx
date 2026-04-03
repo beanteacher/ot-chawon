@@ -23,8 +23,8 @@ const STATUS_CONFIG: Partial<Record<OrderDto.OrderStatus, { label: string; class
   PAYMENT_REQUESTED: { label: '결제요청', className: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
   PAID: { label: '결제완료', className: 'bg-green-500/20 text-green-400 border-green-500/30' },
   SHIPPING: { label: '배송중', className: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
-  DELIVERED: { label: '배송완료', className: 'bg-[#616161]/20 text-[#BDBDBD] border-[#616161]/30' },
-  COMPLETED: { label: '구매확정', className: 'bg-[#616161]/20 text-[#BDBDBD] border-[#616161]/30' },
+  DELIVERED: { label: '배송완료', className: 'bg-oc-gray-100 text-oc-gray-500 border-oc-gray-300' },
+  COMPLETED: { label: '구매확정', className: 'bg-oc-gray-100 text-oc-gray-500 border-oc-gray-300' },
   CANCELLED: { label: '취소', className: 'bg-red-500/20 text-red-400 border-red-500/30' },
   REFUNDED: { label: '환불', className: 'bg-red-500/20 text-red-400 border-red-500/30' },
 };
@@ -72,9 +72,9 @@ export default function OrderHistoryPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
-    <div className="min-h-screen bg-[#111111] px-4 py-8">
+    <div className="min-h-screen bg-oc-gray-50 px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-[#F9F9F9] mb-6">주문 내역</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900 mb-6">주문 내역</h1>
 
         {/* 상태 필터 탭 */}
         <div className="flex flex-wrap gap-2 mb-6">
@@ -86,7 +86,7 @@ export default function OrderHistoryPage() {
                 'px-4 py-1.5 rounded-full text-sm font-medium transition-colors border',
                 activeFilter === tab.key
                   ? 'bg-[#FF6B35] text-white border-[#FF6B35]'
-                  : 'bg-[#212121] text-[#BDBDBD] border-[#333333] hover:border-[#616161]'
+                  : 'bg-white text-oc-gray-500 border-oc-gray-200 hover:border-oc-gray-300'
               )}
             >
               {tab.label}
@@ -108,11 +108,11 @@ export default function OrderHistoryPage() {
 
         {/* 빈 상태 */}
         {!isLoading && !error && orders.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-20 text-[#616161]">
+          <div className="flex flex-col items-center justify-center py-20 text-oc-gray-400">
             <svg className="w-16 h-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            <p className="text-[#BDBDBD] mb-4">주문 내역이 없습니다</p>
+            <p className="text-oc-gray-500 mb-4">주문 내역이 없습니다</p>
             <button
               onClick={() => router.push('/products')}
               className="px-6 py-2 bg-[#FF6B35] text-white rounded-lg text-sm font-medium hover:bg-[#E55A24] transition-colors"
@@ -140,10 +140,10 @@ export default function OrderHistoryPage() {
                   <div
                     key={order.orderId}
                     onClick={() => router.push(`/order/${order.orderId}`)}
-                    className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 cursor-pointer hover:border-[#616161] transition-colors"
+                    className="bg-white border border-oc-gray-200 rounded-xl p-4 cursor-pointer hover:border-oc-gray-300 transition-colors"
                   >
                     <div className="flex items-start justify-between mb-2">
-                      <span className="text-xs text-[#BDBDBD] font-mono">{order.orderId}</span>
+                      <span className="text-xs text-oc-gray-500 font-mono">{order.orderId}</span>
                       {statusCfg && (
                         <span className={cn(
                           'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border',
@@ -153,10 +153,10 @@ export default function OrderHistoryPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-[#F9F9F9] font-medium mb-1">{itemLabel}</p>
+                    <p className="text-sm text-oc-gray-900 font-medium mb-1">{itemLabel}</p>
                     <div className="flex items-center justify-between mt-2">
-                      <span className="text-xs text-[#616161]">{formattedDate}</span>
-                      <span className="text-sm text-[#F9F9F9] font-semibold">
+                      <span className="text-xs text-oc-gray-400">{formattedDate}</span>
+                      <span className="text-sm text-oc-gray-900 font-semibold">
                         {order.totalPrice.toLocaleString()}원
                       </span>
                     </div>

@@ -47,7 +47,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       {/* 오버레이 */}
       <div
         className={cn(
-          'fixed inset-0 z-50 bg-black/60 transition-opacity duration-300 md:hidden',
+          'fixed inset-0 z-50 bg-black/30 transition-opacity duration-300 md:hidden',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         onClick={onClose}
@@ -57,17 +57,17 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       {/* 사이드바 패널 */}
       <aside
         className={cn(
-          'fixed top-0 left-0 z-50 h-full w-72 bg-oc-gray-900 border-r border-oc-gray-800 transition-transform duration-300 md:hidden flex flex-col',
+          'fixed top-0 left-0 z-50 h-full w-72 bg-white border-r border-oc-gray-200 transition-transform duration-300 md:hidden flex flex-col',
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
         {/* 헤더 */}
-        <div className="flex items-center justify-between px-4 h-16 border-b border-oc-gray-800 shrink-0">
-          <span className="text-lg font-bold text-white">OT-CHAWON</span>
+        <div className="flex items-center justify-between px-4 h-16 border-b border-oc-gray-200 shrink-0">
+          <span className="text-lg font-bold text-oc-gray-900">OT-CHAWON</span>
           <button
             type="button"
             onClick={onClose}
-            className="p-2 text-oc-gray-400 hover:text-white"
+            className="p-2 text-oc-gray-400 hover:text-oc-gray-900"
             aria-label="메뉴 닫기"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -78,10 +78,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         </div>
 
         {/* 사용자 정보 */}
-        <div className="px-4 py-4 border-b border-oc-gray-800">
+        <div className="px-4 py-4 border-b border-oc-gray-200">
           {isAuthenticated && user ? (
             <div className="flex flex-col gap-2">
-              <p className="text-sm text-white font-medium">{user.name}</p>
+              <p className="text-sm text-oc-gray-900 font-medium">{user.name}</p>
               <p className="text-xs text-oc-gray-500">{user.email}</p>
             </div>
           ) : (
@@ -89,7 +89,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               <Link
                 href="/login"
                 onClick={onClose}
-                className="flex-1 text-center text-sm text-oc-gray-300 border border-oc-gray-700 rounded-lg py-2 hover:border-oc-gray-500 transition-colors"
+                className="flex-1 text-center text-sm text-oc-gray-600 border border-oc-gray-200 rounded-lg py-2 hover:border-oc-gray-400 transition-colors"
               >
                 로그인
               </Link>
@@ -111,7 +111,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               key={link.href}
               href={link.href}
               onClick={onClose}
-              className="flex items-center px-4 py-3 text-sm text-oc-gray-300 hover:text-white hover:bg-oc-gray-800 transition-colors"
+              className="flex items-center px-4 py-3 text-sm text-oc-gray-600 hover:text-oc-gray-900 hover:bg-oc-gray-100 transition-colors"
             >
               {link.label}
             </Link>
@@ -120,11 +120,11 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
         {/* 로그아웃 */}
         {isAuthenticated && (
-          <div className="px-4 py-4 border-t border-oc-gray-800 shrink-0">
+          <div className="px-4 py-4 border-t border-oc-gray-200 shrink-0">
             <button
               type="button"
               onClick={() => { clearAuth(); onClose(); }}
-              className="w-full text-sm text-oc-gray-400 hover:text-white py-2 transition-colors text-left"
+              className="w-full text-sm text-oc-gray-400 hover:text-oc-gray-900 py-2 transition-colors text-left"
             >
               로그아웃
             </button>

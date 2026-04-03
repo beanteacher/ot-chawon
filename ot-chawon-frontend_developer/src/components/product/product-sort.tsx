@@ -38,7 +38,7 @@ export function ProductSort({ value, onChange }: ProductSortProps) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-2 text-sm text-oc-gray-300 border border-oc-gray-700 rounded-md hover:border-oc-gray-500 transition-colors bg-oc-gray-900"
+        className="flex items-center gap-2 px-3 py-2 text-sm text-oc-gray-600 border border-oc-gray-200 rounded-md hover:border-oc-gray-400 transition-colors bg-white"
       >
         <span>{current?.label}</span>
         <svg
@@ -52,7 +52,7 @@ export function ProductSort({ value, onChange }: ProductSortProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-1 w-36 bg-oc-gray-900 border border-oc-gray-700 rounded-md shadow-lg z-20 overflow-hidden animate-slide-down">
+        <div className="absolute right-0 top-full mt-1 w-36 bg-white border border-oc-gray-200 rounded-md shadow-lg z-20 overflow-hidden animate-slide-down">
           {SORT_OPTIONS.map((option) => (
             <button
               key={option.value}
@@ -64,7 +64,7 @@ export function ProductSort({ value, onChange }: ProductSortProps) {
                 'w-full text-left px-3 py-2 text-sm transition-colors',
                 option.value === value
                   ? 'text-oc-primary-400 bg-oc-primary-500/10'
-                  : 'text-oc-gray-300 hover:bg-oc-gray-800 hover:text-white'
+                  : 'text-oc-gray-600 hover:bg-oc-gray-100 hover:text-oc-gray-900'
               )}
             >
               {option.label}

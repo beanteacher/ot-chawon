@@ -10,7 +10,7 @@ export function SizeRecommendation({ recommendation }: SizeRecommendationProps) 
   const { recommended_size, confidence, alternatives, reason } = recommendation;
 
   return (
-    <div className="bg-oc-surface rounded-2xl p-6 space-y-5">
+    <div className="bg-oc-gray-100 rounded-2xl p-6 space-y-5">
       <h2 className="text-lg font-bold text-oc-primary">사이즈 추천</h2>
 
       {/* 추천 사이즈 배지 */}
@@ -20,7 +20,7 @@ export function SizeRecommendation({ recommendation }: SizeRecommendationProps) 
         </div>
         <div>
           <p className="text-sm text-oc-gray-400">추천 사이즈</p>
-          <p className="text-xl font-bold text-white">{recommended_size} 사이즈</p>
+          <p className="text-xl font-bold text-oc-gray-900">{recommended_size} 사이즈</p>
           <p className="text-sm text-[#FF6B35] font-medium">신뢰도 {confidence}%</p>
         </div>
       </div>
@@ -31,7 +31,7 @@ export function SizeRecommendation({ recommendation }: SizeRecommendationProps) 
           <span>AI 신뢰도</span>
           <span>{confidence}%</span>
         </div>
-        <div className="h-2.5 bg-oc-gray-700 rounded-full overflow-hidden">
+        <div className="h-2.5 bg-oc-gray-200 rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{
@@ -50,7 +50,7 @@ export function SizeRecommendation({ recommendation }: SizeRecommendationProps) 
             {alternatives.map((size) => (
               <span
                 key={size}
-                className="px-3 py-1 rounded-full border border-oc-gray-600 text-sm text-oc-gray-300 bg-oc-gray-800"
+                className="px-3 py-1 rounded-full border border-oc-gray-300 text-sm text-oc-gray-600 bg-oc-gray-100"
               >
                 {size}
               </span>
@@ -79,7 +79,7 @@ export function SizeRecommendation({ recommendation }: SizeRecommendationProps) 
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-sm text-oc-gray-300">{text}</span>
+                <span className="text-sm text-oc-gray-600">{text}</span>
               </li>
             ))}
           </ul>

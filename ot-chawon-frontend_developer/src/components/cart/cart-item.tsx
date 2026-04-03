@@ -26,7 +26,7 @@ export const CartItem: React.FC<CartItemProps> = ({
     <div
       className={cn(
         'flex gap-3 p-4 rounded-lg border transition-colors',
-        'border-oc-gray-700 bg-oc-gray-900',
+        'border-oc-gray-200 bg-white',
         selected && 'border-oc-primary-500'
       )}
     >
@@ -40,7 +40,7 @@ export const CartItem: React.FC<CartItemProps> = ({
       </div>
 
       {/* 상품 이미지 */}
-      <div className="flex-shrink-0 w-20 h-20 rounded-md overflow-hidden bg-oc-gray-800">
+      <div className="flex-shrink-0 w-20 h-20 rounded-md overflow-hidden bg-oc-gray-100">
         {item.imageUrl ? (
           <img
             src={item.imageUrl}
@@ -70,7 +70,7 @@ export const CartItem: React.FC<CartItemProps> = ({
       {/* 상품 정보 */}
       <div className="flex-1 min-w-0">
         <p className="text-xs text-oc-gray-400 mb-0.5">{item.brandName}</p>
-        <p className="text-sm font-medium text-white truncate">{item.productName}</p>
+        <p className="text-sm font-medium text-oc-gray-900 truncate">{item.productName}</p>
         {(item.size || item.color) && (
           <p className="text-xs text-oc-gray-400 mt-1">
             {item.size && `사이즈: ${item.size}`}
@@ -87,8 +87,8 @@ export const CartItem: React.FC<CartItemProps> = ({
               onClick={() => onQuantityChange(item.cartItemId, Math.max(1, item.quantity - 1))}
               disabled={item.quantity <= 1}
               className={cn(
-                'w-7 h-7 rounded-md border border-oc-gray-600 flex items-center justify-center',
-                'text-oc-gray-300 hover:bg-oc-gray-700 transition-colors',
+                'w-7 h-7 rounded-md border border-oc-gray-300 flex items-center justify-center',
+                'text-oc-gray-600 hover:bg-oc-gray-200 transition-colors',
                 'disabled:opacity-40 disabled:cursor-not-allowed'
               )}
               aria-label="수량 감소"
@@ -97,13 +97,13 @@ export const CartItem: React.FC<CartItemProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
               </svg>
             </button>
-            <span className="w-6 text-center text-sm text-white font-medium">{item.quantity}</span>
+            <span className="w-6 text-center text-sm text-oc-gray-900 font-medium">{item.quantity}</span>
             <button
               type="button"
               onClick={() => onQuantityChange(item.cartItemId, item.quantity + 1)}
               className={cn(
-                'w-7 h-7 rounded-md border border-oc-gray-600 flex items-center justify-center',
-                'text-oc-gray-300 hover:bg-oc-gray-700 transition-colors'
+                'w-7 h-7 rounded-md border border-oc-gray-300 flex items-center justify-center',
+                'text-oc-gray-600 hover:bg-oc-gray-200 transition-colors'
               )}
               aria-label="수량 증가"
             >

@@ -16,9 +16,9 @@ const NoSearchResult = ({ keyword, onKeywordClick, className }: NoSearchResultPr
   return (
     <div className={cn('flex flex-col items-center py-16 px-4', className)}>
       {/* 빈 상태 일러스트 */}
-      <div className="w-20 h-20 rounded-full bg-[#212121] flex items-center justify-center mb-6">
+      <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mb-6">
         <svg
-          className="w-10 h-10 text-[#616161]"
+          className="w-10 h-10 text-oc-gray-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -33,7 +33,7 @@ const NoSearchResult = ({ keyword, onKeywordClick, className }: NoSearchResultPr
       </div>
 
       {/* 메시지 */}
-      <h2 className="text-lg font-semibold text-[#F9F9F9] mb-2 text-center">
+      <h2 className="text-lg font-semibold text-oc-gray-900 mb-2 text-center">
         {keyword ? (
           <>
             <span className="text-[#FF6B35]">&apos;{keyword}&apos;</span> 검색 결과가 없습니다
@@ -48,7 +48,7 @@ const NoSearchResult = ({ keyword, onKeywordClick, className }: NoSearchResultPr
 
       {/* 인기 검색어 */}
       <div className="w-full max-w-md mb-8">
-        <h3 className="text-sm font-semibold text-[#BDBDBD] mb-3 text-center">인기 검색어</h3>
+        <h3 className="text-sm font-semibold text-oc-gray-500 mb-3 text-center">인기 검색어</h3>
         <div className="flex flex-wrap justify-center gap-2">
           {POPULAR_KEYWORDS.map((kw) => (
             <button
@@ -56,8 +56,8 @@ const NoSearchResult = ({ keyword, onKeywordClick, className }: NoSearchResultPr
               type="button"
               onClick={() => onKeywordClick(kw)}
               className={cn(
-                'px-4 h-9 rounded-full border border-[#616161]',
-                'text-sm text-[#BDBDBD] hover:border-[#FF6B35] hover:text-[#FF6B35] transition-colors'
+                'px-4 h-9 rounded-full border border-oc-gray-300',
+                'text-sm text-oc-gray-500 hover:border-[#FF6B35] hover:text-[#FF6B35] transition-colors'
               )}
             >
               {kw}
@@ -68,7 +68,7 @@ const NoSearchResult = ({ keyword, onKeywordClick, className }: NoSearchResultPr
 
       {/* 추천 카테고리 */}
       <div className="w-full max-w-md">
-        <h3 className="text-sm font-semibold text-[#BDBDBD] mb-3 text-center">추천 카테고리</h3>
+        <h3 className="text-sm font-semibold text-oc-gray-500 mb-3 text-center">추천 카테고리</h3>
         <div className="flex flex-wrap justify-center gap-2">
           {RECOMMENDED_CATEGORIES.map((cat) => (
             <button
@@ -77,8 +77,8 @@ const NoSearchResult = ({ keyword, onKeywordClick, className }: NoSearchResultPr
               onClick={() => onKeywordClick(cat)}
               className={cn(
                 'px-4 h-9 rounded-full',
-                'bg-[#212121] border border-[#333333]',
-                'text-sm text-[#BDBDBD] hover:bg-[#333333] hover:text-[#F9F9F9] transition-colors'
+                'bg-white border border-oc-gray-100',
+                'text-sm text-oc-gray-500 hover:bg-oc-gray-100 hover:text-oc-gray-900 transition-colors'
               )}
             >
               {cat}

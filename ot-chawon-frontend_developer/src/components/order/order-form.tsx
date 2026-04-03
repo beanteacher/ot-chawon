@@ -74,7 +74,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           <button
             type="button"
             onClick={onZipCodeSearch}
-            className="px-4 py-2 rounded-md border border-oc-gray-600 text-sm text-oc-gray-300 hover:bg-oc-gray-700 transition-colors whitespace-nowrap"
+            className="px-4 py-2 rounded-md border border-oc-gray-300 text-sm text-oc-gray-600 hover:bg-oc-gray-200 transition-colors whitespace-nowrap"
           >
             우편번호 검색
           </button>
@@ -105,7 +105,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           id="memo"
           value={selectedMemo}
           onChange={(e) => handleMemoSelect(e.target.value)}
-          className="w-full rounded-md border border-oc-gray-600 bg-oc-gray-800 px-3 py-2 text-sm text-oc-gray-200 focus:outline-none focus:ring-2 focus:ring-oc-accent"
+          className="w-full rounded-md border border-oc-gray-300 bg-oc-gray-100 px-3 py-2 text-sm text-oc-gray-700 focus:outline-none focus:ring-2 focus:ring-oc-accent"
         >
           {MEMO_OPTIONS.map((opt) => (
             <option key={opt} value={opt}>

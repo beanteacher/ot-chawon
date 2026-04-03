@@ -67,10 +67,10 @@ export default function MyPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#111111]">
+    <main className="min-h-screen bg-oc-gray-50">
       <div className="max-w-screen-lg mx-auto px-4 py-8">
         {/* 헤더 */}
-        <h1 className="text-2xl font-bold text-[#F9F9F9] mb-6">마이페이지</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900 mb-6">마이페이지</h1>
 
         {/* 탭 네비게이션 */}
         <MyPageTabs activeTab={activeTab} onChange={handleTabChange} />

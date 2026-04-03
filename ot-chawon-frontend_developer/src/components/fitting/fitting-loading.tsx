@@ -43,7 +43,7 @@ export function FittingLoading({ estimatedSeconds = 30 }: FittingLoadingProps) {
     <div className="flex flex-col items-center justify-center min-h-[400px] space-y-8">
       {/* 3D 아바타 회전 플레이스홀더 */}
       <div className="relative w-40 h-40">
-        <div className="absolute inset-0 rounded-full border-4 border-oc-gray-700" />
+        <div className="absolute inset-0 rounded-full border-4 border-oc-gray-200" />
         <div
           className="absolute inset-0 rounded-full border-4 border-transparent border-t-oc-primary-500 animate-spin"
           style={{ animationDuration: '1.5s' }}
@@ -72,7 +72,7 @@ export function FittingLoading({ estimatedSeconds = 30 }: FittingLoadingProps) {
       {/* 진행 단계 */}
       <div className="w-full max-w-sm space-y-4">
         <div className="text-center space-y-1">
-          <h3 className="text-lg font-semibold text-white">{STEPS[currentStep]?.label}</h3>
+          <h3 className="text-lg font-semibold text-oc-gray-900">{STEPS[currentStep]?.label}</h3>
           <p className="text-sm text-oc-gray-400">{STEPS[currentStep]?.description}</p>
         </div>
 
@@ -82,7 +82,7 @@ export function FittingLoading({ estimatedSeconds = 30 }: FittingLoadingProps) {
             <span>{Math.round(progress)}%</span>
             <span>약 {remaining}초 남음</span>
           </div>
-          <div className="h-2 bg-oc-gray-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-oc-gray-200 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-oc-primary-600 to-oc-primary-400 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
@@ -100,7 +100,7 @@ export function FittingLoading({ estimatedSeconds = 30 }: FittingLoadingProps) {
                     ? 'bg-oc-primary-500'
                     : index === currentStep
                     ? 'bg-oc-primary-400 animate-pulse'
-                    : 'bg-oc-gray-700'
+                    : 'bg-oc-gray-200'
                 }`}
               />
               <span className={`text-xs ${index <= currentStep ? 'text-oc-primary-400' : 'text-oc-gray-600'}`}>

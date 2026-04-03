@@ -98,7 +98,7 @@ export function SearchClient({ initialQuery, initialResults }: SearchClientProps
     filters.sizes.length > 0;
 
   return (
-    <main className="min-h-screen bg-[#111111]">
+    <main className="min-h-screen bg-oc-gray-50">
       <div className="max-w-[1440px] mx-auto px-4 md:px-[80px] py-8">
         {/* 검색바 영역 */}
         <div className="mb-6">
@@ -132,7 +132,7 @@ export function SearchClient({ initialQuery, initialResults }: SearchClientProps
                   'flex items-center gap-2 px-4 h-9 rounded-md border text-sm transition-colors',
                   showFilter
                     ? 'border-[#FF6B35] text-[#FF6B35]'
-                    : 'border-[#616161] text-[#BDBDBD]'
+                    : 'border-oc-gray-300 text-oc-gray-500'
                 )}
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

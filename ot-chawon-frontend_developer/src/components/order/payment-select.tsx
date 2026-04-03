@@ -72,7 +72,7 @@ export const PaymentSelect: React.FC<PaymentSelectProps> = ({ value, onChange })
               'flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors',
               isSelected
                 ? 'border-oc-primary-500 bg-oc-primary-500/10'
-                : 'border-oc-gray-700 bg-oc-gray-900 hover:border-oc-gray-500'
+                : 'border-oc-gray-200 bg-white hover:border-oc-gray-400'
             )}
           >
             <input
@@ -86,7 +86,7 @@ export const PaymentSelect: React.FC<PaymentSelectProps> = ({ value, onChange })
             <div
               className={cn(
                 'w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0',
-                isSelected ? 'border-oc-primary-500' : 'border-oc-gray-500'
+                isSelected ? 'border-oc-primary-500' : 'border-oc-gray-400'
               )}
             >
               {isSelected && (
@@ -97,7 +97,7 @@ export const PaymentSelect: React.FC<PaymentSelectProps> = ({ value, onChange })
               {option.icon}
             </div>
             <div className="flex-1">
-              <p className={cn('text-sm font-medium', isSelected ? 'text-white' : 'text-oc-gray-300')}>
+              <p className={cn('text-sm font-medium', isSelected ? 'text-oc-gray-900' : 'text-oc-gray-600')}>
                 {option.label}
               </p>
               {option.description && (

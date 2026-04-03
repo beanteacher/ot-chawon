@@ -51,9 +51,9 @@ export default function SignupPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-oc-black">
+    <main className="min-h-screen flex items-center justify-center bg-oc-gray-50">
       <section className="w-full max-w-md px-8 py-12">
-        <h1 className="text-2xl font-bold text-white mb-8">회원가입</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900 mb-8">회원가입</h1>
 
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
           <div>

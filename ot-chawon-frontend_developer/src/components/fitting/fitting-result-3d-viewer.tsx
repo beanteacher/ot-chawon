@@ -10,8 +10,8 @@ const ProductViewer3D = dynamic(
 
 function ViewerSkeleton() {
   return (
-    <div className="aspect-square rounded-2xl bg-oc-surface flex items-center justify-center">
-      <div className="w-12 h-12 rounded-full border-4 border-oc-gray-700 border-t-[#FF6B35] animate-spin" />
+    <div className="aspect-square rounded-2xl bg-oc-gray-100 flex items-center justify-center">
+      <div className="w-12 h-12 rounded-full border-4 border-oc-gray-200 border-t-[#FF6B35] animate-spin" />
     </div>
   );
 }

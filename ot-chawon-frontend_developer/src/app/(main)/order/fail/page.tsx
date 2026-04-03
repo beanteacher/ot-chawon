@@ -39,7 +39,7 @@ function OrderFailContent() {
         </svg>
       </div>
 
-      <h1 className="text-2xl font-bold text-white mb-2">결제에 실패했습니다</h1>
+      <h1 className="text-2xl font-bold text-oc-gray-900 mb-2">결제에 실패했습니다</h1>
       <p className="text-sm text-oc-gray-400 mb-8">
         결제 처리 중 문제가 발생했습니다. 다시 시도해 주세요.
       </p>
@@ -63,7 +63,7 @@ function OrderFailContent() {
           </svg>
           <div>
             <p className="text-sm font-medium text-oc-error mb-1">실패 사유</p>
-            <p className="text-sm text-oc-gray-300">{errorMessage}</p>
+            <p className="text-sm text-oc-gray-600">{errorMessage}</p>
             {errorCode !== 'UNKNOWN' && (
               <p className="text-xs text-oc-gray-500 mt-1">오류 코드: {errorCode}</p>
             )}
@@ -72,8 +72,8 @@ function OrderFailContent() {
       </div>
 
       {/* 도움말 */}
-      <div className="w-full rounded-lg bg-oc-gray-800 p-4 mb-8 text-left">
-        <p className="text-xs font-medium text-oc-gray-300 mb-2">문제가 계속 발생하나요?</p>
+      <div className="w-full rounded-lg bg-oc-gray-100 p-4 mb-8 text-left">
+        <p className="text-xs font-medium text-oc-gray-600 mb-2">문제가 계속 발생하나요?</p>
         <ul className="flex flex-col gap-1">
           {[
             '카드 정보가 올바른지 확인해 주세요',

@@ -47,7 +47,7 @@ export function ProductViewer3D({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full aspect-square bg-oc-black rounded-xl overflow-hidden ${className ?? ''}`}
+      className={`relative w-full aspect-square bg-oc-gray-50 rounded-xl overflow-hidden ${className ?? ''}`}
     >
       <Canvas
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}

@@ -47,7 +47,7 @@ export default function CartPage() {
   if (isLoading) {
     return (
       <main className="max-w-screen-xl mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold text-white mb-8">장바구니</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900 mb-8">장바구니</h1>
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 flex flex-col gap-3">
             <SkeletonCard />
@@ -65,7 +65,7 @@ export default function CartPage() {
   if (isError && isAuthenticated) {
     return (
       <main className="max-w-screen-xl mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold text-white mb-8">장바구니</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900 mb-8">장바구니</h1>
         <ErrorFallback
           variant="generic"
           title="장바구니를 불러올 수 없습니다"
@@ -79,9 +79,9 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <main className="max-w-screen-xl mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold text-white mb-8">장바구니</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900 mb-8">장바구니</h1>
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="w-20 h-20 rounded-full bg-oc-gray-800 flex items-center justify-center mb-6">
+          <div className="w-20 h-20 rounded-full bg-oc-gray-100 flex items-center justify-center mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-10 h-10 text-oc-gray-500"
@@ -97,7 +97,7 @@ export default function CartPage() {
               />
             </svg>
           </div>
-          <p className="text-lg font-medium text-oc-gray-300 mb-2">장바구니가 비어있습니다</p>
+          <p className="text-lg font-medium text-oc-gray-600 mb-2">장바구니가 비어있습니다</p>
           <p className="text-sm text-oc-gray-500 mb-8">마음에 드는 상품을 장바구니에 담아보세요</p>
           <Button variant="primary" size="lg" onClick={() => router.push('/products')}>
             쇼핑 계속하기
@@ -109,7 +109,7 @@ export default function CartPage() {
 
   return (
     <main className="max-w-screen-xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-white mb-6">
+      <h1 className="text-2xl font-bold text-oc-gray-900 mb-6">
         장바구니
         <span className="ml-2 text-base font-normal text-oc-gray-400">({items.length})</span>
       </h1>
@@ -119,7 +119,7 @@ export default function CartPage() {
         {/* 왼쪽: 아이템 목록 */}
         <div className="flex-1 min-w-0">
           {/* 전체 선택 바 */}
-          <div className="flex items-center justify-between py-3 px-4 rounded-lg bg-oc-gray-900 border border-oc-gray-700 mb-3">
+          <div className="flex items-center justify-between py-3 px-4 rounded-lg bg-white border border-oc-gray-200 mb-3">
             <Checkbox
               label={`전체 선택 (${selectedIds.size}/${items.length})`}
               checked={allSelected}
@@ -171,7 +171,7 @@ export default function CartPage() {
       </div>
 
       {/* 모바일 고정 하단 바 */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-oc-gray-950 border-t border-oc-gray-700 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-oc-gray-200 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-oc-gray-400">총 결제 금액</span>
           <span className="text-base font-bold text-oc-primary-500">

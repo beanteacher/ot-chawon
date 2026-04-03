@@ -26,12 +26,12 @@ export function FittingComparison({ renders }: FittingComparisonProps) {
   const selectedUrl = selected ? renders[selected] : null;
 
   return (
-    <div className="bg-oc-surface rounded-2xl p-6 space-y-4">
+    <div className="bg-oc-gray-100 rounded-2xl p-6 space-y-4">
       <h2 className="text-lg font-bold text-oc-primary">다각도 렌더링</h2>
 
       {/* 메인 이미지 */}
       {selectedUrl && (
-        <div className="relative aspect-square rounded-xl overflow-hidden bg-oc-black">
+        <div className="relative aspect-square rounded-xl overflow-hidden bg-oc-gray-50">
           <Image
             src={selectedUrl}
             alt={`피팅 결과 ${selected ? ANGLE_LABELS[selected] ?? selected + '도' : ''}`}
@@ -50,7 +50,7 @@ export function FittingComparison({ renders }: FittingComparisonProps) {
             className={`relative flex-1 aspect-square rounded-lg overflow-hidden border-2 transition-colors ${
               selected === angle
                 ? 'border-[#FF6B35]'
-                : 'border-oc-gray-700 hover:border-oc-gray-500'
+                : 'border-oc-gray-200 hover:border-oc-gray-400'
             }`}
           >
             {url ? (
@@ -61,13 +61,13 @@ export function FittingComparison({ renders }: FittingComparisonProps) {
                 className="object-contain"
               />
             ) : (
-              <div className="w-full h-full bg-oc-gray-800 flex items-center justify-center">
+              <div className="w-full h-full bg-oc-gray-100 flex items-center justify-center">
                 <span className="text-xs text-oc-gray-500">
                   {ANGLE_LABELS[angle] ?? angle + '°'}
                 </span>
               </div>
             )}
-            <div className="absolute bottom-0 left-0 right-0 bg-black/50 py-0.5">
+            <div className="absolute bottom-0 left-0 right-0 bg-black/30 py-0.5">
               <p className="text-xs text-center text-white">
                 {ANGLE_LABELS[angle] ?? angle + '°'}
               </p>

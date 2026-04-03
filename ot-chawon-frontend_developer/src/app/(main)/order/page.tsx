@@ -119,14 +119,14 @@ export default function OrderPage() {
 
   return (
     <main className="max-w-screen-lg mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-white mb-6">주문서 작성</h1>
+      <h1 className="text-2xl font-bold text-oc-gray-900 mb-6">주문서 작성</h1>
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* 왼쪽: 폼 영역 */}
         <div className="flex-1 flex flex-col gap-6">
           {/* 배송지 정보 */}
-          <section className="rounded-lg border border-oc-gray-700 bg-oc-gray-900 p-5">
-            <h2 className="text-base font-semibold text-white mb-4">배송지 정보</h2>
+          <section className="rounded-lg border border-oc-gray-200 bg-white p-5">
+            <h2 className="text-base font-semibold text-oc-gray-900 mb-4">배송지 정보</h2>
             <OrderForm
               shippingInfo={shippingInfo}
               onChange={handleShippingChange}
@@ -135,13 +135,13 @@ export default function OrderPage() {
           </section>
 
           {/* 주문 상품 요약 */}
-          <section className="rounded-lg border border-oc-gray-700 bg-oc-gray-900 p-5">
+          <section className="rounded-lg border border-oc-gray-200 bg-white p-5">
             <button
               type="button"
               className="w-full flex items-center justify-between"
               onClick={() => setIsItemsExpanded((v) => !v)}
             >
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-oc-gray-900">
                 주문 상품 ({selectedItems.length}개)
               </h2>
               <svg
@@ -160,12 +160,12 @@ export default function OrderPage() {
                 {selectedItems.map((item, idx) => (
                   <div key={idx} className="flex justify-between items-start text-sm">
                     <div>
-                      <p className="text-oc-gray-200">{item.productName}</p>
+                      <p className="text-oc-gray-700">{item.productName}</p>
                       <p className="text-xs text-oc-gray-500 mt-0.5">
                         {item.size} / {item.quantity}개
                       </p>
                     </div>
-                    <span className="text-oc-gray-200 font-medium ml-4">
+                    <span className="text-oc-gray-700 font-medium ml-4">
                       {(item.price * item.quantity).toLocaleString()}원
                     </span>
                   </div>
@@ -186,16 +186,16 @@ export default function OrderPage() {
           </section>
 
           {/* 결제 수단 */}
-          <section className="rounded-lg border border-oc-gray-700 bg-oc-gray-900 p-5">
-            <h2 className="text-base font-semibold text-white mb-4">결제 수단</h2>
+          <section className="rounded-lg border border-oc-gray-200 bg-white p-5">
+            <h2 className="text-base font-semibold text-oc-gray-900 mb-4">결제 수단</h2>
             <PaymentSelect value={paymentMethod} onChange={setPaymentMethod} />
           </section>
 
           {/* 약관 동의 */}
-          <section className="rounded-lg border border-oc-gray-700 bg-oc-gray-900 p-5">
-            <h2 className="text-base font-semibold text-white mb-4">약관 동의</h2>
+          <section className="rounded-lg border border-oc-gray-200 bg-white p-5">
+            <h2 className="text-base font-semibold text-oc-gray-900 mb-4">약관 동의</h2>
             <div className="flex flex-col gap-3">
-              <div className="pb-3 border-b border-oc-gray-700">
+              <div className="pb-3 border-b border-oc-gray-200">
                 <Checkbox
                   label="전체 동의"
                   checked={allTermsChecked}
@@ -219,15 +219,15 @@ export default function OrderPage() {
 
         {/* 오른쪽: 결제 요약 사이드바 */}
         <div className="lg:w-80 lg:flex-shrink-0">
-          <div className="lg:sticky lg:top-4 rounded-lg border border-oc-gray-700 bg-oc-gray-900 p-5">
-            <h2 className="text-base font-semibold text-white mb-4">최종 결제 금액</h2>
+          <div className="lg:sticky lg:top-4 rounded-lg border border-oc-gray-200 bg-white p-5">
+            <h2 className="text-base font-semibold text-oc-gray-900 mb-4">최종 결제 금액</h2>
 
             <div className="flex flex-col gap-3 text-sm">
-              <div className="flex justify-between text-oc-gray-300">
+              <div className="flex justify-between text-oc-gray-600">
                 <span>상품 금액</span>
                 <span>{subtotal.toLocaleString()}원</span>
               </div>
-              <div className="flex justify-between text-oc-gray-300">
+              <div className="flex justify-between text-oc-gray-600">
                 <span>배송비</span>
                 <span>
                   {shippingFee === 0 ? (
@@ -237,8 +237,8 @@ export default function OrderPage() {
                   )}
                 </span>
               </div>
-              <div className="border-t border-oc-gray-700 pt-3 flex justify-between font-semibold text-base">
-                <span className="text-white">총 결제 금액</span>
+              <div className="border-t border-oc-gray-200 pt-3 flex justify-between font-semibold text-base">
+                <span className="text-oc-gray-900">총 결제 금액</span>
                 <span className="text-oc-primary-500">{total.toLocaleString()}원</span>
               </div>
             </div>

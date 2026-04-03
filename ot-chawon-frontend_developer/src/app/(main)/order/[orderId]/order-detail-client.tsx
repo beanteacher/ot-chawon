@@ -90,11 +90,11 @@ export function OrderDetailClient({ orderId }: Props) {
 
   if (error || !order) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-[#BDBDBD]">
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-oc-gray-500">
         <p className="mb-4">{error ?? '주문을 찾을 수 없습니다.'}</p>
         <button
           onClick={() => router.push('/order/history')}
-          className="px-4 py-2 bg-[#212121] border border-[#333333] rounded-lg text-sm hover:border-[#616161] transition-colors"
+          className="px-4 py-2 bg-white border border-oc-gray-200 rounded-lg text-sm hover:border-oc-gray-300 transition-colors"
         >
           주문 내역으로 돌아가기
         </button>
@@ -114,25 +114,25 @@ export function OrderDetailClient({ orderId }: Props) {
       <div className="flex items-center gap-3 mb-6">
         <button
           onClick={() => router.push('/order/history')}
-          className="text-[#BDBDBD] hover:text-[#F9F9F9] transition-colors"
+          className="text-oc-gray-500 hover:text-oc-gray-900 transition-colors"
           aria-label="뒤로가기"
         >
           ←
         </button>
-        <h1 className="text-xl font-bold text-[#F9F9F9]">주문 상세</h1>
+        <h1 className="text-xl font-bold text-oc-gray-900">주문 상세</h1>
       </div>
 
       {/* 주문번호 + 날짜 */}
-      <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 mb-4">
+      <div className="bg-white border border-oc-gray-200 rounded-xl p-4 mb-4">
         <div className="flex justify-between items-center">
-          <span className="text-xs text-[#BDBDBD] font-mono">{order.orderId}</span>
-          <span className="text-xs text-[#616161]">{formattedDate}</span>
+          <span className="text-xs text-oc-gray-500 font-mono">{order.orderId}</span>
+          <span className="text-xs text-oc-gray-400">{formattedDate}</span>
         </div>
       </div>
 
       {/* 주문 상태 스텝 인디케이터 */}
       {isTerminalStatus ? (
-        <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 mb-4 text-center">
+        <div className="bg-white border border-oc-gray-200 rounded-xl p-4 mb-4 text-center">
           <span className={cn(
             'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border',
             order.status === 'CANCELLED'
@@ -143,7 +143,7 @@ export function OrderDetailClient({ orderId }: Props) {
           </span>
         </div>
       ) : (
-        <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 mb-4">
+        <div className="bg-white border border-oc-gray-200 rounded-xl p-4 mb-4">
           <div className="flex items-center justify-between">
             {STEP_STATUSES.map((step, idx) => {
               const isActive = idx <= currentStepIndex;
@@ -155,13 +155,13 @@ export function OrderDetailClient({ orderId }: Props) {
                       'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2',
                       isActive
                         ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
-                        : 'bg-[#111111] border-[#333333] text-[#616161]'
+                        : 'bg-oc-gray-50 border-oc-gray-200 text-oc-gray-400'
                     )}>
                       {idx + 1}
                     </div>
                     <span className={cn(
                       'text-[10px] text-center',
-                      isActive ? 'text-[#FF6B35]' : 'text-[#616161]'
+                      isActive ? 'text-[#FF6B35]' : 'text-oc-gray-400'
                     )}>
                       {STEP_LABEL[step]}
                     </span>
@@ -169,7 +169,7 @@ export function OrderDetailClient({ orderId }: Props) {
                   {!isLast && (
                     <div className={cn(
                       'flex-1 h-0.5 mx-1 mb-4',
-                      idx < currentStepIndex ? 'bg-[#FF6B35]' : 'bg-[#333333]'
+                      idx < currentStepIndex ? 'bg-[#FF6B35]' : 'bg-oc-gray-200'
                     )} />
                   )}
                 </React.Fragment>
@@ -180,19 +180,19 @@ export function OrderDetailClient({ orderId }: Props) {
       )}
 
       {/* 상품 목록 */}
-      <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 mb-4">
-        <h2 className="text-sm font-semibold text-[#F9F9F9] mb-3">주문 상품</h2>
+      <div className="bg-white border border-oc-gray-200 rounded-xl p-4 mb-4">
+        <h2 className="text-sm font-semibold text-oc-gray-900 mb-3">주문 상품</h2>
         <div className="flex flex-col gap-3">
           {order.items.map((item, idx) => (
             <div key={idx} className="flex gap-3 items-start">
-              <div className="w-16 h-16 bg-[#212121] border border-[#333333] rounded-lg flex-shrink-0" />
+              <div className="w-16 h-16 bg-oc-gray-100 border border-oc-gray-200 rounded-lg flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-[#F9F9F9] font-medium truncate">{item.productName}</p>
-                <p className="text-xs text-[#616161] mt-0.5">
+                <p className="text-sm text-oc-gray-900 font-medium truncate">{item.productName}</p>
+                <p className="text-xs text-oc-gray-400 mt-0.5">
                   {item.size}{item.color ? ` / ${item.color}` : ''} / {item.quantity}개
                 </p>
               </div>
-              <span className="text-sm text-[#F9F9F9] font-semibold flex-shrink-0">
+              <span className="text-sm text-oc-gray-900 font-semibold flex-shrink-0">
                 {(item.price * item.quantity).toLocaleString()}원
               </span>
             </div>
@@ -201,54 +201,54 @@ export function OrderDetailClient({ orderId }: Props) {
       </div>
 
       {/* 배송 정보 */}
-      <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 mb-4">
-        <h2 className="text-sm font-semibold text-[#F9F9F9] mb-3">배송 정보</h2>
+      <div className="bg-white border border-oc-gray-200 rounded-xl p-4 mb-4">
+        <h2 className="text-sm font-semibold text-oc-gray-900 mb-3">배송 정보</h2>
         <dl className="flex flex-col gap-1.5 text-sm">
           <div className="flex justify-between">
-            <dt className="text-[#616161]">수령인</dt>
-            <dd className="text-[#F9F9F9]">{addr.recipientName}</dd>
+            <dt className="text-oc-gray-400">수령인</dt>
+            <dd className="text-oc-gray-900">{addr.recipientName}</dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-[#616161]">연락처</dt>
-            <dd className="text-[#F9F9F9]">{addr.phone}</dd>
+            <dt className="text-oc-gray-400">연락처</dt>
+            <dd className="text-oc-gray-900">{addr.phone}</dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-[#616161]">주소</dt>
-            <dd className="text-[#F9F9F9] text-right max-w-[60%]">
+            <dt className="text-oc-gray-400">주소</dt>
+            <dd className="text-oc-gray-900 text-right max-w-[60%]">
               ({addr.zipCode}) {addr.address} {addr.addressDetail}
             </dd>
           </div>
           {addr.memo && (
             <div className="flex justify-between">
-              <dt className="text-[#616161]">배송 메모</dt>
-              <dd className="text-[#F9F9F9]">{addr.memo}</dd>
+              <dt className="text-oc-gray-400">배송 메모</dt>
+              <dd className="text-oc-gray-900">{addr.memo}</dd>
             </div>
           )}
           {order.trackingNumber && (
             <div className="flex justify-between">
-              <dt className="text-[#616161]">운송장 번호</dt>
-              <dd className="text-[#F9F9F9] font-mono text-xs">{order.trackingNumber}</dd>
+              <dt className="text-oc-gray-400">운송장 번호</dt>
+              <dd className="text-oc-gray-900 font-mono text-xs">{order.trackingNumber}</dd>
             </div>
           )}
         </dl>
       </div>
 
       {/* 결제 정보 */}
-      <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 mb-6">
-        <h2 className="text-sm font-semibold text-[#F9F9F9] mb-3">결제 정보</h2>
+      <div className="bg-white border border-oc-gray-200 rounded-xl p-4 mb-6">
+        <h2 className="text-sm font-semibold text-oc-gray-900 mb-3">결제 정보</h2>
         <dl className="flex flex-col gap-1.5 text-sm">
           {paymentMethod && (
             <div className="flex justify-between">
-              <dt className="text-[#616161]">결제수단</dt>
-              <dd className="text-[#F9F9F9]">{PAYMENT_METHOD_LABEL[paymentMethod] ?? paymentMethod}</dd>
+              <dt className="text-oc-gray-400">결제수단</dt>
+              <dd className="text-oc-gray-900">{PAYMENT_METHOD_LABEL[paymentMethod] ?? paymentMethod}</dd>
             </div>
           )}
           <div className="flex justify-between">
-            <dt className="text-[#616161]">상품 금액</dt>
-            <dd className="text-[#F9F9F9]">{order.totalPrice.toLocaleString()}원</dd>
+            <dt className="text-oc-gray-400">상품 금액</dt>
+            <dd className="text-oc-gray-900">{order.totalPrice.toLocaleString()}원</dd>
           </div>
-          <div className="flex justify-between border-t border-[#333333] pt-2 mt-1">
-            <dt className="text-[#BDBDBD] font-semibold">총 결제금액</dt>
+          <div className="flex justify-between border-t border-oc-gray-200 pt-2 mt-1">
+            <dt className="text-oc-gray-500 font-semibold">총 결제금액</dt>
             <dd className="text-[#FF6B35] font-bold">{order.totalPrice.toLocaleString()}원</dd>
           </div>
         </dl>
@@ -262,7 +262,7 @@ export function OrderDetailClient({ orderId }: Props) {
           className={cn(
             'w-full py-3 rounded-xl text-sm font-medium border transition-colors',
             isCancelling
-              ? 'opacity-50 cursor-not-allowed border-[#333333] text-[#616161]'
+              ? 'opacity-50 cursor-not-allowed border-oc-gray-200 text-oc-gray-400'
               : 'border-red-500/50 text-red-400 hover:bg-red-500/10'
           )}
         >

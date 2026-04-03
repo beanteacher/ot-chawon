@@ -7,8 +7,8 @@ export function ViewerLoading() {
   const { progress } = useProgress();
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-oc-black gap-4">
-      <div className="w-16 h-16 rounded-2xl bg-oc-surface flex items-center justify-center">
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-oc-gray-50 gap-4">
+      <div className="w-16 h-16 rounded-2xl bg-oc-gray-100 flex items-center justify-center">
         <svg
           className="w-8 h-8 text-oc-primary-400"
           fill="none"
@@ -24,7 +24,7 @@ export function ViewerLoading() {
         </svg>
       </div>
       <p className="text-sm text-oc-primary font-medium">3D 모델 로딩 중...</p>
-      <div className="w-48 h-1.5 bg-oc-surface rounded-full overflow-hidden">
+      <div className="w-48 h-1.5 bg-oc-gray-100 rounded-full overflow-hidden">
         <div
           className="h-full bg-oc-primary-400 rounded-full transition-all duration-300"
           style={{ width: `${progress}%` }}

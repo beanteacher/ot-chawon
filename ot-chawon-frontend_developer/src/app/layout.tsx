@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="bg-oc-black text-white antialiased">
+      <body className="bg-oc-gray-50 text-oc-gray-900 antialiased">
         <Providers>
           <SidebarProvider>
             {children}

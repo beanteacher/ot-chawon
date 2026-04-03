@@ -51,13 +51,13 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
     return (
       <div
         className={cn(
-          'group flex gap-4 p-3 rounded-xl bg-oc-gray-900 border border-oc-gray-800',
-          'hover:bg-oc-gray-800 transition-colors cursor-pointer',
+          'group flex gap-4 p-3 rounded-xl bg-white border border-oc-gray-200',
+          'hover:bg-oc-gray-100 transition-colors cursor-pointer',
           className
         )}
       >
         {/* 썸네일 */}
-        <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-oc-gray-800">
+        <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-oc-gray-100">
           {product.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -66,8 +66,8 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-oc-gray-800 to-oc-gray-700">
-              <svg className="w-8 h-8 text-oc-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-oc-gray-100 to-oc-gray-200">
+              <svg className="w-8 h-8 text-oc-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
@@ -75,7 +75,7 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
 
           {/* 품절 오버레이 */}
           {product.isSoldOut && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
               <span className="text-white text-xs font-bold tracking-widest">SOLD OUT</span>
             </div>
           )}
@@ -84,14 +84,14 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
         {/* 상품 정보 */}
         <div className="flex-1 min-w-0">
           <p className="text-xs text-oc-gray-500 mb-0.5">{product.brand}</p>
-          <p className="text-sm text-white font-medium line-clamp-2 mb-1">{product.name}</p>
+          <p className="text-sm text-oc-gray-900 font-medium line-clamp-2 mb-1">{product.name}</p>
           <div className="flex items-center gap-2">
             {product.discountRate && product.discountRate > 0 && (
               <span className="text-xs text-oc-primary-500 font-bold">{product.discountRate}%</span>
             )}
-            <span className="text-sm font-bold text-white">{formattedPrice}원</span>
+            <span className="text-sm font-bold text-oc-gray-900">{formattedPrice}원</span>
             {formattedOriginal && (
-              <span className="text-xs text-oc-gray-600 line-through">{formattedOriginal}원</span>
+              <span className="text-xs text-oc-gray-500 line-through">{formattedOriginal}원</span>
             )}
           </div>
           <div className="flex items-center gap-1.5 mt-1">
@@ -99,7 +99,7 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
               <span className="text-2xs text-oc-primary-400 border border-oc-primary-500/40 px-1.5 py-0.5 rounded">3D</span>
             )}
             {product.isSoldOut && (
-              <span className="text-2xs text-oc-gray-500 border border-oc-gray-700 px-1.5 py-0.5 rounded">품절</span>
+              <span className="text-2xs text-oc-gray-500 border border-oc-gray-200 px-1.5 py-0.5 rounded">품절</span>
             )}
           </div>
         </div>
@@ -110,7 +110,7 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
           aria-label={liked ? '좋아요 취소' : '좋아요'}
           className={cn(
             'flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full self-center',
-            'bg-oc-gray-800 transition-colors hover:bg-oc-gray-700'
+            'bg-oc-gray-100 transition-colors hover:bg-oc-gray-200'
           )}
         >
           <svg
@@ -135,13 +135,13 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
   return (
     <div
       className={cn(
-        'group relative flex flex-col bg-oc-gray-900 rounded-xl overflow-hidden cursor-pointer',
+        'group relative flex flex-col bg-white rounded-xl overflow-hidden cursor-pointer',
         'transition-transform duration-200 hover:-translate-y-1',
         className
       )}
     >
       {/* 이미지 영역 */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-oc-gray-800">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-oc-gray-100">
         {product.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -150,9 +150,9 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-oc-gray-800 to-oc-gray-700">
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-oc-gray-100 to-oc-gray-200">
             <svg
-              className="w-16 h-16 text-oc-gray-600"
+              className="w-16 h-16 text-oc-gray-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -169,7 +169,7 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
 
         {/* 품절 오버레이 */}
         {product.isSoldOut && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
+          <div className="absolute inset-0 bg-black/30 flex items-center justify-center z-10">
             <span className="text-white text-sm font-bold tracking-widest">SOLD OUT</span>
           </div>
         )}
@@ -183,7 +183,7 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
 
         {/* 3D 뱃지 */}
         {product.hasThreeD && (
-          <div className="absolute top-2 right-2 bg-oc-gray-900/80 text-oc-primary-400 text-2xs font-medium px-2 py-1 rounded border border-oc-primary-500/40 z-20">
+          <div className="absolute top-2 right-2 bg-white/80 text-oc-primary-400 text-2xs font-medium px-2 py-1 rounded border border-oc-primary-500/40 z-20">
             3D
           </div>
         )}
@@ -219,11 +219,11 @@ const ProductCard = ({ product, className, variant = 'grid', onLikeToggle }: Pro
         <span className="text-xs text-oc-gray-500 font-medium uppercase tracking-wide">
           {product.brand}
         </span>
-        <p className="text-sm text-white font-medium line-clamp-2 leading-snug">
+        <p className="text-sm text-oc-gray-900 font-medium line-clamp-2 leading-snug">
           {product.name}
         </p>
         <div className="flex items-center gap-2 mt-1">
-          <span className={cn('text-base font-bold', product.isSoldOut ? 'text-oc-gray-500' : 'text-white')}>
+          <span className={cn('text-base font-bold', product.isSoldOut ? 'text-oc-gray-500' : 'text-oc-gray-900')}>
             {formattedPrice}원
           </span>
           {formattedOriginal && (

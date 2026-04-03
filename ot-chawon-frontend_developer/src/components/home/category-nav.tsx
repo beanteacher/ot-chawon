@@ -97,7 +97,7 @@ const CategoryNav = ({ onCategoryChange }: CategoryNavProps) => {
   };
 
   return (
-    <nav className="w-full bg-oc-black border-b border-oc-gray-800">
+    <nav className="w-full bg-oc-gray-50 border-b border-oc-gray-200">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex gap-1 overflow-x-auto scrollbar-hide py-3 -mx-4 px-4">
           {categories.map((cat) => (
@@ -108,7 +108,7 @@ const CategoryNav = ({ onCategoryChange }: CategoryNavProps) => {
                 'flex flex-col items-center gap-1.5 flex-shrink-0 px-4 py-2 rounded-xl transition-colors duration-150',
                 active === cat.id
                   ? 'bg-oc-primary-500/15 text-oc-primary-500'
-                  : 'text-oc-gray-500 hover:text-oc-gray-300 hover:bg-oc-gray-900'
+                  : 'text-oc-gray-500 hover:text-oc-gray-700 hover:bg-oc-gray-100'
               )}
             >
               {cat.icon}

@@ -25,7 +25,7 @@ interface MyPageTabsProps {
 export function MyPageTabs({ activeTab, onChange }: MyPageTabsProps) {
   return (
     <nav
-      className="border-b border-[#616161] overflow-x-auto scrollbar-none"
+      className="border-b border-oc-gray-300 overflow-x-auto scrollbar-none"
       aria-label="마이페이지 탭 네비게이션"
     >
       <div className="flex min-w-max">
@@ -41,8 +41,8 @@ export function MyPageTabs({ activeTab, onChange }: MyPageTabsProps) {
               className={cn(
                 'px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2',
                 isActive
-                  ? 'border-[#FF6B35] text-[#F9F9F9]'
-                  : 'border-transparent text-[#BDBDBD] hover:text-[#F9F9F9] hover:border-[#616161]'
+                  ? 'border-[#FF6B35] text-oc-gray-900'
+                  : 'border-transparent text-oc-gray-500 hover:text-oc-gray-900 hover:border-oc-gray-300'
               )}
             >
               {tab.label}

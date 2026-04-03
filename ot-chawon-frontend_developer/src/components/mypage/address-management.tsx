@@ -134,7 +134,7 @@ export function AddressManagement() {
   return (
     <section className="py-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-[#F9F9F9]">배송지 관리</h2>
+        <h2 className="text-lg font-semibold text-oc-gray-900">배송지 관리</h2>
         <Button
           variant="primary"
           size="sm"
@@ -146,12 +146,12 @@ export function AddressManagement() {
       </div>
 
       {addresses.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-[#616161]">
+        <div className="flex flex-col items-center justify-center py-16 text-oc-gray-400">
           <svg className="w-12 h-12 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <p className="text-sm text-[#BDBDBD]">등록된 배송지가 없습니다</p>
+          <p className="text-sm text-oc-gray-500">등록된 배송지가 없습니다</p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -159,14 +159,14 @@ export function AddressManagement() {
             <div
               key={addr.id}
               className={cn(
-                'bg-[#212121] border rounded-xl p-4',
-                addr.isDefault ? 'border-[#FF6B35]/50' : 'border-[#333333]'
+                'bg-white border rounded-xl p-4',
+                addr.isDefault ? 'border-[#FF6B35]/50' : 'border-oc-gray-100'
               )}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <span className="text-sm font-semibold text-[#F9F9F9]">
+                    <span className="text-sm font-semibold text-oc-gray-900">
                       {addr.recipientName}
                     </span>
                     {addr.isDefault && (
@@ -175,13 +175,13 @@ export function AddressManagement() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-[#BDBDBD]">
+                  <p className="text-sm text-oc-gray-500">
                     [{addr.zipCode}] {addr.address}
                   </p>
                   {addr.addressDetail && (
-                    <p className="text-sm text-[#BDBDBD]">{addr.addressDetail}</p>
+                    <p className="text-sm text-oc-gray-500">{addr.addressDetail}</p>
                   )}
-                  <p className="text-xs text-[#616161] mt-1">{addr.phone}</p>
+                  <p className="text-xs text-oc-gray-400 mt-1">{addr.phone}</p>
                 </div>
 
                 <div className="flex flex-col gap-2 flex-shrink-0">
@@ -189,7 +189,7 @@ export function AddressManagement() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleOpenEdit(addr)}
-                    className="text-[#BDBDBD] hover:text-[#F9F9F9] text-xs px-2 h-7"
+                    className="text-oc-gray-500 hover:text-oc-gray-900 text-xs px-2 h-7"
                   >
                     수정
                   </Button>
@@ -208,7 +208,7 @@ export function AddressManagement() {
                 <button
                   type="button"
                   onClick={() => handleSetDefault(addr.id)}
-                  className="mt-3 text-xs text-[#BDBDBD] hover:text-[#FF6B35] transition-colors underline"
+                  className="mt-3 text-xs text-oc-gray-500 hover:text-[#FF6B35] transition-colors underline"
                 >
                   기본 배송지로 설정
                 </button>

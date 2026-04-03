@@ -53,15 +53,15 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
       <div>
         <p className="text-sm text-oc-primary-400 font-medium mb-1">{product.brandName}</p>
         <div className="flex items-center gap-2 mb-3">
-          <h1 className="text-xl font-bold text-white">{product.name}</h1>
+          <h1 className="text-xl font-bold text-oc-gray-900">{product.name}</h1>
           {isSoldOut && (
-            <span className="px-2 py-0.5 text-xs font-bold bg-oc-gray-700 text-oc-gray-400 rounded border border-oc-gray-600">
+            <span className="px-2 py-0.5 text-xs font-bold bg-oc-gray-200 text-oc-gray-500 rounded border border-oc-gray-300">
               SOLD OUT
             </span>
           )}
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-2xl font-bold text-white">{discountedPrice.toLocaleString()}원</span>
+          <span className="text-2xl font-bold text-oc-gray-900">{discountedPrice.toLocaleString()}원</span>
           <span className="text-base text-oc-gray-500 line-through">{product.price.toLocaleString()}원</span>
           <span className="text-base font-bold text-oc-primary-500">{DUMMY_DISCOUNT}%</span>
         </div>
@@ -69,7 +69,7 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
 
       {/* 색상 선택 */}
       <div>
-        <p className="text-sm font-medium text-oc-gray-300 mb-2">
+        <p className="text-sm font-medium text-oc-gray-600 mb-2">
           색상{selectedColor && <span className="text-oc-primary-400 ml-2">{COLORS.find(c => c.value === selectedColor)?.label}</span>}
         </p>
         <div className="flex gap-2">
@@ -80,10 +80,10 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
               onClick={() => setSelectedColor(color.value === selectedColor ? '' : color.value)}
               className={cn(
                 'w-8 h-8 rounded-full border-2 transition-all',
-                color.value === 'white' ? 'border-oc-gray-600' : '',
+                color.value === 'white' ? 'border-oc-gray-300' : '',
                 selectedColor === color.value
                   ? 'border-oc-primary-500 scale-110 ring-2 ring-oc-primary-500/30'
-                  : 'border-oc-gray-700 hover:border-oc-gray-400'
+                  : 'border-oc-gray-200 hover:border-oc-gray-400'
               )}
               style={{ backgroundColor: color.hex }}
             />
@@ -94,8 +94,8 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
       {/* 사이즈 선택 */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-medium text-oc-gray-300">사이즈</p>
-          <button onClick={onSizeGuide} className="text-xs text-oc-gray-500 hover:text-oc-gray-300 transition-colors underline">
+          <p className="text-sm font-medium text-oc-gray-600">사이즈</p>
+          <button onClick={onSizeGuide} className="text-xs text-oc-gray-500 hover:text-oc-gray-600 transition-colors underline">
             사이즈 가이드
           </button>
         </div>
@@ -111,14 +111,14 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
                 className={cn(
                   'min-w-[52px] h-10 px-3 text-sm border rounded-md transition-all font-medium',
                   isOutOfStock
-                    ? 'border-oc-gray-800 text-oc-gray-700 cursor-not-allowed line-through'
+                    ? 'border-oc-gray-200 text-oc-gray-400 cursor-not-allowed line-through'
                     : isSelected
                     ? 'border-oc-primary-500 bg-oc-primary-500/20 text-oc-primary-400'
-                    : 'border-oc-gray-700 text-oc-gray-300 hover:border-oc-gray-400 hover:text-white'
+                    : 'border-oc-gray-200 text-oc-gray-600 hover:border-oc-gray-400 hover:text-oc-gray-900'
                 )}
               >
                 {sizeOpt.label}
-                {isOutOfStock && <span className="block text-2xs text-oc-gray-700">품절</span>}
+                {isOutOfStock && <span className="block text-2xs text-oc-gray-400">품절</span>}
               </button>
             );
           })}
@@ -127,20 +127,20 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
 
       {/* 수량 */}
       <div>
-        <p className="text-sm font-medium text-oc-gray-300 mb-2">수량</p>
-        <div className="flex items-center border border-oc-gray-700 rounded-md w-fit">
+        <p className="text-sm font-medium text-oc-gray-600 mb-2">수량</p>
+        <div className="flex items-center border border-oc-gray-200 rounded-md w-fit">
           <button
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-            className="w-10 h-10 flex items-center justify-center text-oc-gray-300 hover:text-white hover:bg-oc-gray-800 transition-colors rounded-l-md"
+            className="w-10 h-10 flex items-center justify-center text-oc-gray-600 hover:text-oc-gray-900 hover:bg-oc-gray-100 transition-colors rounded-l-md"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
             </svg>
           </button>
-          <span className="w-12 text-center text-sm font-medium text-white">{quantity}</span>
+          <span className="w-12 text-center text-sm font-medium text-oc-gray-900">{quantity}</span>
           <button
             onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-            className="w-10 h-10 flex items-center justify-center text-oc-gray-300 hover:text-white hover:bg-oc-gray-800 transition-colors rounded-r-md"
+            className="w-10 h-10 flex items-center justify-center text-oc-gray-600 hover:text-oc-gray-900 hover:bg-oc-gray-100 transition-colors rounded-r-md"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -150,9 +150,9 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
       </div>
 
       {/* 총 금액 */}
-      <div className="flex items-center justify-between py-3 border-t border-oc-gray-800">
-        <span className="text-sm text-oc-gray-400">총 상품금액</span>
-        <span className="text-xl font-bold text-white">
+      <div className="flex items-center justify-between py-3 border-t border-oc-gray-200">
+        <span className="text-sm text-oc-gray-500">총 상품금액</span>
+        <span className="text-xl font-bold text-oc-gray-900">
           {(discountedPrice * quantity).toLocaleString()}원
         </span>
       </div>
@@ -164,7 +164,7 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
             variant="secondary"
             fullWidth
             disabled
-            className="border-oc-gray-800 text-oc-gray-600 bg-oc-gray-900 cursor-not-allowed"
+            className="border-oc-gray-200 text-oc-gray-400 bg-oc-gray-100 cursor-not-allowed"
           >
             품절
           </Button>
@@ -174,7 +174,7 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
               variant="secondary"
               fullWidth
               onClick={handleAddToCart}
-              className="border-oc-gray-600 text-oc-gray-200 bg-oc-gray-800 hover:bg-oc-gray-700"
+              className="border-oc-gray-300 text-oc-gray-700 bg-oc-gray-100 hover:bg-oc-gray-200"
             >
               장바구니
             </Button>
@@ -187,7 +187,7 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
 
       {/* 탭 */}
       <div className="mt-4">
-        <div className="flex border-b border-oc-gray-800">
+        <div className="flex border-b border-oc-gray-200">
           {TABS.map((tab) => (
             <button
               key={tab}
@@ -196,7 +196,7 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
                 'px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px',
                 activeTab === tab
                   ? 'border-oc-primary-500 text-oc-primary-400'
-                  : 'border-transparent text-oc-gray-500 hover:text-oc-gray-300'
+                  : 'border-transparent text-oc-gray-500 hover:text-oc-gray-600'
               )}
             >
               {tab}
@@ -206,26 +206,26 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
 
         <div className="py-4">
           {activeTab === '상세설명' && (
-            <div className="text-sm text-oc-gray-400 leading-relaxed whitespace-pre-line">
+            <div className="text-sm text-oc-gray-500 leading-relaxed whitespace-pre-line">
               {product.description || '상품 상세설명이 없습니다.'}
             </div>
           )}
           {activeTab === '사이즈 가이드' && (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-oc-gray-400">
+              <table className="w-full text-sm text-oc-gray-500">
                 <thead>
-                  <tr className="border-b border-oc-gray-800">
-                    <th className="py-2 text-left text-oc-gray-300">사이즈</th>
-                    <th className="py-2 text-center text-oc-gray-300">총장</th>
-                    <th className="py-2 text-center text-oc-gray-300">가슴단면</th>
-                    <th className="py-2 text-center text-oc-gray-300">어깨너비</th>
-                    <th className="py-2 text-center text-oc-gray-300">소매길이</th>
+                  <tr className="border-b border-oc-gray-200">
+                    <th className="py-2 text-left text-oc-gray-600">사이즈</th>
+                    <th className="py-2 text-center text-oc-gray-600">총장</th>
+                    <th className="py-2 text-center text-oc-gray-600">가슴단면</th>
+                    <th className="py-2 text-center text-oc-gray-600">어깨너비</th>
+                    <th className="py-2 text-center text-oc-gray-600">소매길이</th>
                   </tr>
                 </thead>
                 <tbody>
                   {['S', 'M', 'L', 'XL'].map((s, i) => (
-                    <tr key={s} className="border-b border-oc-gray-800/50">
-                      <td className="py-2 font-medium text-white">{s}</td>
+                    <tr key={s} className="border-b border-oc-gray-200/50">
+                      <td className="py-2 font-medium text-oc-gray-900">{s}</td>
                       <td className="py-2 text-center">{65 + i * 2}</td>
                       <td className="py-2 text-center">{48 + i * 2}</td>
                       <td className="py-2 text-center">{44 + i * 2}</td>
@@ -234,13 +234,13 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
                   ))}
                 </tbody>
               </table>
-              <p className="mt-2 text-xs text-oc-gray-600">(단위: cm, 측정 방법에 따라 1~3cm 오차 발생)</p>
+              <p className="mt-2 text-xs text-oc-gray-400">(단위: cm, 측정 방법에 따라 1~3cm 오차 발생)</p>
             </div>
           )}
           {activeTab === '리뷰' && (
             <div className="space-y-4">
-              <div className="flex items-center gap-4 py-3 border-b border-oc-gray-800">
-                <div className="text-3xl font-bold text-white">4.8</div>
+              <div className="flex items-center gap-4 py-3 border-b border-oc-gray-200">
+                <div className="text-3xl font-bold text-oc-gray-900">4.8</div>
                 <div>
                   <div className="flex text-oc-primary-400 text-lg">★★★★★</div>
                   <p className="text-xs text-oc-gray-500 mt-1">총 128개 리뷰</p>
@@ -251,18 +251,18 @@ export function ProductInfo({ product, onSizeGuide, onAddToCart, onBuyNow }: Pro
                 { user: '김**', rating: 4, text: '색상이 사진이랑 거의 동일해요. 배송도 빠르고 만족합니다.', size: 'L', date: '2025.03.18' },
                 { user: '이**', rating: 5, text: '재구매 의사 있어요. 소재가 부드럽고 착용감 좋습니다.', size: 'S', date: '2025.03.15' },
               ].map((review, idx) => (
-                <div key={idx} className="py-3 border-b border-oc-gray-800/50">
+                <div key={idx} className="py-3 border-b border-oc-gray-200/50">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-white">{review.user}</span>
-                      <span className="text-xs text-oc-gray-600">사이즈: {review.size}</span>
+                      <span className="text-sm font-medium text-oc-gray-900">{review.user}</span>
+                      <span className="text-xs text-oc-gray-400">사이즈: {review.size}</span>
                     </div>
-                    <span className="text-xs text-oc-gray-600">{review.date}</span>
+                    <span className="text-xs text-oc-gray-400">{review.date}</span>
                   </div>
                   <div className="flex text-oc-primary-400 text-sm mb-1">
                     {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
                   </div>
-                  <p className="text-sm text-oc-gray-400">{review.text}</p>
+                  <p className="text-sm text-oc-gray-500">{review.text}</p>
                 </div>
               ))}
             </div>

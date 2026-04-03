@@ -22,8 +22,6 @@ type Category = typeof CATEGORIES[number];
 
 const PAGE_SIZE = 12;
 
-const DISCOUNT_MAP: Record<number, number> = { 1: 20, 2: 15, 3: 30, 4: 10, 5: 25, 6: 5, 7: 18, 8: 22, 9: 12, 10: 8, 11: 35, 12: 16 };
-const SOLD_OUT_IDS: Set<number> = new Set([6, 10]);
 
 const INITIAL_FILTERS: FilterState = {
   categories: [],
@@ -63,19 +61,14 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
   };
 
   const filtered = initialProducts.filter((p) => {
-    const discount = DISCOUNT_MAP[p.id] ?? 0;
-    const discountedPrice = Math.round(p.price * (1 - discount / 100));
-    const priceOk = discountedPrice <= filters.priceMax;
+    const priceOk = p.price <= filters.priceMax;
     const categoryOk = activeCategory === '전체' || p.category === activeCategory;
     return priceOk && categoryOk;
   });
 
   const sorted = [...filtered].sort((a, b) => {
-    const da = DISCOUNT_MAP[a.id] ?? 0;
-    const db = DISCOUNT_MAP[b.id] ?? 0;
-    if (sort === 'price_asc') return Math.round(a.price * (1 - da / 100)) - Math.round(b.price * (1 - db / 100));
-    if (sort === 'price_desc') return Math.round(b.price * (1 - db / 100)) - Math.round(a.price * (1 - da / 100));
-    if (sort === 'discount') return db - da;
+    if (sort === 'price_asc') return a.price - b.price;
+    if (sort === 'price_desc') return b.price - a.price;
     if (sort === 'newest') return b.id - a.id;
     return a.id - b.id;
   });
@@ -112,11 +105,11 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
   }, [loadMore]);
 
   return (
-    <main className="min-h-screen bg-oc-black">
+    <main className="min-h-screen bg-oc-gray-50">
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         {/* 헤더 */}
         <div className="mb-4">
-          <h1 className="text-2xl font-bold text-white mb-1">상품 목록</h1>
+          <h1 className="text-2xl font-bold text-oc-gray-900 mb-1">상품 목록</h1>
           <p className="text-sm text-oc-gray-500">총 {sorted.length}개의 상품</p>
         </div>
 
@@ -134,7 +127,7 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
                   'px-4 py-2 text-sm font-medium rounded-full transition-colors whitespace-nowrap',
                   activeCategory === cat
                     ? 'bg-oc-primary-500 text-white'
-                    : 'bg-oc-gray-900 text-oc-gray-400 border border-oc-gray-700 hover:border-oc-gray-500 hover:text-oc-gray-200'
+                    : 'bg-white text-oc-gray-400 border border-oc-gray-200 hover:border-oc-gray-400 hover:text-oc-gray-700'
                 )}
               >
                 {cat}
@@ -166,7 +159,7 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
             )}
             <button
               onClick={() => { setFilters(INITIAL_FILTERS); setActiveCategory('전체'); }}
-              className="text-xs text-oc-gray-500 hover:text-white transition-colors underline"
+              className="text-xs text-oc-gray-500 hover:text-oc-gray-900 transition-colors underline"
             >
               전체 초기화
             </button>
@@ -187,7 +180,7 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
             <div className="flex items-center justify-between mb-4">
               {/* 모바일 필터 버튼 */}
               <button
-                className="lg:hidden flex items-center gap-2 px-3 py-2 text-sm text-oc-gray-300 border border-oc-gray-700 rounded-md hover:border-oc-gray-500 transition-colors bg-oc-gray-900"
+                className="lg:hidden flex items-center gap-2 px-3 py-2 text-sm text-oc-gray-600 border border-oc-gray-200 rounded-md hover:border-oc-gray-400 transition-colors bg-white"
                 onClick={() => setMobileFilterOpen(true)}
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -207,12 +200,12 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
                 <ProductSort value={sort} onChange={setSort} />
 
                 {/* 뷰 토글 */}
-                <div className="flex border border-oc-gray-700 rounded-md overflow-hidden">
+                <div className="flex border border-oc-gray-200 rounded-md overflow-hidden">
                   <button
                     onClick={() => setViewMode('grid')}
                     className={cn(
                       'p-2 transition-colors',
-                      viewMode === 'grid' ? 'bg-oc-gray-700 text-white' : 'bg-oc-gray-900 text-oc-gray-500 hover:text-oc-gray-300'
+                      viewMode === 'grid' ? 'bg-oc-gray-200 text-oc-gray-900' : 'bg-white text-oc-gray-500 hover:text-oc-gray-600'
                     )}
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -223,7 +216,7 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
                     onClick={() => setViewMode('list')}
                     className={cn(
                       'p-2 transition-colors',
-                      viewMode === 'list' ? 'bg-oc-gray-700 text-white' : 'bg-oc-gray-900 text-oc-gray-500 hover:text-oc-gray-300'
+                      viewMode === 'list' ? 'bg-oc-gray-200 text-oc-gray-900' : 'bg-white text-oc-gray-500 hover:text-oc-gray-600'
                     )}
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -244,51 +237,39 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
               </div>
             ) : viewMode === 'grid' ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {allProducts.map((product) => {
-                  const discount = DISCOUNT_MAP[product.id] ?? 0;
-                  const discountedPrice = Math.round(product.price * (1 - discount / 100));
-                  return (
-                    <Link key={product._key} href={`/products/${product.id}`}>
-                      <ProductCard
-                        variant="grid"
-                        product={{
-                          id: String(product.id),
-                          brand: product.brandName,
-                          name: product.name,
-                          price: discountedPrice,
-                          ...(discount > 0 && { originalPrice: product.price, discountRate: discount }),
-                          ...(product.thumbnailUrl && { imageUrl: product.thumbnailUrl }),
-                          isSoldOut: SOLD_OUT_IDS.has(product.id),
-                          hasThreeD: product.hasThreeD,
-                        }}
-                      />
-                    </Link>
-                  );
-                })}
+                {allProducts.map((product) => (
+                  <Link key={product._key} href={`/products/${product.id}`}>
+                    <ProductCard
+                      variant="grid"
+                      product={{
+                        id: String(product.id),
+                        brand: product.brandName,
+                        name: product.name,
+                        price: product.price,
+                        ...(product.thumbnailUrl && { imageUrl: product.thumbnailUrl }),
+                        hasThreeD: product.hasThreeD,
+                      }}
+                    />
+                  </Link>
+                ))}
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                {allProducts.map((product) => {
-                  const discount = DISCOUNT_MAP[product.id] ?? 0;
-                  const discountedPrice = Math.round(product.price * (1 - discount / 100));
-                  return (
-                    <Link key={product._key} href={`/products/${product.id}`}>
-                      <ProductCard
-                        variant="list"
-                        product={{
-                          id: String(product.id),
-                          brand: product.brandName,
-                          name: product.name,
-                          price: discountedPrice,
-                          ...(discount > 0 && { originalPrice: product.price, discountRate: discount }),
-                          ...(product.thumbnailUrl && { imageUrl: product.thumbnailUrl }),
-                          isSoldOut: SOLD_OUT_IDS.has(product.id),
-                          hasThreeD: product.hasThreeD,
-                        }}
-                      />
-                    </Link>
-                  );
-                })}
+                {allProducts.map((product) => (
+                  <Link key={product._key} href={`/products/${product.id}`}>
+                    <ProductCard
+                      variant="list"
+                      product={{
+                        id: String(product.id),
+                        brand: product.brandName,
+                        name: product.name,
+                        price: product.price,
+                        ...(product.thumbnailUrl && { imageUrl: product.thumbnailUrl }),
+                        hasThreeD: product.hasThreeD,
+                      }}
+                    />
+                  </Link>
+                ))}
               </div>
             )}
 
@@ -313,11 +294,11 @@ export function ProductListClient({ initialProducts }: ProductListClientProps) {
       {/* 모바일 필터 드로어 */}
       {mobileFilterOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setMobileFilterOpen(false)} />
-          <div className="absolute bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-oc-gray-900 border-t border-oc-gray-800 animate-slide-up">
-            <div className="sticky top-0 bg-oc-gray-900 px-4 pt-4 pb-2 border-b border-oc-gray-800 flex items-center justify-between">
-              <h3 className="text-base font-bold text-white">필터</h3>
-              <button onClick={() => setMobileFilterOpen(false)} className="text-oc-gray-400 hover:text-white">
+          <div className="absolute inset-0 bg-black/30" onClick={() => setMobileFilterOpen(false)} />
+          <div className="absolute bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-white border-t border-oc-gray-200 animate-slide-up">
+            <div className="sticky top-0 bg-white px-4 pt-4 pb-2 border-b border-oc-gray-200 flex items-center justify-between">
+              <h3 className="text-base font-bold text-oc-gray-900">필터</h3>
+              <button onClick={() => setMobileFilterOpen(false)} className="text-oc-gray-400 hover:text-oc-gray-900">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>

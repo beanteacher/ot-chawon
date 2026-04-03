@@ -20,9 +20,11 @@ interface BodyMeasurement {
 export default function FittingEntryPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (data: BodyMeasurement) => {
     setIsLoading(true);
+    setError(null);
     try {
       const response = await createFitting({
         userId: 'guest',
@@ -40,10 +42,8 @@ export default function FittingEntryPage() {
       });
       router.push(`/fitting/${response.id}`);
     } catch {
-      // 폴백: 더미 세션 ID로 이동
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      const dummySessionId = `session-${Date.now()}`;
-      router.push(`/fitting/${dummySessionId}`);
+      setIsLoading(false);
+      setError('피팅 요청에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
   };
 
@@ -67,11 +67,18 @@ export default function FittingEntryPage() {
           </div>
           <span className="text-xs font-semibold text-oc-primary-400 uppercase tracking-wider">AI 3D 피팅</span>
         </div>
-        <h1 className="text-2xl font-bold text-white">체형 정보 입력</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900">체형 정보 입력</h1>
         <p className="text-sm text-oc-gray-400 mt-1">
           정확한 체형 정보를 입력하면 더 정확한 피팅 결과를 제공합니다
         </p>
       </div>
+
+      {/* 에러 메시지 */}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-6">
+          <p className="text-sm text-red-400">{error}</p>
+        </div>
+      )}
 
       {/* 안내 배너 */}
       <div className="bg-oc-primary-500/10 border border-oc-primary-500/30 rounded-xl p-4 mb-6">

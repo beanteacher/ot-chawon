@@ -43,7 +43,7 @@ export function Header({ onMenuOpen }: HeaderProps) {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full bg-oc-black border-b border-oc-gray-800 transition-shadow duration-200',
+        'sticky top-0 z-50 w-full bg-oc-gray-50 border-b border-oc-gray-200 transition-shadow duration-200',
         scrolled && 'shadow-md'
       )}
     >
@@ -51,7 +51,7 @@ export function Header({ onMenuOpen }: HeaderProps) {
         {/* 햄버거 버튼 (모바일) */}
         <button
           type="button"
-          className="md:hidden p-2 text-oc-gray-300 hover:text-white"
+          className="md:hidden p-2 text-oc-gray-600 hover:text-oc-gray-900"
           onClick={onMenuOpen}
           aria-label="메뉴 열기"
         >
@@ -63,7 +63,7 @@ export function Header({ onMenuOpen }: HeaderProps) {
         </button>
 
         {/* 로고 */}
-        <Link href="/" className="text-xl font-bold text-white tracking-tight shrink-0">
+        <Link href="/" className="text-xl font-bold text-oc-gray-900 tracking-tight shrink-0">
           OT-CHAWON
         </Link>
 
@@ -73,7 +73,7 @@ export function Header({ onMenuOpen }: HeaderProps) {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-oc-gray-300 hover:text-white transition-colors"
+              className="text-sm text-oc-gray-600 hover:text-oc-gray-900 transition-colors"
             >
               {link.label}
             </Link>
@@ -88,13 +88,13 @@ export function Header({ onMenuOpen }: HeaderProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKeyDown}
-            className="w-full bg-oc-gray-900 border border-oc-gray-700 rounded-lg px-3 py-1.5 text-sm text-white placeholder-oc-gray-500 focus:outline-none focus:border-oc-primary-500"
+            className="w-full bg-white border border-oc-gray-200 rounded-lg px-3 py-1.5 text-sm text-oc-gray-900 placeholder-oc-gray-500 focus:outline-none focus:border-oc-primary-500"
           />
         </div>
 
         <div className="ml-auto flex items-center gap-3">
           {/* 장바구니 */}
-          <Link href="/cart" className="relative p-2 text-oc-gray-300 hover:text-white" aria-label="장바구니">
+          <Link href="/cart" className="relative p-2 text-oc-gray-600 hover:text-oc-gray-900" aria-label="장바구니">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
@@ -110,21 +110,21 @@ export function Header({ onMenuOpen }: HeaderProps) {
           {/* 사용자 메뉴 */}
           {isAuthenticated && user ? (
             <div className="hidden md:flex items-center gap-2">
-              <span className="text-sm text-oc-gray-300">{user.name}</span>
-              <Link href="/mypage" className="text-sm text-oc-gray-300 hover:text-white transition-colors">
+              <span className="text-sm text-oc-gray-600">{user.name}</span>
+              <Link href="/mypage" className="text-sm text-oc-gray-600 hover:text-oc-gray-900 transition-colors">
                 마이페이지
               </Link>
               <button
                 type="button"
                 onClick={clearAuth}
-                className="text-sm text-oc-gray-300 hover:text-white transition-colors"
+                className="text-sm text-oc-gray-600 hover:text-oc-gray-900 transition-colors"
               >
                 로그아웃
               </button>
             </div>
           ) : (
             <div className="hidden md:flex items-center gap-2">
-              <Link href="/login" className="text-sm text-oc-gray-300 hover:text-white transition-colors">
+              <Link href="/login" className="text-sm text-oc-gray-600 hover:text-oc-gray-900 transition-colors">
                 로그인
               </Link>
               <Link

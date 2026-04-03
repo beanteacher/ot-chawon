@@ -27,7 +27,7 @@ function SliderField({ label, unit, value, min, max, onChange }: SliderFieldProp
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <label className="text-sm font-medium text-oc-gray-300">{label}</label>
+        <label className="text-sm font-medium text-oc-gray-600">{label}</label>
         <div className="flex items-center gap-1">
           <input
             type="number"
@@ -35,7 +35,7 @@ function SliderField({ label, unit, value, min, max, onChange }: SliderFieldProp
             min={min}
             max={max}
             onChange={(e) => onChange(Number(e.target.value))}
-            className="w-16 text-center bg-oc-gray-800 border border-oc-gray-600 rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-oc-primary-500"
+            className="w-16 text-center bg-oc-gray-100 border border-oc-gray-600 rounded px-2 py-1 text-sm text-oc-gray-900 focus:outline-none focus:border-oc-primary-500"
           />
           <span className="text-xs text-oc-gray-500">{unit}</span>
         </div>

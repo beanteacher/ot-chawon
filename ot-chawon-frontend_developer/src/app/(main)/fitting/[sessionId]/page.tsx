@@ -19,7 +19,7 @@ export default function FittingPage({ params }: FittingPageProps) {
           </div>
           <span className="text-xs font-semibold text-oc-primary-400 uppercase tracking-wider">AI 피팅 결과</span>
         </div>
-        <h1 className="text-2xl font-bold text-white">3D 피팅 결과</h1>
+        <h1 className="text-2xl font-bold text-oc-gray-900">3D 피팅 결과</h1>
         <p className="text-sm text-oc-gray-400 mt-1">
           AI가 분석한 최적의 사이즈와 핏을 확인하세요
         </p>

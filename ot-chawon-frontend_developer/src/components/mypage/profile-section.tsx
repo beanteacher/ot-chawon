@@ -56,10 +56,10 @@ export function ProfileSection() {
 
   return (
     <section className="py-6">
-      <h2 className="text-lg font-semibold text-[#F9F9F9] mb-6">프로필</h2>
+      <h2 className="text-lg font-semibold text-oc-gray-900 mb-6">프로필</h2>
 
       {/* 프로필 카드 */}
-      <div className="bg-[#212121] border border-[#616161] rounded-xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+      <div className="bg-white border border-oc-gray-300 rounded-xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6">
         {/* 아바타 */}
         <div className="w-20 h-20 rounded-full bg-[#FF6B35] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
           {initials}
@@ -67,9 +67,9 @@ export function ProfileSection() {
 
         {/* 정보 */}
         <div className="flex-1 text-center sm:text-left">
-          <p className="text-xl font-semibold text-[#F9F9F9]">{user?.name ?? '이름 없음'}</p>
-          <p className="text-sm text-[#BDBDBD] mt-1">{user?.email ?? '이메일 없음'}</p>
-          <p className="text-xs text-[#616161] mt-2">가입일: {joinedDate}</p>
+          <p className="text-xl font-semibold text-oc-gray-900">{user?.name ?? '이름 없음'}</p>
+          <p className="text-sm text-oc-gray-500 mt-1">{user?.email ?? '이메일 없음'}</p>
+          <p className="text-xs text-oc-gray-400 mt-2">가입일: {joinedDate}</p>
         </div>
 
         {/* 편집 버튼 */}

@@ -32,12 +32,12 @@ const TrendIcon = ({ trend }: { trend: Trend }) => {
   }
   if (trend === 'down') {
     return (
-      <svg className="w-3 h-3 text-[#616161]" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-3 h-3 text-oc-gray-400" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 20L4 4h16L12 20z" />
       </svg>
     );
   }
-  return <span className="text-[#616161] text-xs leading-none">—</span>;
+  return <span className="text-oc-gray-400 text-xs leading-none">—</span>;
 };
 
 interface PopularKeywordsProps {
@@ -48,7 +48,7 @@ interface PopularKeywordsProps {
 const PopularKeywords = ({ onKeywordClick, className }: PopularKeywordsProps) => {
   return (
     <div className={cn('w-full', className)}>
-      <h3 className="text-sm font-semibold text-[#F9F9F9] mb-3">인기 검색어</h3>
+      <h3 className="text-sm font-semibold text-oc-gray-900 mb-3">인기 검색어</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
         {POPULAR_KEYWORDS.map(({ rank, keyword, trend }) => (
           <button
@@ -57,18 +57,18 @@ const PopularKeywords = ({ onKeywordClick, className }: PopularKeywordsProps) =>
             onClick={() => onKeywordClick(keyword)}
             className={cn(
               'flex items-center gap-3 px-3 py-2 rounded-md text-left',
-              'hover:bg-[#333333] transition-colors group'
+              'hover:bg-oc-gray-100 transition-colors group'
             )}
           >
             <span
               className={cn(
                 'w-5 text-sm font-bold flex-shrink-0',
-                rank <= 3 ? 'text-[#FF6B35]' : 'text-[#616161]'
+                rank <= 3 ? 'text-[#FF6B35]' : 'text-oc-gray-400'
               )}
             >
               {rank}
             </span>
-            <span className="flex-1 text-sm text-[#BDBDBD] group-hover:text-[#F9F9F9] transition-colors truncate">
+            <span className="flex-1 text-sm text-oc-gray-500 group-hover:text-oc-gray-900 transition-colors truncate">
               {keyword}
             </span>
             <span className="flex-shrink-0 flex items-center">
