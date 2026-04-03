@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C5A"/>
+      <stop offset="100%" style="stop-color:#FF6B35"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.25)"/>
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 둥근 사각형 배경 -->
+  <rect width="512" height="512" rx="96" ry="96" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="96" ry="96" fill="url(#shine)"/>
+
+  <!-- 옷걸이 본체 -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 후크 (상단 고리) -->
+    <path d="M 256 108 C 256 78, 280 58, 300 58 C 320 58, 336 74, 336 92 C 336 106, 326 116, 314 116"/>
+
+    <!-- 삼각형 행거 바디 -->
+    <path d="M 256 148 L 120 310 L 392 310 Z"/>
+  </g>
+
+  <!-- 차원(Dimension) 표현: 3D 깊이감 선 -->
+  <g fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="14" stroke-linecap="round">
+    <!-- 뒤쪽 레이어 (오프셋) -->
+    <line x1="142" y1="330" x2="370" y2="330"/>
+    <line x1="162" y1="354" x2="350" y2="354"/>
+  </g>
+
+  <!-- 하단 "AI" 뱃지 -->
+  <rect x="178" y="388" width="156" height="56" rx="28" ry="28" fill="rgba(255,255,255,0.95)"/>
+  <text x="256" y="426" text-anchor="middle" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="34" fill="#FF6B35" letter-spacing="3">AI FIT</text>
+</svg>
