@@ -1,33 +1,52 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
+const SLIDES = [
+  { src: '/images/hero-fitting.png', alt: 'AI 가상 피팅, 쇼핑의 새로운 경험' },
+  { src: '/images/hero-avatar.png', alt: '나만의 3D 아바타로 완벽한 핏을 찾아보세요' },
+] as const;
+
 const HeroBanner = () => {
+  const [current, setCurrent] = useState(0);
+
+  const next = useCallback(() => {
+    setCurrent((c) => (c + 1) % SLIDES.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
+
   return (
-    <section className="relative w-full h-[480px] sm:h-[560px] lg:h-[640px] overflow-hidden bg-white">
-      {/* 배경 그라데이션 (placeholder 이미지 대체) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-oc-gray-100 to-oc-gray-50" />
+    <section className="relative w-full h-[480px] sm:h-[560px] lg:h-[640px] overflow-hidden bg-[#e8e8e8]">
+      {/* 배경 슬라이드 */}
+      {SLIDES.map((slide, i) => (
+        <div
+          key={slide.src}
+          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+          style={{ opacity: i === current ? 1 : 0 }}
+        >
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            priority={i === 0}
+            className="object-contain"
+            sizes="100vw"
+          />
+        </div>
+      ))}
 
-      {/* 장식용 원형 그라데이션 */}
-      <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-oc-primary-500/20 blur-3xl" />
-      <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-oc-secondary-500/15 blur-3xl" />
-
-      {/* 그라데이션 오버레이 */}
-      <div className="absolute inset-0 bg-gradient-to-t from-oc-gray-50/80 via-transparent to-transparent" />
+      {/* 그라데이션 오버레이 — 하단 텍스트 가독성 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
       {/* 콘텐츠 */}
-      <div className="relative z-10 h-full flex flex-col justify-end max-w-screen-xl mx-auto px-4 pb-12 sm:pb-16">
+      <div className="relative z-10 h-full flex flex-col justify-end max-w-screen-xl mx-auto px-4 pb-14 sm:pb-18">
         <div className="max-w-lg">
-          <span className="inline-block text-oc-primary-500 text-sm font-semibold uppercase tracking-widest mb-3">
-            New Season
-          </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-oc-gray-900 leading-tight mb-4">
-            나만의 스타일을
-            <br />
-            <span className="text-oc-primary-500">AI로 완성</span>하세요
-          </h1>
-          <p className="text-oc-gray-500 text-base sm:text-lg mb-8 leading-relaxed">
-            3D 피팅 기술로 옷을 입어보고, 내 체형에 맞는 완벽한 스타일을 찾아보세요.
-          </p>
           <div className="flex flex-wrap gap-3">
             <Link
               href="/products"
@@ -40,7 +59,7 @@ const HeroBanner = () => {
             </Link>
             <Link
               href="/fitting"
-              className="inline-flex items-center gap-2 border border-oc-gray-300 hover:border-oc-gray-400 text-oc-gray-900 font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
+              className="inline-flex items-center gap-2 border border-white/40 hover:border-white/70 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 backdrop-blur-sm"
             >
               AI 피팅 체험
             </Link>
@@ -48,11 +67,18 @@ const HeroBanner = () => {
         </div>
       </div>
 
-      {/* 스크롤 인디케이터 */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-        <span className="w-6 h-1.5 rounded-full bg-oc-primary-500" />
-        <span className="w-1.5 h-1.5 rounded-full bg-oc-gray-600" />
-        <span className="w-1.5 h-1.5 rounded-full bg-oc-gray-600" />
+      {/* 슬라이드 인디케이터 */}
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === current ? 'w-6 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/70'
+            }`}
+            aria-label={`슬라이드 ${i + 1}`}
+          />
+        ))}
       </div>
     </section>
   );
