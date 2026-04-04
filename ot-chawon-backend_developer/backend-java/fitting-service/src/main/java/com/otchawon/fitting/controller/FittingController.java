@@ -22,7 +22,7 @@ public class FittingController {
             @RequestBody @Valid FittingDto.CreateRequest request,
             @RequestHeader(value = "X-User-Id", required = false) String headerUserId) {
         FittingDto.CreateRequest effectiveRequest = (headerUserId != null && !headerUserId.isBlank())
-                ? new FittingDto.CreateRequest(headerUserId, request.itemId(), request.bodyMeasurement(), request.renderOptions())
+                ? new FittingDto.CreateRequest(headerUserId, request.itemId(), request.bodyMeasurement(), request.renderOptions(), request.gender())
                 : request;
         FittingDto.Response response = fittingService.createFitting(effectiveRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
