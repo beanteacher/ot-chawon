@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 
 interface FittingComparisonProps {
   renders: Record<string, string>;
@@ -31,12 +30,12 @@ export function FittingComparison({ renders }: FittingComparisonProps) {
 
       {/* 메인 이미지 */}
       {selectedUrl && (
-        <div className="relative aspect-square rounded-xl overflow-hidden bg-oc-gray-50">
-          <Image
+        <div className="aspect-square rounded-xl overflow-hidden bg-oc-gray-50 flex items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={selectedUrl}
             alt={`피팅 결과 ${selected ? ANGLE_LABELS[selected] ?? selected + '도' : ''}`}
-            fill
-            className="object-contain"
+            className="w-full h-full object-contain"
           />
         </div>
       )}
@@ -54,11 +53,11 @@ export function FittingComparison({ renders }: FittingComparisonProps) {
             }`}
           >
             {url ? (
-              <Image
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
                 src={url}
                 alt={`${ANGLE_LABELS[angle] ?? angle + '도'} 썸네일`}
-                fill
-                className="object-contain"
+                className="w-full h-full object-contain"
               />
             ) : (
               <div className="w-full h-full bg-oc-gray-100 flex items-center justify-center">
