@@ -33,9 +33,21 @@ async function apiFetch<T>(url: string, init?: RequestInit): Promise<T> {
 export async function createFitting(
   req: FittingDto.CreateRequest
 ): Promise<FittingDto.Response> {
+  const { bodyMeasurement, ...rest } = req;
+  const mappedBody = {
+    height_cm: bodyMeasurement.height,
+    weight_kg: bodyMeasurement.weight,
+    chest_cm: bodyMeasurement.chest,
+    waist_cm: bodyMeasurement.waist,
+    hip_cm: bodyMeasurement.hip,
+    shoulder_cm: bodyMeasurement.shoulder,
+    arm_length_cm: bodyMeasurement.armLength,
+    leg_length_cm: bodyMeasurement.legLength,
+    gender: bodyMeasurement.gender,
+  };
   return apiFetch<FittingDto.Response>(
     `${GATEWAY_URL}/api/v1/fittings`,
-    { method: 'POST', body: JSON.stringify(req) }
+    { method: 'POST', body: JSON.stringify({ ...rest, bodyMeasurement: mappedBody }) }
   );
 }
 

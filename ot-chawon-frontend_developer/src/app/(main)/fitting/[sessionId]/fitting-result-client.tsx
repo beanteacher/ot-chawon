@@ -12,44 +12,97 @@ interface FittingResultClientProps {
   sessionId: string;
 }
 
+const POLL_INTERVAL_MS = 2000;
+const POLL_MAX_ATTEMPTS = 30;
+
 export function FittingResultClient({ sessionId }: FittingResultClientProps) {
   const router = useRouter();
   const [fitting, setFitting] = useState<FittingDto.Response | null>(null);
   const [result, setResult] = useState<FittingDto.FittingResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPolling, setIsPolling] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function load() {
+    const numId = parseInt(sessionId, 10);
+    if (isNaN(numId)) {
+      setError('유효하지 않은 피팅 세션입니다.');
+      setIsLoading(false);
+      return;
+    }
+
+    let attempts = 0;
+    let cancelled = false;
+
+    async function pollResult() {
       setIsLoading(true);
       setError(null);
-      try {
-        const numId = parseInt(sessionId, 10);
-        if (isNaN(numId)) {
-          setError('유효하지 않은 피팅 세션입니다.');
-          return;
+
+      let resolved = false;
+
+      while (!cancelled && attempts < POLL_MAX_ATTEMPTS && !resolved) {
+        attempts++;
+        try {
+          const fittingData = await getFitting(numId);
+          if (!cancelled) setFitting(fittingData);
+
+          if (fittingData.status === 'FAILED') {
+            if (!cancelled) setError('피팅 처리에 실패했습니다.');
+            resolved = true;
+            break;
+          }
+
+          if (fittingData.status === 'COMPLETED') {
+            try {
+              const resultData = await getFittingResult(numId);
+              if (!cancelled) {
+                setResult(resultData);
+                resolved = true;
+              }
+              break;
+            } catch {
+              // result not ready yet, keep polling
+            }
+          }
+
+          // QUEUED, PROCESSING, or result not yet available — keep polling
+          if (!cancelled) setIsPolling(true);
+          await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
+        } catch {
+          if (!cancelled) setIsPolling(true);
+          await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
         }
-        const [fittingData, resultData] = await Promise.all([
-          getFitting(numId),
-          getFittingResult(numId),
-        ]);
-        setFitting(fittingData);
-        setResult(resultData);
-      } catch {
-        setError('피팅 결과를 불러오는 데 실패했습니다.');
-      } finally {
+      }
+
+      if (!cancelled) {
+        if (!resolved) {
+          setError('피팅 처리 시간이 초과되었습니다. 다시 시도해주세요.');
+        }
         setIsLoading(false);
+        setIsPolling(false);
       }
     }
-    load();
+
+    pollResult();
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
-  if (isLoading) {
+  if (isLoading && !isPolling) {
     return (
       <div className="space-y-4 animate-pulse">
         <div className="h-64 bg-oc-gray-100 rounded-2xl" />
         <div className="h-48 bg-oc-gray-100 rounded-2xl" />
         <div className="h-32 bg-oc-gray-100 rounded-2xl" />
+      </div>
+    );
+  }
+
+  if (isPolling) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-4 text-oc-gray-500">
+        <div className="w-10 h-10 border-4 border-oc-primary-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm">피팅 처리 중...</p>
       </div>
     );
   }

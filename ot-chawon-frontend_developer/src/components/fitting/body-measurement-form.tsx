@@ -12,6 +12,7 @@ interface BodyMeasurement {
   shoulder: number;
   armLength: number;
   legLength: number;
+  gender: 'male' | 'female';
 }
 
 interface SliderFieldProps {
@@ -75,6 +76,7 @@ const DEFAULT_MEASUREMENTS: BodyMeasurement = {
   shoulder: 45,
   armLength: 60,
   legLength: 80,
+  gender: 'male',
 };
 
 export function BodyMeasurementForm({ onSubmit, isLoading = false }: BodyMeasurementFormProps) {
@@ -82,6 +84,10 @@ export function BodyMeasurementForm({ onSubmit, isLoading = false }: BodyMeasure
 
   const updateField = (field: keyof BodyMeasurement) => (value: number) => {
     setMeasurements((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateGender = (gender: 'male' | 'female') => {
+    setMeasurements((prev) => ({ ...prev, gender }));
   };
 
   const handleLoadPrevious = () => {
@@ -142,6 +148,27 @@ export function BodyMeasurementForm({ onSubmit, isLoading = false }: BodyMeasure
       >
         이전 측정값 불러오기
       </button>
+
+      {/* 성별 선택 */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-oc-gray-600">성별</label>
+        <div className="flex gap-3">
+          {(['male', 'female'] as const).map((g) => (
+            <button
+              key={g}
+              type="button"
+              onClick={() => updateGender(g)}
+              className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                measurements.gender === g
+                  ? 'border-oc-primary-500 bg-oc-primary-500/10 text-oc-primary-500'
+                  : 'border-oc-gray-600 text-oc-gray-500 hover:border-oc-gray-400'
+              }`}
+            >
+              {g === 'male' ? '남성' : '여성'}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* 측정 입력 필드들 */}
       <div className="space-y-4">

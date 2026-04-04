@@ -31,10 +31,22 @@ export namespace FittingDto {
   }
 
   // Sprint 7 — AI 피팅 결과 + 사이즈 추천 UI
+  export interface BodyMeasurementInput {
+    height: number;
+    weight: number;
+    chest: number;
+    waist: number;
+    hip: number;
+    shoulder: number;
+    armLength: number;
+    legLength: number;
+    gender: 'male' | 'female';
+  }
+
   export interface CreateRequest {
     userId: string;
     itemId: string;
-    bodyMeasurement: Record<string, number>;
+    bodyMeasurement: BodyMeasurementInput;
     renderOptions?: {
       angles?: number[];
       resolution?: string;

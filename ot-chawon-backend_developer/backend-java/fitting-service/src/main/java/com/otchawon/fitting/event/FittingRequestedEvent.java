@@ -18,4 +18,5 @@ public class FittingRequestedEvent {
     private String itemId;
     private Map<String, Object> bodyMeasurement;
     private Map<String, Object> renderOptions;
+    private String gender;
 }

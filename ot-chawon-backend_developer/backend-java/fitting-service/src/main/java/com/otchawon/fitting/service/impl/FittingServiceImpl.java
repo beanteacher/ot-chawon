@@ -52,6 +52,7 @@ public class FittingServiceImpl implements FittingService {
                 .itemId(saved.getItemId())
                 .bodyMeasurement(request.bodyMeasurement())
                 .renderOptions(request.renderOptions())
+                .gender(request.gender())
                 .build();
 
         fittingEventProducer.sendFittingRequested(event);

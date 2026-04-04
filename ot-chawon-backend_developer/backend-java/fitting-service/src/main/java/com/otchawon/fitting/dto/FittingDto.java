@@ -17,7 +17,8 @@ public class FittingDto {
             @NotBlank(message = "userId는 필수입니다.") String userId,
             @NotBlank(message = "itemId는 필수입니다.") String itemId,
             @NotNull(message = "bodyMeasurement는 필수입니다.") Map<String, Object> bodyMeasurement,
-            Map<String, Object> renderOptions
+            Map<String, Object> renderOptions,
+            String gender
     ) {}
 
     public record Response(
