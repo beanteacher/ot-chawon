@@ -76,7 +76,7 @@ def _get_avatar_bounds(body: BodyInput) -> dict:
 
 def _save_and_build_glb_url(fitted_mesh: Optional["trimesh.Trimesh"], item_id: str, job_id: str) -> str:
     """피팅 결과 GLB 저장 및 URL 반환."""
-    base_url = os.environ.get("AI_SERVER_BASE_URL", "http://ai-server:8001")
+    base_url = os.environ.get("AI_SERVER_BASE_URL", "http://localhost:8090")
     relative_path = f"/static/fits/{job_id}/{item_id}_fitted.glb"
 
     if TRIMESH_AVAILABLE and fitted_mesh is not None:
@@ -96,11 +96,20 @@ def _save_and_build_glb_url(fitted_mesh: Optional["trimesh.Trimesh"], item_id: s
 
 
 def _build_render_urls(render_bytes: dict[str, bytes], job_id: str) -> dict[str, str]:
-    """렌더 바이트 맵을 URL 맵으로 변환."""
-    return {
-        angle: f"/static/fits/{job_id}/render_{angle}deg.png"
-        for angle in render_bytes
-    }
+    """렌더 바이트 맵을 디스크에 저장하고 절대 URL 맵으로 변환."""
+    base_url = os.environ.get("AI_SERVER_BASE_URL", "http://localhost:8090")
+    save_dir = FilePath(f"/tmp/fits/{job_id}")
+    save_dir.mkdir(parents=True, exist_ok=True)
+    urls: dict[str, str] = {}
+    for angle, img_bytes in render_bytes.items():
+        filename = f"render_{angle}deg.png"
+        try:
+            with open(save_dir / filename, "wb") as f:
+                f.write(img_bytes)
+        except Exception as e:
+            logger.warning("렌더 이미지 저장 실패 angle=%s: %s", angle, e)
+        urls[angle] = f"{base_url}/static/fits/{job_id}/{filename}"
+    return urls
 
 
 class FittingService:
