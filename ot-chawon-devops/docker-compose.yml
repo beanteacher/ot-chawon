@@ -294,6 +294,7 @@ services:
     environment:
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/0
       TZ: ${TZ:-Asia/Seoul}
+      AI_SERVER_BASE_URL: http://localhost:8080
     ports:
       - "8090:8090"
     networks:
