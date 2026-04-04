@@ -31,7 +31,8 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             "/api/auth/signup",
             "/api/auth/register",
             "/health",
-            "/actuator/health"
+            "/actuator/health",
+            "/static/fits/"
     );
 
     private final JwtUtil jwtUtil;

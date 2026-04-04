@@ -23,6 +23,13 @@ spring:
             allowCredentials: true
             maxAge: 3600
       routes:
+        - id: ai-server-static
+          uri: ${AI_SERVER_URL:http://localhost:8090}
+          predicates:
+            - Path=/static/fits/**
+          filters:
+            - StripPrefix=0
+
         - id: user-service-auth
           uri: ${USER_SERVICE_URL:http://localhost:8081}
           predicates:
